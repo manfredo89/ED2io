@@ -149,6 +149,7 @@ dbh2bd <- function(dbh,ipft,...){
 
 #==========================================================================================#
 
+#' dbh to canopy area allometry
 #' @name dbh2ca
 #' @usage dbh2ca(dbh,ipft)
 #' @description This is an allometric function to return the canopy area,
