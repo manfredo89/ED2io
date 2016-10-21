@@ -2,7 +2,7 @@
 % Please edit documentation in R/allometry.R
 \name{h2dbh}
 \alias{h2dbh}
-\title{Height to dbh}
+\title{Height to dbh allometry}
 \usage{
 h2dbh(h,ipft)
 }

@@ -3,6 +3,7 @@
 export(dbh2bd)
 export(dbh2bl)
 export(dbh2ca)
+export(dbh2h)
 export(dbh2vol)
 export(dbh2wai)
 export(h2dbh)

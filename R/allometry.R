@@ -7,7 +7,7 @@
 # similarly for all other functions
 #----- Safe logical operators.  These will always return FALSE if x or y are not finite. --#
 #' Height to dbh allometry
-#' @name h2dbh
+#' @rdname h2dbh
 #' @usage h2dbh(h,ipft)
 #' @description This is an allometric function to return the dbh as a function of height
 #' @param h height
@@ -41,13 +41,14 @@ h2dbh <- function(h,ipft,...){
 
 #==========================================================================================#
 
-# @name dbh2h
-# @usage dbh2h(dbh,ipft)
-# @description This is an allometric function to return the height as a function of dbh
-# @param dbh diameter at breast height
-# @param ipft PFT
-# @return h height
-# @export
+#' dbh to height allometry
+#' @rdname dbh2h
+#' @usage dbh2h(dbh,ipft)
+#' @description This is an allometric function to return the height as a function of dbh
+#' @param dbh diameter at breast height
+#' @param ipft PFT
+#' @return h height
+#' @export
 
 dbh2h <- function(dbh,ipft,...){
 
@@ -79,7 +80,7 @@ dbh2h <- function(dbh,ipft,...){
 
 #==========================================================================================#
 
-#' @name dbh2bl
+#' @rdname dbh2bl
 #' @usage dbh2bl(dbh,ipft)
 #' @description This is an allometric function to return the leaf
 #' biomass as a function of dbh
@@ -112,6 +113,7 @@ dbh2bl <- function(dbh,ipft,...){
 
 #==========================================================================================#
 
+#' dbh to dead biomass allometry
 #' @name dbh2bd
 #' @usage dbh2bd(dbh,ipft)
 #' @description This is an allometric function to return the dead biomass
