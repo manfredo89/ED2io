@@ -244,6 +244,7 @@ dbh2wai <- function(dbh,ipft,chambers=FALSE,...){
 
 #==========================================================================================#
 
+#' dbh to volume allometry
 #' @name dbh2vol
 #' @usage dbh2vol(dbh,ipft)
 #' @description This is an allometric function to return the volume
