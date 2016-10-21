@@ -80,6 +80,7 @@ dbh2h <- function(dbh,ipft,...){
 
 #==========================================================================================#
 
+#' Dbh to leaf biomass allometry
 #' @rdname dbh2bl
 #' @usage dbh2bl(dbh,ipft)
 #' @description This is an allometric function to return the leaf
