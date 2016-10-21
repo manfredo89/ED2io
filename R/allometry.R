@@ -6,7 +6,7 @@
 #will ouput as h2dbh(5,1) h2dbh(8,1) h2dbh(5,2) h2dbh(8,2) h2dbh(5,17) h2dbh(8,17)
 # similarly for all other functions
 #----- Safe logical operators.  These will always return FALSE if x or y are not finite. --#
-#' Height to dbh
+#' Height to dbh allometry
 #' @name h2dbh
 #' @usage h2dbh(h,ipft)
 #' @description This is an allometric function to return the dbh as a function of height
