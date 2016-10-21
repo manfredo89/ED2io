@@ -186,6 +186,7 @@ dbh2ca <- function(dbh,ipft,...){
 
 #==========================================================================================#
 
+#' dbh to wood area index allometry
 #' @name dbh2wai
 #' @usage dbh2wai(dbh,ipft)
 #' @description This is an allometric function to return the wood area index
