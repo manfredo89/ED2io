@@ -1,0 +1,8 @@
+.*
+!/.gitignore
+R/INPUT/gen_init+bnd_cond/biomass_init/output/*
+*.csv
+*.pdf
+*.eps
+*.xlsx
+R/INPUT/gen_init+bnd_cond/met_driver/output/*

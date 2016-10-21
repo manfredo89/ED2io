@@ -1,0 +1,33 @@
+Package: ED2io
+Type: Package
+Title: Manages Input/Output for Ecosystem Demography 2 Model
+Version: 0.1.0
+Author: Marcos Longo & Manfredo di Porcia
+Maintainer: Manfredo <manfredo.diporciaebrugnera@ugent.be>
+Description: More about what it does (maybe more than one line)
+License: GPL-2
+LazyData: TRUE
+Depends:
+    chron (>= 2.3.47),
+    ggplot2 (>= 2.1.0),
+    rhdf5 (>= 2.16.0)
+Imports:
+    reshape2 (>= 1.4.1)
+Suggests:
+    knitr
+Collate:
+    'allometry.R'
+    'globdims.r'
+    'locations.r'
+    'monthly.manfredo.R'
+    'operators.r'
+    'operators.r.annot.R'
+    'rconstants.r'
+    'pft.coms.r'
+    'plot.all.manfredo.R'
+    'pmonthly.varlist.r'
+    'read.q.manfredo.r'
+    'timeutils.r'
+    'unitlist.r'
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
