@@ -2,6 +2,7 @@
 % Please edit documentation in R/allometry.R
 \name{dbh2vol}
 \alias{dbh2vol}
+\title{dbh to volume allometry}
 \usage{
 dbh2vol(dbh,ipft)
 }

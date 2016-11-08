@@ -2,6 +2,7 @@
 % Please edit documentation in R/allometry.R
 \name{dbh2bl}
 \alias{dbh2bl}
+\title{Dbh to leaf biomass allometry}
 \usage{
 dbh2bl(dbh,ipft)
 }

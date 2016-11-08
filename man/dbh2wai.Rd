@@ -2,6 +2,7 @@
 % Please edit documentation in R/allometry.R
 \name{dbh2wai}
 \alias{dbh2wai}
+\title{dbh to wood area index allometry}
 \usage{
 dbh2wai(dbh,ipft)
 }

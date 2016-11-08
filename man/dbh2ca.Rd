@@ -2,6 +2,7 @@
 % Please edit documentation in R/allometry.R
 \name{dbh2ca}
 \alias{dbh2ca}
+\title{dbh to canopy area allometry}
 \usage{
 dbh2ca(dbh,ipft)
 }

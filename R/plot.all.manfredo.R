@@ -5,13 +5,22 @@
 #'
 #'
 #'
-
-
 #==========================================================================================#
 #     Leave these commands at the beginning.  They will refresh the session.               #
 #------------------------------------------------------------------------------------------#
-#rm(list=ls())
-#graphics.off()
+rm(list=ls())
+graphics.off()
+
+
+#------------------------------------------------------------------------------------------#
+#              Load the necessary packages                                                 #
+#------------------------------------------------------------------------------------------#
+
+library (rhdf5)
+library (chron)
+library (reshape2)
+library (ggplot2)
+
 
 #==========================================================================================#
 #      Here is the user defined variable section.                                          #
@@ -21,8 +30,13 @@
 #------------------------------------------------------------------------------------------#
 #                                  Paths                                                   #
 #------------------------------------------------------------------------------------------#
-file.dir = "/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/h_limited/"
-here     = "/Users/manfredo/Desktop/r_minimal/ED2io/R"
+# For now a maximum of two entries is supported, please don't enter more
+# To increase, modify: yeara
+site.dir    = "/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/"
+file.dir    = vector(mode="character", length=2)
+file.dir[1] = paste(site.dir, "h_limited/", sep = "")
+file.dir[2] = paste(site.dir, "nolianas/", sep = "")
+here        = "/Users/manfredo/Desktop/r_minimal/ED2io/R"
 setwd(here)
 
 #------------------------------------------------------------------------------------------#
@@ -32,10 +46,6 @@ reload.data    = TRUE                               # Should I reload partially 
 sasmonth.short = c(2,5,8,11)                        # Months for SAS plots (short runs)
 sasmonth.long  = 5                                  # Months for SAS plots (long runs)
 nyears.long    = 15                                 # Max number of years for short run
-place          = "paracou"                          # Simulation locus
-analy.path       = paste(file.dir,"analy/",sep='')  # analysis folder
-analy.path.place = paste(analy.path,place,sep='')   # same with locus prefix
-
 
 #------------------------------------------------------------------------------------------#
 #                             Plot options                                                 #
@@ -48,14 +58,38 @@ plt.opt$width  = 8.8          # plot width
 #      No need to change beyond this point (unless you are developing the code)            #
 #==========================================================================================#
 
+#---------------------------------------------------------------------------------------#
+#                Source all the needed files with the sourcer function                  #
+#---------------------------------------------------------------------------------------#
+source("sourcer.R")
+sourcer(source.dir = here)
+#---------------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------------------#
-#             Check files to decide which is the first and last year to consider           #
+#                                     Paths                                                #
+#------------------------------------------------------------------------------------------#
+place            = "paracou"                          # Simulation locus
+analy.path       = paste(file.dir,"analy/",sep='')  # analysis folder
+analy.path.place = paste(analy.path,place,sep='')   # same with locus prefix
+com.list         = list.files(analy.path, pattern = "*-Q-*")
+com.list         = com.list[duplicated(com.list)]
+
+
+#------------------------------------------------------------------------------------------#
+#              Check if the figures directory exists.  If not, create it.                  #
+#------------------------------------------------------------------------------------------#
+figdir = file.path(file.dir, "figures")
+dir.make(figdir)
+#------------------------------------------------------------------------------------------#
+
+
+#------------------------------------------------------------------------------------------#
+#                     Keep only full years                                                 #
 #------------------------------------------------------------------------------------------#
 # first year of available data in the folder
-yeara = min(sub('\\-.*','',sub("^.*?Q-","",list.files(analy.path, pattern = "*-Q-*"))))
+yeara            = min(sub('\\-.*','',sub("^.*?Q-","",com.list)))
 # last year if available data in the folder
-yearz = max(sub('\\-.*','',sub("^.*?Q-","",list.files(analy.path, pattern = "*-Q-*"))))
+yearz            = max(sub('\\-.*','',sub("^.*?Q-","",com.list)))
 
 #for trials so to shorten things up
 #yearz = 2033
@@ -63,78 +97,21 @@ yearz = max(sub('\\-.*','',sub("^.*?Q-","",list.files(analy.path, pattern = "*-Q
 yeara = as.integer(yeara)        # convert yeara to factor
 yearz = as.integer(yearz)        # convert yearz to factor
 
-
-#------------------------------------------------------------------------------------------#
-#                     Keep only full years                                                 #
-#------------------------------------------------------------------------------------------#
-if (!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",sep = "")))
+if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",sep = ""))))
   yeara = yeara + 1
-if (!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = "")))
+if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
-
-
-#------------------------------------------------------------------------------------------#
-#              Load the necessary packages                                                 #
-#------------------------------------------------------------------------------------------#
-
-#library (rhdf5)
-#library (chron)
-#library (reshape2)
-#library (ggplot2)
-
-#------------------------------------------------------------------------------------------#
-#     Organise the files so we load them in the right order.                               #
-#------------------------------------------------------------------------------------------#
-at.first      = c("rconstants.r","globdims.r","unitlist.r")
-at.end        = "pft.coms.r"
-myself        = "plot.all.manfredo.R"
-all.scripts   = sort(list.files(path=here,pattern="\\.[Rr]$"))
-back.up       = sort(list.files(path=here,pattern="^[~]"))
-keep          = ! ( all.scripts %in% at.first
-                    | all.scripts %in% at.end
-                    | all.scripts %in% back.up
-                    | all.scripts %in% myself
-)#end
-middle        = all.scripts[keep]
-order.scripts = c(at.first,middle,at.end)
-nscripts      = length(order.scripts)
-#------------------------------------------------------------------------------------------#
-
-
-
-
-#------------------------------------------------------------------------------------------#
-#     Load all files, in order.  Here we replace the warnings by errors, just to make      #
-#     sure that all the functions are clean.                                               #
-#------------------------------------------------------------------------------------------#
-warn.orig = getOption("warn")
-options(warn=2)
-cat(" + Loading scripts from ",here,"...","\n")
-for (iscript in sequence(nscripts)){
-  script.now  = order.scripts[iscript]
-  full        = file.path(here,script.now)
-  isok        = try(source(full),silent=TRUE)
-  if ("try-error" %in% is(isok)){
-    options(warn=warn.orig)
-    cat("   - Script ",script.now," has bugs!  Check the errors/warnings: ","\n")
-    source(full)
-    stop("Source code problem")
-  }#end if
-  else{cat(" Script", script.now, "sourced", "\n")}
-}#end for
-options(warn=warn.orig)
-#------------------------------------------------------------------------------------------#
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
 #---------------------------------------------------------------------------------------#
-if (yeara > yearz){
+if (yeara >= yearz){
   cat(" - Yeara:  ",yeara,"\n")
   cat(" - Yearz:  ",yearz,"\n")
-  cat(" - Prefix: ",inpref,"\n")
+  cat(" - Prefix: ",analy.path,"\n")
   cat(" - Invalid years, will not process data...","\n")
-  q("no")
-}#end if
+  stop()
+  }#end if
 #---------------------------------------------------------------------------------------#
 
 #----- Decide how frequently the cohort-level variables should be saved. ---------------#
@@ -145,43 +122,45 @@ if ((yearz - yeara + 1) <= nyears.long){
 }#end if
 #---------------------------------------------------------------------------------------#
 
-
 #---------------------------------------------------------------------------------------#
-#     Flush all variables that will hold the data.                                      #
+#                Set time variables to read the input files                             #
 #---------------------------------------------------------------------------------------#
-ntimes      = (yearz - yeara) * 12
 nyears      =  yearz - yeara + 1
+ntimes      =  nyears * 12
 #---------------------------------------------------------------------------------------#
 
 #---------------------------------------------------------------------------------------#
 #      Make the RData file name, then we check whether we must read the files again     #
 #      or use the stored RData.                                                         #
 #---------------------------------------------------------------------------------------#
-path.data  = file.path(file.dir,"rdata_month")
-if (! file.exists(path.data)) dir.create(path.data)
+path.data   = file.path(file.dir,"rdata_month")
+dir.make(path.data)
 ed22.rdata  = file.path(path.data,paste(place,"RData",sep="."))
 ed22.status = file.path(path.data,paste("status_",place,".txt",sep=""))
-if (reload.data && file.exists(ed22.rdata)){
-  #----- Load the modelled dataset. ---------------------------------------------------#
-  cat("   - Loading previous session...","\n")
-  load(ed22.rdata)
-  tresume = datum$ntimes + 1
-  if (ntimes > datum$ntimes){
-    datum  = update.monthly( new.ntimes = ntimes
-                             , old.datum   = datum
-                             , yeara      = yeara
-                             , inpref     = analy.path.place
-    )#end update.monthly
+
+runn = 1
+for (csite in file.dir){
+  if (reload.data && file.exists(ed22.rdata[runn])){
+    #----- Load the modelled dataset. ---------------------------------------------------#
+    cat("   - Loading previous session...","\n")
+    load(ed22.rdata[runn])
+    tresume = datum$ntimes + 1
+    if (ntimes > datum$ntimes){
+      datum  = update.monthly( new.ntimes = ntimes
+                                     , old.datum   = datum
+                                     , yeara      = yeara
+                                     , inpref     = analy.path.place
+      )#end update.monthly
+    }#end if
+    #------------------------------------------------------------------------------------#
+  }else{
+    cat("   - Starting new session...","\n")
+    tresume      = 1
+    datum     = create.monthly( ntimes  = ntimes
+                                      , yeara   = yeara
+                                      , inpref  = analy.path.place
+    )#end create.monthly
   }#end if
-  #------------------------------------------------------------------------------------#
-}else{
-  cat("   - Starting new session...","\n")
-  tresume      = 1
-  datum     = create.monthly( ntimes  = ntimes
-                              , yeara   = yeara
-                              , inpref  = analy.path.place
-  )#end create.monthly
-}#end if
 #---------------------------------------------------------------------------------------#
 
 
@@ -204,41 +183,34 @@ if (! complete){
   #------------------------------------------------------------------------------------#
 
   #------ Save the data to the R object. ----------------------------------------------#
-  cat(" + Saving data to ",basename(ed22.rdata),"...","\n")
-  save(datum,file=ed22.rdata)
+  cat(" + Saving data to ",basename(ed22.rdata[runn]),"...","\n")
+  save(datum,file=ed22.rdata[runn])
   #------------------------------------------------------------------------------------#
 }#end if (! complete)
 #---------------------------------------------------------------------------------------#
 
 #----- Update status file with latest data converted into R. ---------------------------#
 latest = paste(datum$year[ntimes],datum$month[ntimes],sep=" ")
-dummy  = write(x=latest,file=ed22.status,append=FALSE)
+dummy  = write(x=latest,file=ed22.status[runn],append=FALSE)
 #---------------------------------------------------------------------------------------#
 
 #----- Make some shorter versions of some variables. -----------------------------------#
-mfac   = datum$month
 yfac   = datum$year
-emean  = datum$emean
 szpft  = datum$szpft
 patch  = datum$patch
-cohort = datum$cohort
+# mfac    not used
+# cohort  not used
 #---------------------------------------------------------------------------------------#
 # To order data timewise uncomment next command
 # View(lapply(cohort, "[[", "y2013m02"))
 
+runn = runn + 1
+}
 
 #=======================================================================================#
 #                          Plotting section starts here                                 #
 #=======================================================================================#
 
-
-
-#---------------------------------------------------------------------------------#
-#     Check if the figures directory exists.  If not, create it.                  #
-#---------------------------------------------------------------------------------#
-figdir = file.path(file.dir, "figures")
-if (! dir.exists(figdir)) dir.create(figdir)
-#---------------------------------------------------------------------------------#
 
 # All PFTs (including total)
 allpft      = which(apply(X=szpft$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
