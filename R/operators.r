@@ -142,3 +142,19 @@ dir.make = function(dirs){
   for (i in sequence(length(dirs)))
     if (! dir.exists(dirs[i])) dir.create(dirs[i])
 }
+
+seqle = function(X){
+  result = sequence(length(X))
+  return(result)
+}
+
+#==========================================================================================#
+#==========================================================================================#
+#   This function creates a vector with the line types, it should be modev somewhere else  #
+#------------------------------------------------------------------------------------------#
+lty.stock <<- function(n){
+  #----- Build the line type stock. ------------------------------------------------------#
+  lstock = c("solid","longdash","dotdash","twodash","dotted","dashed")
+  return(lstock[n])
+  #---------------------------------------------------------------------------------------#
+}#end lty.stock
