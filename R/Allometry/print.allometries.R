@@ -80,9 +80,9 @@ ycomp[["h"      ]]$desc = "Height"
 ycomp[["h"      ]]$unit = untab$m
 
 for (f in function_names){
-#f="h2dbh"
+  #f="h2dbh"
   if (f %in% no.plot) next
-
+  
   myf       = get(f)
   myyout    = gsub(pattern=".*2",replacement="",f)
   #g         = rep(seq_along(tspftdbh),sapply(tspftdbh,length))
@@ -92,35 +92,37 @@ for (f in function_names){
   flowlimit = min(myf(myxlim[1],pftuse))
   fuplimit  = max(myf(myxlim[2],pftuse))
   myylim    = c(flowlimit,fuplimit)
-
+  
   fichier   = file.path(out.dir, paste(f,".pdf",sep=""))
   pdf(file=fichier, onefile = F)
-
+  #x11()
+  
   par(mar=c(4,4.5,4,2)+0.1)
   plot.new()
   plot.window(xlim=myxlim, ylim=myylim)
   axis(side=1, lwd=2)
   axis(side=2,las=1, lwd=2)
   box(lwd=2)
-
+  
   ley = desc.unit(ycomp[[myyout]]$desc, ycomp[[myyout]]$unit)
   lex = desc.unit(myxin,ycomp[[myxin]]$unit)
   mtext(text = lex , side = 1, outer= T, line = -1.5, cex = 1.5)
   mtext(text = ley , side = 2, outer= T, line = -2.0, cex = 1.5)
-
-
-    title(main=paste(ycomp[[myyout]]$desc, "as a function of", myxin), lwd = 1)
+  
+  
+  title(main=paste(ycomp[[myyout]]$desc, "as a function of", myxin), lwd = 1)
   legend (myxlim[1],myylim[2], pft$name[pftuse], lwd = 2, col=pft$colour[pftuse])
-
+  
   for (p in pftuse){
-
+    
     curve (myf(h=x, dbh=x, agb = x, ipft = p), 0, myxlim[2],
            col=pft$colour[p], add=T, lwd = 2)
-
+    
   }
-
   dev.off()
+  
 }
 
-
+#locator(n=1)
+#dev.off()
 

@@ -107,7 +107,7 @@ dbh2bl <- function(dbh,ipft,...){
                    , pft$b1Bl.large[zpft] /C2B * dbhuse ^ pft$b2Bl.large[zpft]
   )#end ifelse
   #putz allometry
-  bleaf[is.liana] = pmax(0.1, 0.0856 * zdbh[is.liana]^2 - 0.376)
+  bleaf[is.liana] = pmax(0.1, (0.0856 * zdbh[is.liana]^2 - 0.376) / C2B)
 
   return(bleaf)
 }# end function dbh2bl
@@ -135,7 +135,7 @@ dbh2bd <- function(dbh,ipft,...){
 
   small = is.finite(zdbh) & zdbh <= pft$dbh.crit[zpft]
   large = is.finite(zdbh) & zdbh >  pft$dbh.crit[zpft]
-  liana = pft$liana[zpft]
+  is.liana = pft$liana[zpft]
 
   bdead = NA * zdbh
   bdead[small] = ( pft$b1Bs.small[zpft[small]] / C2B * zdbh[small]
@@ -143,7 +143,7 @@ dbh2bd <- function(dbh,ipft,...){
   bdead[large] = ( pft$b1Bs.large[zpft[large]] / C2B * zdbh[large]
                    ^ pft$b2Bs.large[zpft[large]] )
   #bdead[liana] =  10. ^ 0.12 * (0.785 * zdbh * zdbh) ^ 0.91
-  #bdead[liana] =  0.182 * log(zdbh) ^ 2.16
+  bdead[is.liana] =  0.13745 * (zdbh[is.liana]) ^ 2.69373
   return(bdead)
 }# end function dbh2bl
 

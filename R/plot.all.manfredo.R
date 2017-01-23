@@ -11,7 +11,6 @@
 rm(list=ls())
 graphics.off()
 
-
 #------------------------------------------------------------------------------------------#
 #              Load the necessary packages                                                 #
 #------------------------------------------------------------------------------------------#
@@ -20,6 +19,7 @@ library (rhdf5)
 library (chron)
 library (reshape2)
 library (ggplot2)
+library (R.utils)
 
 
 #==========================================================================================#
@@ -31,16 +31,34 @@ library (ggplot2)
 #                                  Paths                                                   #
 #------------------------------------------------------------------------------------------#
 # For now a maximum of two entries is supported, please don't enter more
-# To increase, modify: yeara
-site.dir    = "/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/"
-run.type    = c("nolianas")
-here        = "/Users/manfredo/Desktop/r_minimal/ED2io/R"
+# To increase, modify: yeara you can probably use intersert function
+# Now the script has to be called with the simtype(s) as argument(s)
+
+args         <- commandArgs(TRUE)
+arg.runtype  <- as.character(args[])
+if (length(args)==0) {
+  cat("No arguments were passed, defaulting to lianas \n")
+  arg.runtype="lianas"
+}
+arg.runtype   = c("origED","liana_inter_4")
+here          = "/Users/manfredo/Desktop/r_minimal/ED2io/R/"
+#site.dir     = paste(here,"../",sep="/")
+site.dir      = "/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/"
+run.type      = arg.runtype
+if (length(run.type) > 2 || length(run.type) < 1){
+  cat ("Error: comparison mode works with a maximum of two simulations.")
+  cat ("Please enter a maximum of two arguments.")
+  stop(1)
+}
+# sort data to have it consistentz
+sort(run.type)
+is.comparison = length(run.type) > 1
 setwd(here)
 
 #------------------------------------------------------------------------------------------#
 #                             Time options                                                 #
 #------------------------------------------------------------------------------------------#
-reload.data    = TRUE                               # Should I reload partially loaded data?
+reload.data    = T                               # Should I reload partially loaded data?
 sasmonth.short = c(2,5,8,11)                        # Months for SAS plots (short runs)
 sasmonth.long  = 5                                  # Months for SAS plots (long runs)
 nyears.long    = 15                                 # Max number of years for short run
@@ -51,7 +69,11 @@ nyears.long    = 15                                 # Max number of years for sh
 plt.opt = list()
 plt.opt$height  = 6.8          # plot height
 plt.opt$width   = 8.8          # plot width
-plt.opt$typeleg = length(run.type) > 1
+# I don't recall what is this option for
+plt.opt$typeleg = T
+# When the length of the simulations differe, should I plot the common region or the whole
+# simultion time (used for comparisons)
+only.common.part = F
 
 #==========================================================================================#
 #      No need to change beyond this point (unless you are developing the code)            #
@@ -77,8 +99,8 @@ for (i in seqle(run.type)){
 analy.path       = paste(file.dir,"analy",sep='/')  # analysis folder
 analy.path.place = paste(analy.path,place,sep='/')   # same with locus prefix
 com.list         = list.files(analy.path, pattern = "*-Q-*")
-if(length(run.type) > 1)
-com.list         = com.list[duplicated(com.list)]
+if(is.comparison)
+  com.list         = com.list[duplicated(com.list)]
 
 
 #------------------------------------------------------------------------------------------#
@@ -89,8 +111,9 @@ com.list         = com.list[duplicated(com.list)]
 if (length(file.dir) <= 1){
   figdir = file.path(file.dir, "figures")
 } else {
-  dirname = paste0(run.type,sep="_",collapse="")
-  figdir = file.path(paste(site.dir,dirname,"comparison",sep=""))
+  dir.make(paste(site.dir,"comparison",sep=""))
+  dirname = paste0(run.type,collapse="_")
+  figdir = file.path(paste(site.dir,"comparison/",dirname,sep=""))
 }
 dir.make(figdir)
 #------------------------------------------------------------------------------------------#
@@ -104,16 +127,18 @@ yeara            = min(sub('\\-.*','',sub("^.*?Q-","",com.list)))
 # last year if available data in the folder
 yearz            = max(sub('\\-.*','',sub("^.*?Q-","",com.list)))
 
-#for trials so to shorten things up
-#yearz = 2033
-
 yeara = as.integer(yeara)        # convert yeara to factor
 yearz = as.integer(yearz)        # convert yearz to factor
 
+#attenzione c'è il formato .bz2 fare una cosa piu generale
 if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",sep = ""))))
   yeara = yeara + 1
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
+
+#for trials so to shorten things up
+yeara = 2000
+yearz = 2010
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -123,8 +148,8 @@ if (yeara >= yearz){
   cat(" - Yearz:  ",yearz,"\n")
   cat(" - Prefix: ",analy.path,"\n")
   cat(" - Invalid years, will not process data...","\n")
-  stop()
-  }#end if
+  stop(1)
+}#end if
 #---------------------------------------------------------------------------------------#
 
 #----- Decide how frequently the cohort-level variables should be saved. ---------------#
@@ -151,7 +176,7 @@ dir.make(path.data)
 ed22.rdata  = file.path(path.data,paste(place,"RData",sep="."))
 ed22.status = file.path(path.data,paste("status_",place,".txt",sep=""))
 
-yfac  = vector('integer')
+yfac  = list()
 patch = list()
 szpft = list()
 runn = 1
@@ -163,9 +188,9 @@ for (csite in file.dir){
     tresume = datum$ntimes + 1
     if (ntimes > datum$ntimes){
       datum  = update.monthly( new.ntimes = ntimes
-                                     , old.datum   = datum
-                                     , yeara      = yeara
-                                     , inpref     = analy.path.place[runn]
+                               , old.datum   = datum
+                               , yeara      = yeara
+                               , inpref     = analy.path.place[runn]
       )#end update.monthly
     }#end if
     #------------------------------------------------------------------------------------#
@@ -173,65 +198,75 @@ for (csite in file.dir){
     cat("   - Starting new session...","\n")
     tresume      = 1
     datum     = create.monthly( ntimes  = ntimes
-                                      , yeara   = yeara
-                                      , inpref  = analy.path.place[runn]
+                                , yeara   = yeara
+                                , inpref  = analy.path.place[runn]
     )#end create.monthly
   }#end if
-#---------------------------------------------------------------------------------------#
+  #---------------------------------------------------------------------------------------#
 
 
-#---------------------------------------------------------------------------------------#
-#     Check whether we have anything to update.                                         #
-#---------------------------------------------------------------------------------------#
-complete = tresume > ntimes
-#---------------------------------------------------------------------------------------#
+  #---------------------------------------------------------------------------------------#
+  #     Check whether we have anything to update.                                         #
+  #---------------------------------------------------------------------------------------#
+  complete = tresume > ntimes
+  #---------------------------------------------------------------------------------------#
 
 
-#---------------------------------------------------------------------------------------#
-#     Loop over all times in case there is anything new to be read.                     #
-#---------------------------------------------------------------------------------------#
-if (! complete){
+  #---------------------------------------------------------------------------------------#
+  #     Loop over all times in case there is anything new to be read.                     #
+  #---------------------------------------------------------------------------------------#
+  if (! complete){
 
-  #------------------------------------------------------------------------------------#
-  #     This function will read the files.                                             #
-  #------------------------------------------------------------------------------------#
-  datum = read.q.files(datum=datum,ntimes=ntimes,tresume=tresume,sasmonth=sasmonth)
-  #------------------------------------------------------------------------------------#
+    #------------------------------------------------------------------------------------#
+    #     This function will read the files.                                             #
+    #------------------------------------------------------------------------------------#
+    datum = read.q.files(datum=datum,ntimes=ntimes,tresume=tresume,sasmonth=sasmonth)
+    #------------------------------------------------------------------------------------#
 
-  #------ Save the data to the R object. ----------------------------------------------#
-  cat(" + Saving data to ",basename(ed22.rdata[runn]),"...","\n")
-  save(datum,file=ed22.rdata[runn])
-  #------------------------------------------------------------------------------------#
-}#end if (! complete)
-#---------------------------------------------------------------------------------------#
+    #------ Save the data to the R object. ----------------------------------------------#
+    cat(" + Saving data to ",basename(ed22.rdata[runn]),"...","\n")
+    save(datum,file=ed22.rdata[runn])
+    #------------------------------------------------------------------------------------#
+    
+    #----- Update status file with latest data converted into R. ---------------------------#
+    latest = paste(datum$year[ntimes],datum$month[ntimes],sep=" ")
+    dummy  = write(x=latest,file=ed22.status[runn],append=FALSE)
+    #---------------------------------------------------------------------------------------#
+  
+    }#end if (! complete)
+  #---------------------------------------------------------------------------------------#
 
-#----- Update status file with latest data converted into R. ---------------------------#
-latest = paste(datum$year[ntimes],datum$month[ntimes],sep=" ")
-dummy  = write(x=latest,file=ed22.status[runn],append=FALSE)
-#---------------------------------------------------------------------------------------#
-
-#----- Make some shorter versions of some variables. -----------------------------------#
-szpft[[runn]] = datum$szpft
-patch[runn] = datum$patch
-#yfac   = datum$year
-#szpft  = c(szpft,datum$szpft)
-#patch  = c(patch,datum$patch)
-# mfac    not used
-# cohort  not used
-#---------------------------------------------------------------------------------------#
-# To order data timewise uncomment next command
-# View(lapply(cohort, "[[", "y2013m02"))
-runn = runn + 1
+  #----- Make some shorter versions of some variables. -----------------------------------#
+  # I don't think it makes sense to specify multiple patch variables (patch[[runn]])      #
+  # since we don't want to compare maxh for different runs                                #
+  szpft[[runn]] = datum$szpft
+  patch         = datum$patch
+  yfac[[runn]]  = datum$year
+  #yfac   = datum$year
+  #szpft  = c(szpft,datum$szpft)
+  #patch  = c(patch,datum$patch)
+  # mfac    not used
+  # cohort  not used
+  #---------------------------------------------------------------------------------------#
+  # To order data timewise uncomment next command
+  # View(lapply(cohort, "[[", "y2013m02"))
+  runn = runn + 1
 }
-yfac  = datum$year
+
 
 #=======================================================================================#
 #                          Plotting section starts here                                 #
 #=======================================================================================#
 
 
-# All PFTs (including total)
-allpft      = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
+# All PFTs (including total) I have to choose looking at both simulations
+if (is.comparison){
+  allpft_1    = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
+  allpft_2    = which(apply(X=szpft[[2]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
+  allpft      = sort(unique(c(allpft_1,allpft_2)))
+} else {
+  allpft    = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
+}
 # Remove total
 pftuse      = allpft[allpft != (npft+1)]
 # Number of PFTs in use
@@ -259,16 +294,39 @@ for(n in sequence(ntspftdbh - 1)){
   #---------------------------------------------------------------------------------#
 
   #---------------------------------------------------------------------------------------#
-  #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
-  # at any given time.                                                                    #
+  #     Prepare the variable in the ggplot friendly format:                               #
+  #                                                                                       #
+  #     -Remove all elements of the DBH/PFT class that do not have a single valid cohort  #
+  #     at any given time.                                                                #
+  #                                                                                       #
+  #     -Melt data so that we have all PFTs is one column                                 #
+  #                                                                                       #
+  #     -Add the corresponding indexes PFT, type which spans over the tuns we want to     #
+  #     compare and index which is a unique combination of the previous 2 (just to order) #
+  #                                                                                       #
   #---------------------------------------------------------------------------------------#
+  if (is.comparison){
+    common.years = yfac[[1]]
+  } else {
+    common.years = rep(sort(intersect(yfac[[2]], yfac[[1]])),
+                   pmin(table(yfac[[2]][yfac[[2]] %in% yfac[[1]]]),
+                        table(yfac[[1]][yfac[[1]] %in% yfac[[2]]])))
+  }
   df = list()
   for(i in seqle(run.type)){
-    dft = szpft[[i]][[vnam]][,ndbh+1,]
-    row.names(dft) = yfac
-    empty = (is.na(dft) | dft == 0) & !(col(dft) %in% allpft)
-    dft[empty] = NA
-    dft = reshape2::melt(dft,varnames = c("Year","mpft"), na.rm = T)
+    if(only.common.part){
+      common.length = 12*nyears
+      dft = szpft[[i]][[vnam]][1:common.length,ndbh+1,]
+      row.names(dft) = common.years
+      } else {
+      dft = szpft[[i]][[vnam]][,ndbh+1,]
+      row.names(dft) = yfac[[i]]
+      }
+    empty = (is.na(dft) || dft == 0.0) 
+#    dft = dft[, colSums(dft, na.rm =T) != 0]
+    dft = dft[, allpft]
+    colnames(dft) = allpft
+    dft = reshape2::melt(dft,varnames = c("Year","mpft"), na.rm = F)
     dft$type = i
     dft$index = interaction(dft$mpft,i)
     df = rbind(df,dft)
@@ -280,7 +338,7 @@ for(n in sequence(ntspftdbh - 1)){
   y.txt = desc.unit(desc = description, unit = unit)
   #---------------------------------------------------------------------------------------#
 
-  for (y in tail(datum$toyear, n = 10L)){
+  for (y in tail(unique(common.years), n = 10L)){
 
     dfy = subset(df, df$Year==y)
     y.lab.txt = as.expression(paste(y.txt, y, sep = "-"))
@@ -326,7 +384,7 @@ cat ("    - Finding the annual statistics for multi-dimensional variables...","\
 cat ("      * Aggregating the annual mean of PFT-DBH variables...","\n")
 for(i in seqle(run.type)){
   for (vname in names(szpft[[i]]))
-    szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac,DIM=1,FUN=mean,na.rm=TRUE)
+    szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac[[i]],DIM=1,FUN=mean,na.rm=TRUE)
 
 
   #---------------------------------------------------------------------------------------#
@@ -358,7 +416,7 @@ pftave  = apply( X      = szpft[[1]]$agb[,ndbh+1,] #ndbh+1 contains the total
 #---------------------------------------------------------------------------#
 #---------------------------------------------------------------------------#
 #---------------------------------------------------------------------------#
-if(nyears > 5){
+if(nyears > 2){
   total.outdir = file.path(figdir,"totals")
   if (! dir.exists(total.outdir)) dir.create(total.outdir)
 
@@ -383,15 +441,32 @@ if(nyears > 5){
     y.txt = desc.unit(desc = description, unit = unit)
 
     #---------------------------------------------------------------------------------------#
-    #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
-    # at any given time.                                                                    #
+    #     Prepare the variable in the ggplot friendly format:                               #
+    #                                                                                       #
+    #     -Remove all elements of the DBH/PFT class that do not have a single valid cohort  #
+    #     at any given time.                                                                #
+    #                                                                                       #
+    #     -Melt data so that we have all PFTs is one column                                 #
+    #                                                                                       #
+    #     -Add the corresponding indexes PFT, type which spans over the tuns we want to     #
+    #     compare and index which is a unique combination of the previous 2 (just to order) #
+    #                                                                                       #
     #---------------------------------------------------------------------------------------#
     df = list()
     for(i in seqle(run.type)){
-      dft = szpft[[i]][[vnam]][,ndbh+1,]
-      empty = (is.na(dft) | dft == 0) & !(col(dft) %in% allpft)
-      dft[empty] = NA
-      dft = reshape2::melt(dft,varnames = c("Year","mpft"), na.rm = T)
+      if(only.common.part){
+        dft = szpft[[i]][[vnam]][1:nyears,ndbh+1,]
+      } else {
+        dft = szpft[[i]][[vnam]][,ndbh+1,]
+      }
+#      row.names(dft) = rep(sort(intersect(yfac[[2]], yfac[[1]])),
+#                          pmin(table(yfac[[2]][yfac[[2]] %in% yfac[[1]]]),
+#                                table(yfac[[1]][yfac[[1]] %in% yfac[[2]]])))
+      empty = (is.na(dft) || dft == 0.0) 
+#      dft = dft[, colSums(dft, na.rm =T) != 0]
+      dft = dft[, allpft]
+      colnames(dft) = allpft
+      dft = reshape2::melt(dft,varnames = c("Year","mpft"), na.rm = F)
       dft$type = i
       dft$index = interaction(dft$mpft,i)
       df = rbind(df,dft)
@@ -401,7 +476,7 @@ if(nyears > 5){
     ggplot(df,aes(x=Year,y=value, colour = factor(mpft))) +
       geom_line(aes(group = index, linetype=LETTERS[df$type]), size = .8,
                 show.legend = plt.opt$typeleg) +
-      geom_point(aes(group = index)) +
+      #geom_point(aes(group = index)) +
       scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
       scale_color_manual(name = "PFT",
                          values = setNames(mycol[unique(df$mpft)], unique(df$mpft)),
@@ -434,64 +509,64 @@ if(nyears > 5){
 # qui inizia il grafico per l'altezza #######################################
 
 #----------------- Load settings for this variable.--------------------------------#
-thisvar     = tspftdbh[[ntspftdbh]]
-vnam        = thisvar$vnam
-description = thisvar$desc
-unit        = thisvar$e.unit
-plog        = thisvar$plog
-
-#---------------------------------------------------------------------------------#
-#     Check if the n directory exists.  If not, create it.                        #
-#---------------------------------------------------------------------------------#
-outdir = file.path(figdir,vnam)
-if (! dir.exists(outdir)) dir.create(outdir)
-#---------------------------------------------------------------------------------#
-
-df = patch$maxh
-for (v in names(df)){
-
-  #---------------------------------------------------------------------------------------#
-  #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
-  # at any given time.                                                                    #
-  #---------------------------------------------------------------------------------------#
-  empty = (is.na(df[[v]]) | df[[v]] == 0) & !(col(df[[v]]) %in% allpft)
-  df[[v]][empty] = NA
-  #---------------------------------------------------------------------------------------#
-
-  ylimit = range(df[[v]])
-  y.txt = desc.unit(desc = description, unit = unit)
-
-  npatches = length(row.names(df[[v]]))
-
-  for (p in sequence(npatches)){
-
-    mydf = as.data.frame(df[[v]][p,])
-    pftnow = substr(colnames(mydf),nchar(colnames(mydf)),nchar(colnames(mydf)))
-    colnames(mydf) = pftnow
-    mydf = t(mydf)
-    mydf = cbind (mydf, newColumn = as.integer(pftnow))
-    colnames(mydf) = c("height","pft")
-    mydf = as.data.frame(mydf)
-
-    condition = 17 %in% mydf$pft & length(mydf$height[!is.na(mydf$height)]) >= 2
-    #condition=T
-    if(condition){
-      maxh  = sort(mydf$height,decreasing = T)[1]
-      maxh2 = sort(mydf$height,decreasing = T)[2]
-      condition2 = abs(maxh2 - maxh) < (maxh / 2)
-      #condition2=T
-      if (condition2){
-        ggplot(data = mydf, aes(x=sequence(npftuse), y = height)) +
-          geom_bar(stat="identity") +
-          scale_x_continuous(breaks = sequence(npftuse), labels = pftuse) +
-          ggtitle(paste(description, "time = ", v, "patch =", p, sep=" "))
-
-        file.name = paste(vnam,"-patch", p,"-",v, ".pdf",sep="")
-        ggsave(file.name, plot = last_plot(), device = "pdf", path = outdir,
-               width = plt.opt$width, height = plt.opt$height)
-      }
-    }
-  }
-}
+# thisvar     = tspftdbh[[ntspftdbh]]
+# vnam        = thisvar$vnam
+# description = thisvar$desc
+# unit        = thisvar$e.unit
+# plog        = thisvar$plog
+# 
+# #---------------------------------------------------------------------------------#
+# #     Check if the n directory exists.  If not, create it.                        #
+# #---------------------------------------------------------------------------------#
+# outdir = file.path(figdir,vnam)
+# if (! dir.exists(outdir)) dir.create(outdir)
+# #---------------------------------------------------------------------------------#
+# 
+# df = patch$maxh
+# for (v in names(df)){
+# 
+#   #---------------------------------------------------------------------------------------#
+#   #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
+#   # at any given time.                                                                    #
+#   #---------------------------------------------------------------------------------------#
+#   empty = (is.na(df[[v]]) | df[[v]] == 0) & !(col(df[[v]]) %in% allpft)
+#   df[[v]][empty] = NA
+#   #---------------------------------------------------------------------------------------#
+# 
+#   ylimit = range(df[[v]])
+#   y.txt = desc.unit(desc = description, unit = unit)
+# 
+#   npatches = length(row.names(df[[v]]))
+# 
+#   for (p in sequence(npatches)){
+# 
+#     mydf = as.data.frame(df[[v]][p,])
+#     pftnow = substr(colnames(mydf),nchar(colnames(mydf)),nchar(colnames(mydf)))
+#     colnames(mydf) = pftnow
+#     mydf = t(mydf)
+#     mydf = cbind (mydf, newColumn = as.integer(pftnow))
+#     colnames(mydf) = c("height","pft")
+#     mydf = as.data.frame(mydf)
+# 
+#     condition = 17 %in% mydf$pft & length(mydf$height[!is.na(mydf$height)]) >= 2
+#     condition=T
+#     if(condition){
+#       maxh  = sort(mydf$height,decreasing = T)[1]
+#       maxh2 = sort(mydf$height,decreasing = T)[2]
+#       condition2 = abs(maxh2 - maxh) < (maxh / 2)
+#       condition2=T
+#       if (condition2){
+#         ggplot(data = mydf, aes(x=sequence(npftuse), y = height)) +
+#           geom_bar(stat="identity") +
+#           scale_x_continuous(breaks = sequence(npftuse), labels = pftuse) +
+#           ggtitle(paste(description, "time = ", v, "patch =", p, sep=" "))
+# 
+#         file.name = paste(vnam,"-patch", p,"-",v, ".pdf",sep="")
+#         ggsave(file.name, plot = last_plot(), device = "pdf", path = outdir,
+#                width = plt.opt$width, height = plt.opt$height)
+#       }
+#     }
+#   }
+# }
 
 # qui finisce il grafico per l'altezza #######################################

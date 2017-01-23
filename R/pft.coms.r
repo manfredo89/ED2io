@@ -1216,8 +1216,8 @@ pft17 = list( name               = "Lianas"
             , root.turnover.rate = 0.54
             , SLA                = 16.02
             , hgt.ref            = hgt.ref.trop
-            , b1Ht               = b1Ht.trop * 0.5
-            , b2Ht               = b2Ht.trop / 0.8
+            , b1Ht               = 0.06422235
+            , b2Ht               = 0.8675
             , b1Bl.small         = NA
             , b2Bl.small         = NA
             , b1Bl.large         = NA
@@ -1228,7 +1228,7 @@ pft17 = list( name               = "Lianas"
             , b1Bs.large         = NA
             , b2Bs.large         = NA
             , b1Ca               = 2.490154
-            , b2Ca               = 0.8068806 * 1.2
+            , b2Ca               = 1.26254364
             , b1Cl               = 0.3106775
             , b2Cl               = 1.098
             , b1WAI              = 0.0192 * 0.5

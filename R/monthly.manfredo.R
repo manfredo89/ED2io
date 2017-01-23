@@ -19,13 +19,13 @@ create.monthly <<- function(ntimes,yeara,inpref){
   }else if ( file.exists(h5first.bz2) ){
     temp.file = file.path(tempdir(),basename(h5first))
     dummy     = bunzip2(filename=h5first.bz2,destname=temp.file,remove=FALSE)
-    mymont    = H5Fopen(h5first)
+    mymont    = H5Fopen(temp.file)
     dummy     = file.remove(temp.file)
 
   }else if ( file.exists(h5first.gz) ){
     temp.file = file.path(tempdir(),basename(h5first))
     dummy     = gunzip(filename=h5first.gz,destname=temp.file,remove=FALSE)
-    mymont    = H5Fopen(h5first)
+    mymont    = H5Fopen(temp.file)
     dummy     = file.remove(temp.file)
 
   }else{

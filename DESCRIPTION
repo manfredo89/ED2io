@@ -10,7 +10,8 @@ LazyData: TRUE
 Depends:
     chron (>= 2.3.47),
     ggplot2 (>= 2.1.0),
-    rhdf5 (>= 2.16.0)
+    rhdf5 (>= 2.16.0),
+    R.utils
 Imports:
     reshape2 (>= 1.4.1)
 Suggests:
@@ -21,12 +22,12 @@ Collate:
     'locations.r'
     'monthly.manfredo.R'
     'operators.r'
-    'operators.r.annot.R'
     'rconstants.r'
     'pft.coms.r'
     'plot.all.manfredo.R'
     'pmonthly.varlist.r'
     'read.q.manfredo.r'
+    'sourcer.R'
     'timeutils.r'
     'unitlist.r'
 VignetteBuilder: knitr
