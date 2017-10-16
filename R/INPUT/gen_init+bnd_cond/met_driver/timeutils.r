@@ -282,26 +282,32 @@ dayofyear = function(when){
 #------------------------------------------------------------------------------------------#
 alltimes = function(datin,lon,lat,ed21=TRUE,zeronight=FALSE,meanval=FALSE,imetavg=1
                    ,nmean=120,...){
-   #------ Copy the input data frame, and call the other functions. -----------------------#
-   datout = datin
-   datout$year       = numyears (datout$when)
-   datout$month      = nummonths(datout$when)
-   datout$day        = numdays  (datout$when)
-   datout$hour       = hours    (datout$when)
-   datout$minu       = minutes  (datout$when)
-   datout$today      = dates    (datout$when)
-   datout$tomonth    = chron(paste(datout$month,1,datout$year,sep="/"))
-   datout$doy        = dayofyear(datout$when)
-   zenith            = ed.zen   (when=datout$when,lon=lon,lat=lat,ed21=ed21
-                                ,zeronight=zeronight,meanval=meanval,imetavg=imetavg
-                                ,nmean=nmean,...)
-   datout$cosz       =   zenith$cosz
-   datout$sunhgt     =   zenith$hgt
-   datout$nighttime  =   zenith$night
-   datout$daytime    =   zenith$day
-   datout$twilight   = (! zenith$night) & (! zenith$day)
-   datout$notdaytime = ! zenith$day
-
+  #------ Copy the input data frame, and call the other functions. -----------------------#
+  datout = datin
+  datout$year       = numyears (datout$when)
+  datout$month      = nummonths(datout$when)
+  datout$day        = numdays  (datout$when)
+  datout$hour       = hours    (datout$when)
+  datout$minu       = minutes  (datout$when)
+  datout$today      = dates    (datout$when)
+  datout$tomonth    = chron(paste(datout$month,1,datout$year,sep="/"))
+  datout$doy        = dayofyear(datout$when)
+  zenith            = ed.zen (when=datout$when,lon=lon,lat=lat,ed21=ed21
+                              ,zeronight=zeronight,meanval=meanval,imetavg=imetavg
+                              ,nmean=nmean)
+  datout$cosz       =   zenith$cosz
+  datout$zen        =   zenith$zen
+  datout$sunhgt     =   zenith$hgt
+  datout$nighttime  =   zenith$night
+  datout$daytime    =   zenith$day
+  datout$twilight   = (! zenith$night) & (! zenith$day)
+  datout$diel       = as.integer(! datout$nighttime) + as.integer(datout$daytime)
+  datout$highsun    = zenith$cosz >= cosz.highsun
+  datout$riseset    = zenith$cosz >= cosz.twilight & zenith$cosz < cosz.highsun
+  datout$notdaytime = ! zenith$day
+  datout$season     = sign(-lat) * cos( 2.0 * pi * (dayofyear(datout$when) - 1)
+                                        / (365 + is.leap(datout$year)) )
+  
    return(datout)
 }#end function
 #==========================================================================================#

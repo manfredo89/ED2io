@@ -53,7 +53,7 @@ pftuse = c(2,3,4,17)
 no.plot = c("dbh2bl.alt", "agb.SL", "agb2dbh.baker", "dbh2agb.baker")
 
 xlimit                  = list()
-xlimit[["dbh"   ]]      = c(tiny.num,50 )
+xlimit[["dbh"   ]]      = c(tiny.num,22 )
 xlimit[["agb"   ]]      = c(tiny.num,100)
 xlimit[["h"     ]]      = c(tiny.num,35 )
 
@@ -94,12 +94,13 @@ for (f in function_names){
   myylim    = c(flowlimit,fuplimit)
   
   fichier   = file.path(out.dir, paste(f,".pdf",sep=""))
-  pdf(file=fichier, onefile = F)
+  pdf(file=fichier, onefile = F,width = 6, height = 4)
   #x11()
   
-  par(mar=c(4,4.5,4,2)+0.1)
+  #par(mar=c(4,4.5,4,2)+0.1)
+  par(mar=c(4,4.5,2,2)+0.1)
   plot.new()
-  plot.window(xlim=myxlim, ylim=myylim)
+  plot.window(xlim=myxlim, ylim=myylim,asp=0.3)
   axis(side=1, lwd=2)
   axis(side=2,las=1, lwd=2)
   box(lwd=2)

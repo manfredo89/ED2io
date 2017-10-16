@@ -173,6 +173,19 @@ tspftdbh[[n]]     = list( vnam     = "nplant"
                           , scsout   = TRUE
 )#end list 14
 n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "acc.growth"
+                          , desc     = "Growth rate"
+                          , e.unit   = untab$kgcom2oyr
+                          , i.unit   = untab$kgcoployr
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list 15
+n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "height"
                           , desc     = "Height"
                           , e.unit   = untab$m
@@ -183,7 +196,7 @@ tspftdbh[[n]]     = list( vnam     = "height"
                           , bar.plot = FALSE
                           , stack    = FALSE
                           , scsout   = FALSE
-)#end list 15
+)#end list 16
 #------------------------------------------------------------------------------------------#
 
 

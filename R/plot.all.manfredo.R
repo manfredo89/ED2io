@@ -11,6 +11,7 @@
 rm(list=ls())
 graphics.off()
 
+
 #------------------------------------------------------------------------------------------#
 #              Load the necessary packages                                                 #
 #------------------------------------------------------------------------------------------#
@@ -32,15 +33,13 @@ library (R.utils)
 #------------------------------------------------------------------------------------------#
 # For now a maximum of two entries is supported, please don't enter more
 # To increase, modify: yeara you can probably use intersert function
-# Now the script has to be called with the simtype(s) as argument(s)
-
 args         <- commandArgs(TRUE)
 arg.runtype  <- as.character(args[])
 if (length(args)==0) {
   cat("No arguments were passed, defaulting to lianas \n")
   arg.runtype="lianas"
 }
-arg.runtype   = c("origED","liana_inter_4")
+arg.runtype   = c("current")
 here          = "/Users/manfredo/Desktop/r_minimal/ED2io/R/"
 #site.dir     = paste(here,"../",sep="/")
 site.dir      = "/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/"
@@ -51,7 +50,7 @@ if (length(run.type) > 2 || length(run.type) < 1){
   stop(1)
 }
 # sort data to have it consistentz
-sort(run.type)
+run.type = run.type[order(nchar(run.type), run.type)]
 is.comparison = length(run.type) > 1
 setwd(here)
 
@@ -69,11 +68,9 @@ nyears.long    = 15                                 # Max number of years for sh
 plt.opt = list()
 plt.opt$height  = 6.8          # plot height
 plt.opt$width   = 8.8          # plot width
-# I don't recall what is this option for
-plt.opt$typeleg = T
 # When the length of the simulations differe, should I plot the common region or the whole
 # simultion time (used for comparisons)
-only.common.part = F
+only.common.part = T
 
 #==========================================================================================#
 #      No need to change beyond this point (unless you are developing the code)            #
@@ -127,6 +124,7 @@ yeara            = min(sub('\\-.*','',sub("^.*?Q-","",com.list)))
 # last year if available data in the folder
 yearz            = max(sub('\\-.*','',sub("^.*?Q-","",com.list)))
 
+
 yeara = as.integer(yeara)        # convert yeara to factor
 yearz = as.integer(yearz)        # convert yearz to factor
 
@@ -135,17 +133,16 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",s
   yeara = yeara + 1
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
-
 #for trials so to shorten things up
-yeara = 2000
-yearz = 2010
+#yeara = 2000
+#yearz = 2005
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
 #---------------------------------------------------------------------------------------#
-if (yeara >= yearz){
   cat(" - Yeara:  ",yeara,"\n")
   cat(" - Yearz:  ",yearz,"\n")
+if (yeara >= yearz){
   cat(" - Prefix: ",analy.path,"\n")
   cat(" - Invalid years, will not process data...","\n")
   stop(1)
@@ -181,7 +178,7 @@ patch = list()
 szpft = list()
 runn = 1
 for (csite in file.dir){
-  if (reload.data && file.exists(ed22.rdata[runn])){
+if (reload.data && file.exists(ed22.rdata[runn])){
     #----- Load the modelled dataset. ---------------------------------------------------#
     cat("   - Loading previous session...","\n")
     load(ed22.rdata[runn])
@@ -227,12 +224,12 @@ for (csite in file.dir){
     cat(" + Saving data to ",basename(ed22.rdata[runn]),"...","\n")
     save(datum,file=ed22.rdata[runn])
     #------------------------------------------------------------------------------------#
-    
+
     #----- Update status file with latest data converted into R. ---------------------------#
     latest = paste(datum$year[ntimes],datum$month[ntimes],sep=" ")
     dummy  = write(x=latest,file=ed22.status[runn],append=FALSE)
     #---------------------------------------------------------------------------------------#
-  
+
     }#end if (! complete)
   #---------------------------------------------------------------------------------------#
 
@@ -265,7 +262,7 @@ if (is.comparison){
   allpft_2    = which(apply(X=szpft[[2]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
   allpft      = sort(unique(c(allpft_1,allpft_2)))
 } else {
-  allpft    = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
+allpft      = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
 }
 # Remove total
 pftuse      = allpft[allpft != (npft+1)]
@@ -276,104 +273,105 @@ mycol       = pft$colour
 # PFT names
 mynam       = pft$name
 
-for(n in sequence(ntspftdbh - 1)){
-  #----- Load settings for this variable.----------------------------------------------#
-  thisvar     = tspftdbh[[n]]
-  vnam        = thisvar$vnam
-  description = thisvar$desc
-  unit        = thisvar$e.unit
-  plog        = thisvar$plog
-
-  if (! vnam %in% names(szpft[[1]])){next}
-
-  #---------------------------------------------------------------------------------#
-  #     Check if the n directory exists.  If not, create it.                        #
-  #---------------------------------------------------------------------------------#
-  outdir = file.path(figdir,vnam)
-  if (! dir.exists(outdir)) dir.create(outdir)
-  #---------------------------------------------------------------------------------#
-
-  #---------------------------------------------------------------------------------------#
-  #     Prepare the variable in the ggplot friendly format:                               #
-  #                                                                                       #
-  #     -Remove all elements of the DBH/PFT class that do not have a single valid cohort  #
-  #     at any given time.                                                                #
-  #                                                                                       #
-  #     -Melt data so that we have all PFTs is one column                                 #
-  #                                                                                       #
-  #     -Add the corresponding indexes PFT, type which spans over the tuns we want to     #
-  #     compare and index which is a unique combination of the previous 2 (just to order) #
-  #                                                                                       #
-  #---------------------------------------------------------------------------------------#
-  if (is.comparison){
-    common.years = yfac[[1]]
-  } else {
-    common.years = rep(sort(intersect(yfac[[2]], yfac[[1]])),
-                   pmin(table(yfac[[2]][yfac[[2]] %in% yfac[[1]]]),
-                        table(yfac[[1]][yfac[[1]] %in% yfac[[2]]])))
-  }
-  df = list()
-  for(i in seqle(run.type)){
-    if(only.common.part){
-      common.length = 12*nyears
-      dft = szpft[[i]][[vnam]][1:common.length,ndbh+1,]
-      row.names(dft) = common.years
-      } else {
-      dft = szpft[[i]][[vnam]][,ndbh+1,]
-      row.names(dft) = yfac[[i]]
-      }
-    empty = (is.na(dft) || dft == 0.0) 
-#    dft = dft[, colSums(dft, na.rm =T) != 0]
-    dft = dft[, allpft]
-    colnames(dft) = allpft
-    dft = reshape2::melt(dft,varnames = c("Year","mpft"), na.rm = F)
-    dft$type = i
-    dft$index = interaction(dft$mpft,i)
-    df = rbind(df,dft)
-  }
-  #---------------------------------------------------------------------------------------#
-
-  #---------------------- Set y limit and axis label -------------------------------------#
-  ylimit = range(df$value)
-  y.txt = desc.unit(desc = description, unit = unit)
-  #---------------------------------------------------------------------------------------#
-
-  for (y in tail(unique(common.years), n = 10L)){
-
-    dfy = subset(df, df$Year==y)
-    y.lab.txt = as.expression(paste(y.txt, y, sep = "-"))
-
-    ggplot(dfy,aes(x=rep(1:12, length(unique(dfy$index))), y=value, colour = factor(mpft))) +
-      geom_line(aes(group = index, linetype=LETTERS[dfy$type]), size = .8,
-                show.legend = plt.opt$typeleg) +
-      geom_point(aes(group = index)) +
-      scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
-      scale_color_manual(name = "PFT",
-                         values = setNames(mycol[unique(dfy$mpft)], unique(dfy$mpft)),
-                         labels = setNames(mynam[unique(dfy$mpft)], unique(dfy$mpft))) +
-      scale_x_continuous(breaks = sequence(12), labels = month.abb) +
-      scale_y_continuous(limits = ylimit) +
-      ylab(y.txt) +
-      xlab("Month") +
-      theme(legend.position = "bottom",
-            axis.title   = element_text(size = 16),
-            axis.text    = element_text(face = "bold", size = 12, colour = "black"),
-            plot.title   = element_text(lineheight = .8, face="bold"),
-            legend.text  = element_text(size = 14),
-            legend.title = element_text(size = 14, face="bold"),
-            legend.key.size = unit(2, "lines"),
-            legend.background = element_rect(color="black", fill = NA, size=.5, linetype = 1),
-            panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
-      ggtitle(description)
-
-    file.name = paste(vnam,"-",y,".pdf",sep="")
-    ggsave(file.name, plot = last_plot(), device = "pdf", path = outdir,
-           width = plt.opt$width, height = plt.opt$height)
-
-  }
-
-
-}
+# for(n in sequence(ntspftdbh - 1)){
+#   #----- Load settings for this variable.----------------------------------------------#
+#   thisvar     = tspftdbh[[n]]
+#   vnam        = thisvar$vnam
+#   description = thisvar$desc
+#   unit        = thisvar$e.unit
+#   plog        = thisvar$plog
+#
+#   if (! vnam %in% names(szpft[[1]])){next}
+#
+#   #---------------------------------------------------------------------------------#
+#   #     Check if the n directory exists.  If not, create it.                        #
+#   #---------------------------------------------------------------------------------#
+#   outdir = file.path(figdir,vnam)
+#   if (! dir.exists(outdir)) dir.create(outdir)
+#   #---------------------------------------------------------------------------------#
+#
+#   #---------------------------------------------------------------------------------------#
+#   #     Prepare the variable in the ggplot friendly format:                               #
+#   #                                                                                       #
+#   #     -Remove all elements of the DBH/PFT class that do not have a single valid cohort  #
+#   #     at any given time.                                                                #
+#   #                                                                                       #
+#   #     -Melt data so that we have all PFTs is one column                                 #
+#   #                                                                                       #
+#   #     -Add the corresponding indexes PFT, type which spans over the tuns we want to     #
+#   #     compare and index which is a unique combination of the previous 2 (just to order) #
+#   #                                                                                       #
+#   #---------------------------------------------------------------------------------------#
+#   if (is.comparison){
+#     common.years = rep(sort(intersect(yfac[[2]], yfac[[1]])),
+#                        pmin(table(yfac[[2]][yfac[[2]] %in% yfac[[1]]]),
+#                             table(yfac[[1]][yfac[[1]] %in% yfac[[2]]])))
+#   } else {
+#     common.years = yfac[[1]]
+#   }
+#   df = list()
+#   for(i in seqle(run.type)){
+#     if(only.common.part){
+#       common.length = 12*nyears
+#       dft = szpft[[i]][[vnam]][1:common.length,ndbh+1,]
+#       row.names(dft) = common.years
+#     } else {
+#       dft = szpft[[i]][[vnam]][,ndbh+1,]
+#       row.names(dft) = yfac[[i]]
+#     }
+#     empty = (is.na(dft) || dft == 0.0)
+#     #    dft = dft[, colSums(dft, na.rm =T) != 0]
+#     dft = dft[, allpft]
+#     colnames(dft) = allpft
+#     dft = reshape2::melt(dft,varnames = c("Year","mpft"), na.rm = F)
+#     dft$type = i
+#     dft$index = interaction(dft$mpft,i)
+#     df = rbind(df,dft)
+#   }
+#   #---------------------------------------------------------------------------------------#
+#
+#   #---------------------- Set y limit and axis label -------------------------------------#
+#   ylimit = range(df$value)
+#   y.txt = desc.unit(desc = description, unit = unit)
+#   #---------------------------------------------------------------------------------------#
+#
+#   for (y in tail(unique(common.years), n = 10L)){
+#
+#     dfy = subset(df, df$Year==y)
+#     y.lab.txt = as.expression(paste(y.txt, y, sep = "-"))
+#
+#     p = ggplot(dfy,aes(x=rep(1:12, length(unique(dfy$index))), y=value, colour = factor(mpft))) +
+#       geom_line(aes(group = index, linetype=LETTERS[dfy$type]), size = .8) +
+#       geom_point(aes(group = index)) +
+#       scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
+#       scale_color_manual(name = "PFT",
+#                          values = setNames(mycol[unique(dfy$mpft)], unique(dfy$mpft)),
+#                          labels = setNames(mynam[unique(dfy$mpft)], unique(dfy$mpft))) +
+#       scale_x_continuous(breaks = sequence(12), labels = month.abb) +
+#       scale_y_continuous(limits = ylimit) +
+#       ylab(y.txt) +
+#       xlab("Month") +
+#       theme(legend.position = "bottom",
+#             axis.title   = element_text(size = 16),
+#             axis.text    = element_text(face = "bold", size = 12, colour = "black"),
+#             plot.title   = element_text(lineheight = .8, face="bold"),
+#             legend.text  = element_text(size = 14),
+#             legend.title = element_text(size = 14, face="bold"),
+#             legend.key.size = unit(2, "lines"),
+#             legend.background = element_rect(color="black", fill = NA, size=.5, linetype = 1),
+#             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
+#       ggtitle(description)
+#
+#     if (! is.comparison) p = p + guides(linetype = FALSE)
+#
+#     file.name = paste(vnam,"-",y,".pdf",sep="")
+#     ggsave(file.name, plot = p, device = "pdf", path = outdir,
+#            width = plt.opt$width, height = plt.opt$height)
+#
+#   }
+#
+#
+# }
 
 
 #---------------------------------------------------------------------------------------#
@@ -404,7 +402,6 @@ pftave  = apply( X      = szpft[[1]]$agb[,ndbh+1,] #ndbh+1 contains the total
 )#end apply
 #---------------------------------------------------------------------------------------#
 
-
 #---------------------------------------------------------------------------#
 #---------------------------------------------------------------------------#
 #---------------------------------------------------------------------------#
@@ -416,12 +413,12 @@ pftave  = apply( X      = szpft[[1]]$agb[,ndbh+1,] #ndbh+1 contains the total
 #---------------------------------------------------------------------------#
 #---------------------------------------------------------------------------#
 #---------------------------------------------------------------------------#
-if(nyears > 2){
+if(nyears >= 2){
   total.outdir = file.path(figdir,"totals")
   if (! dir.exists(total.outdir)) dir.create(total.outdir)
 
   for(n in sequence(ntspftdbh - 1)){
-    #----- Load settings for this variable.----------------------------------------------#
+    #----- Load settings for this variable.-------------------------------------------#
     thisvar     = tspftdbh[[n]]
     vnam        = thisvar$vnam
     description = thisvar$desc
@@ -433,8 +430,8 @@ if(nyears > 2){
     #---------------------------------------------------------------------------------#
     #     Check if the n directory exists.  If not, create it.                        #
     #---------------------------------------------------------------------------------#
-    outdir = file.path(figdir,vnam)
-    if (! dir.exists(outdir)) dir.create(outdir)
+#    outdir = file.path(figdir,vnam)
+#    if (! dir.exists(outdir)) dir.create(outdir)
     #---------------------------------------------------------------------------------#
     mycol = pft$colour
     mynam = pft$name
@@ -462,7 +459,7 @@ if(nyears > 2){
 #      row.names(dft) = rep(sort(intersect(yfac[[2]], yfac[[1]])),
 #                          pmin(table(yfac[[2]][yfac[[2]] %in% yfac[[1]]]),
 #                                table(yfac[[1]][yfac[[1]] %in% yfac[[2]]])))
-      empty = (is.na(dft) || dft == 0.0) 
+      empty = (is.na(dft) || dft == 0.0)
 #      dft = dft[, colSums(dft, na.rm =T) != 0]
       dft = dft[, allpft]
       colnames(dft) = allpft
@@ -471,11 +468,11 @@ if(nyears > 2){
       dft$index = interaction(dft$mpft,i)
       df = rbind(df,dft)
     }
+    df$Year = df$Year - nyears
     #---------------------------------------------------------------------------------------#
 
-    ggplot(df,aes(x=Year,y=value, colour = factor(mpft))) +
-      geom_line(aes(group = index, linetype=LETTERS[df$type]), size = .8,
-                show.legend = plt.opt$typeleg) +
+    p = ggplot(df,aes(x=Year,y=value, colour = factor(mpft))) +
+      geom_line(aes(group = index, linetype=LETTERS[df$type]), size = .8) +
       #geom_point(aes(group = index)) +
       scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
       scale_color_manual(name = "PFT",
@@ -493,11 +490,12 @@ if(nyears > 2){
             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
       ggtitle(description)
 
+    if (! is.comparison) p = p + guides(linetype = FALSE)
     file.name = paste(vnam,"-total",".pdf",sep="")
-    ggsave(file.name, plot = last_plot(), device = "pdf", path = outdir,
-           width = plt.opt$width, height = plt.opt$height)
+#    ggsave(file.name, plot = p, device = "pdf", path = outdir,
+#           width = plt.opt$width, height = plt.opt$height)
 
-    ggsave(file.name, plot = last_plot(), device = "pdf", path = total.outdir,
+    ggsave(file.name, plot = p, device = "pdf", path = total.outdir,
            width = plt.opt$width, height = plt.opt$height)
 
   }
@@ -509,64 +507,54 @@ if(nyears > 2){
 # qui inizia il grafico per l'altezza #######################################
 
 #----------------- Load settings for this variable.--------------------------------#
-# thisvar     = tspftdbh[[ntspftdbh]]
-# vnam        = thisvar$vnam
-# description = thisvar$desc
-# unit        = thisvar$e.unit
-# plog        = thisvar$plog
-# 
-# #---------------------------------------------------------------------------------#
-# #     Check if the n directory exists.  If not, create it.                        #
-# #---------------------------------------------------------------------------------#
-# outdir = file.path(figdir,vnam)
-# if (! dir.exists(outdir)) dir.create(outdir)
-# #---------------------------------------------------------------------------------#
-# 
-# df = patch$maxh
-# for (v in names(df)){
-# 
-#   #---------------------------------------------------------------------------------------#
-#   #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
-#   # at any given time.                                                                    #
-#   #---------------------------------------------------------------------------------------#
-#   empty = (is.na(df[[v]]) | df[[v]] == 0) & !(col(df[[v]]) %in% allpft)
-#   df[[v]][empty] = NA
-#   #---------------------------------------------------------------------------------------#
-# 
-#   ylimit = range(df[[v]])
-#   y.txt = desc.unit(desc = description, unit = unit)
-# 
-#   npatches = length(row.names(df[[v]]))
-# 
-#   for (p in sequence(npatches)){
-# 
-#     mydf = as.data.frame(df[[v]][p,])
-#     pftnow = substr(colnames(mydf),nchar(colnames(mydf)),nchar(colnames(mydf)))
-#     colnames(mydf) = pftnow
-#     mydf = t(mydf)
-#     mydf = cbind (mydf, newColumn = as.integer(pftnow))
-#     colnames(mydf) = c("height","pft")
-#     mydf = as.data.frame(mydf)
-# 
-#     condition = 17 %in% mydf$pft & length(mydf$height[!is.na(mydf$height)]) >= 2
-#     condition=T
-#     if(condition){
-#       maxh  = sort(mydf$height,decreasing = T)[1]
-#       maxh2 = sort(mydf$height,decreasing = T)[2]
-#       condition2 = abs(maxh2 - maxh) < (maxh / 2)
-#       condition2=T
-#       if (condition2){
-#         ggplot(data = mydf, aes(x=sequence(npftuse), y = height)) +
-#           geom_bar(stat="identity") +
-#           scale_x_continuous(breaks = sequence(npftuse), labels = pftuse) +
-#           ggtitle(paste(description, "time = ", v, "patch =", p, sep=" "))
-# 
-#         file.name = paste(vnam,"-patch", p,"-",v, ".pdf",sep="")
-#         ggsave(file.name, plot = last_plot(), device = "pdf", path = outdir,
-#                width = plt.opt$width, height = plt.opt$height)
-#       }
-#     }
-#   }
-# }
+thisvar     = tspftdbh[[ntspftdbh]]
+vnam        = thisvar$vnam
+description = thisvar$desc
+unit        = thisvar$e.unit
+plog        = thisvar$plog
 
-# qui finisce il grafico per l'altezza #######################################
+#---------------------------------------------------------------------------------#
+#     Check if the n directory exists.  If not, create it.                        #
+#---------------------------------------------------------------------------------#
+outdir = file.path(figdir,vnam)
+if (! dir.exists(outdir)) dir.create(outdir)
+#---------------------------------------------------------------------------------#
+
+df = patch$maxh
+npatches = 20
+y.txt = desc.unit(desc = description, unit = unit)
+
+for (p in sequence(npatches)){
+ mydf = NULL 
+  for(t in seqle(pftuse)){
+  tempdf = as.numeric(lapply(df, function(x) unlist(x[t])[p]))
+  tempdf = cbind (yfac[[1]] + rep(seq(0,0.95,0.083333333),19), tempdf, pftuse[t])
+  mydf = rbind(mydf, tempdf)
+}
+mydf = as.data.frame(mydf)
+  colnames(mydf) = c("Year","height","pft")
+  
+ggp = ggplot(mydf,aes(x=Year, y=height, group = pft, colour = factor(pft))) +
+  geom_point() +
+  geom_line() +
+#  scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
+  scale_color_manual(name = "PFT", values = setNames(mycol[mydf$pft],mydf$pft), labels = setNames(mynam[mydf$pft],mydf$pft)) +
+  ylab(y.txt) +
+  theme(legend.position = "bottom",
+        axis.title   = element_text(size = 16),
+        axis.text    = element_text(face = "bold", size = 12, colour = "black"),
+        plot.title   = element_text(lineheight = .8, face="bold"),
+        legend.text  = element_text(size = 14),
+        legend.title = element_text(size = 14, face="bold"),
+        legend.key.size = unit(2, "lines"),
+        legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
+        panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
+  ggtitle(description)
+
+file.name = paste("h_patch-",p,".pdf",sep="")
+
+ggsave(file.name, plot = ggp, device = "pdf", path = outdir,
+       width = plt.opt$width, height = plt.opt$height)
+
+
+}

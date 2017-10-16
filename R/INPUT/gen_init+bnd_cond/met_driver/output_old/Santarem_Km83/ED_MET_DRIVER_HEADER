@@ -1,0 +1,65 @@
+# See README at the bottom of this file.
+1
+/Users/manfredo/Desktop/r_minimal/ED2io/R/INPUT/gen_init+bnd_cond/met_driver/output/Santarem_Km83/Santarem_Km83_
+2 2 1 1 -54.971 -3.018
+12
+   'hgt'   'tmp'  'pres'    'sh'  'ugrd'  'vgrd' 'prate' 'dlwrf' 'nbdsf' 'nddsf' 'vbdsf' 'vddsf'
+64 3600 3600 3600 3600 3600 3600 3600 3600 3600 3600 3600
+ 4 1 1 1 1 1 0 1 1 1 1 1
+ 
+!===========================================================!
+! README                                                    !
+!===========================================================!
+!     The header of the meteorological driver must contain  !
+! the following lines:                                      !
+!                                                           !
+! Line  1 : Banner, it will not be read;                    !
+! Line  2 : Number of file formats, hereafter N;            !
+! Lines 3+: For each of the N formats, add the following    !
+!           lines, going through a-f for the first format,  !
+!           then through a-f for the second format and so   !
+!            on:                                            !
+!    a. Prefixes of the file format;                        !
+!    b. nlon, nlat, deltalon, deltalat, lon0, lat0.  If     !
+!       lon and lat are also variables, only nlon and nlat  !
+!       will be used;                                       !
+!    c. Number of variables contained in this format;       !
+!    d. List of variables for each format (see Table 1);    !
+!    e. Frequency at which vares are updated, or the        !
+!       constant value if the variable type is 4;           !
+!    f. Variable type (see Table 2);                        !
+!                                                           !
+!===========================================================!
+! Table 1. Variable names recognized by ED.                 !
+!===========================================================!
+! -> lon    -  Longitude                        [    deg]   !
+! -> lat    -  Latitude                         [    deg]   !
+! -> hgt    -  Reference height                 [  m AGL]   !
+! -> tmp    -  Air temperature                  [      K]   !
+! -> pres   -  Pressure                         [     Pa]   !
+! -> sh     -  Specific humidity                [  kg/kg]   !
+! -> ugrd   -  Zonal wind                       [    m/s]   !
+! -> vgrd   -  Zonal wind                       [    m/s]   !
+! -> prate  -  Precipitation rate               [kg/m2/s]   !
+! -> dlwrf  -  Downward long wave radiation     [   W/m2]   !
+! -> nbdsf  -  Near-IR beam radiation           [   W/m2]   !
+! -> nddsf  -  Near-IR diffuse radiation        [   W/m2]   !
+! -> vbdsf  -  Visible beam radiation           [   W/m2]   !
+! -> vddsf  -  Visible beam radiation           [   W/m2]   !
+!===========================================================!
+!                                                           !
+!===========================================================!
+! Table 2. Variable types recognized by ED.                 !
+!===========================================================!
+!                                                           !
+! 0. Read gridded data - no time interpolation;             !
+! 1. Read gridded data - with time interpolatation;         !
+! 2. Read gridded data that is constant in time.            !
+!    If any of this is lon or lat, then deltalon, deltalat  !
+!    lon0, and lat0 will be ignored;                        !
+! 3. Read one value representing the whole grid, no time    !
+!   interpolation;                                          !
+! 4. Specify a constant for all polygons, constant in time. !
+!    In this case, give the constant value at line 'e'      !
+!    instead of the frequency.                              !
+!===========================================================!

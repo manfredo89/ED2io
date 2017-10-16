@@ -19,18 +19,18 @@
    if (any(c(FALSE,is.numeric(x) & is.numeric(y)),na.rm=TRUE)){
       ans = is.finite(unlist(x)) & is.finite(unlist(y)) & x == y
    }else{
-      ans = ! is.na(x) & ! is.na(y) & ! is.nan(x) & ! is.nan(y) & x == y
+     ans = ! is.na(x) & ! is.na(y) & ! is.nan(x) & ! is.nan(y) & x == y
    }#end if
-   return(ans)
+  return(ans)
 }#end function
 
 '%!=%' = function(x,y){
-   if (any(c(FALSE,is.numeric(x) & is.numeric(y)),na.rm=TRUE)){
-      ans = is.finite(unlist(x)) & is.finite(unlist(y)) & x != y
-   }else{
-      ans = ! is.na(x) & ! is.na(y) & ! is.nan(x) & ! is.nan(y) & x != y
-   }#end if
-   return(ans)
+  if (any(c(FALSE,is.numeric(x) & is.numeric(y)),na.rm=TRUE)){
+    ans = is.finite(unlist(x)) & is.finite(unlist(y)) & x != y
+  }else{
+    ans = ! is.na(x) & ! is.na(y) & ! is.nan(x) & ! is.nan(y) & x != y
+  }#end if
+  return(ans)
 }#end function
 '%>%'  = function(x,y) is.finite(unlist(x)) & is.finite(unlist(y)) & x  > y
 '%<%'  = function(x,y) is.finite(unlist(x)) & is.finite(unlist(y)) & x  < y
@@ -54,7 +54,7 @@
 # commands in matrices and arrays.                                                         #
 #------------------------------------------------------------------------------------------#
 qapply = function(X,INDEX,DIM,FUN,...){
-
+  
   #---------------------------------------------------------------------------------------#
   #     Find the number of dimensions.                                                    #
   #---------------------------------------------------------------------------------------#
@@ -65,8 +65,8 @@ qapply = function(X,INDEX,DIM,FUN,...){
     ndims  = 1
   }#end if
   #---------------------------------------------------------------------------------------#
-
-
+  
+  
   #---------------------------------------------------------------------------------------#
   #      Make sure that DIM <= ndims.                                                     #
   #---------------------------------------------------------------------------------------#
@@ -78,9 +78,9 @@ qapply = function(X,INDEX,DIM,FUN,...){
     stop(" DIM must be less than or equal to the # of dimensions of X")
   }#end if
   #---------------------------------------------------------------------------------------#
-
-
-
+  
+  
+  
   #---------------------------------------------------------------------------------------#
   #      Determine whether X is a matrix or an array of dimension 2.  If ndims=1, then    #
   # use tapply and return.                                                                #
@@ -94,8 +94,8 @@ qapply = function(X,INDEX,DIM,FUN,...){
     margin = sequence(ndims)
     margin = margin[-DIM]
     #------------------------------------------------------------------------------------#
-
-
+    
+    
     #----- Call zapply by the apply function. -------------------------------------------#
     eout  = apply( X       = X
                    , MARGIN  = margin
@@ -111,8 +111,8 @@ qapply = function(X,INDEX,DIM,FUN,...){
     dimnames(eout) = uniqlist
     off            = length(dimuniq) - 1
     #------------------------------------------------------------------------------------#
-
-
+    
+    
     #------------------------------------------------------------------------------------#
     #      Check whether the original data was an array or a data frame.                 #
     #------------------------------------------------------------------------------------#
@@ -132,7 +132,7 @@ qapply = function(X,INDEX,DIM,FUN,...){
     #------------------------------------------------------------------------------------#
   }#end if
   #---------------------------------------------------------------------------------------#
-
+  
   return(eout)
 }#end function qapply
 #==========================================================================================#

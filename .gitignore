@@ -1,6 +1,7 @@
 .*
 !/.gitignore
 R/INPUT/gen_init+bnd_cond/biomass_init/output/*
+*.Rdata
 *.csv
 *.pdf
 *.eps

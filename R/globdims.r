@@ -253,7 +253,7 @@ if ( "recruit.dbh.min" %in% ls()){
 if ("idbh.type" %in% ls()){
    idbh.type <<- idbh.type
 }else{
-   idbh.type <<- 1   
+   idbh.type <<- 3   
 }#end if
 if (idbh.type == 1){
    ndbh       <<- 11
@@ -422,9 +422,9 @@ if (isld.type == 1){
 #     Define default weighting factor for carbon balance.                                  #
 #------------------------------------------------------------------------------------------#
 if ("klight" %in% ls()){
-   klight <<- klight
+  klight <<- klight
 }else{
-   klight <<- 0.8
+  klight <<- 0.8
 }#end if 
 #==========================================================================================#
 #==========================================================================================#

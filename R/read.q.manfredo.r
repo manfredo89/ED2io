@@ -68,8 +68,8 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       mymont    = H5Fopen(temp.file)
       dummy     = file.remove(temp.file)
     }else{
-      cat (" - File      : ",basename(h5file)    ,"\n")
-      cat (" - File (bz2): ",basename(h5file.bz2),"\n")
+      cat (" - File      : ",h5file    ,"\n")
+      cat (" - File (bz2): ",h5file.bz2,"\n")
       stop(" Neither the expanded nor the compressed files were found!")
 
     }#end if
@@ -127,10 +127,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     if (any(ncohorts >0)){
       #----- Find some auxiliary patch-level properties. -------------------------------#
       #sum the lai value of cohorts for each patch
-      lai.pa         = tapply( X     = mymont$MMEAN_LAI_CO
-                               , INDEX = ipaconow
-                               , FUN   = sum
-      )
+      lai.pa         = tapply(X = mymont$MMEAN_LAI_CO, INDEX = ipaconow, FUN = sum)
 
       #---------------------------------------------------------------------------------#
       #     Load some cohort-level structures that we will use multiple times.          #
@@ -158,11 +155,11 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       bcrootconow       = mymont$BSAPWOODB + (1. - pft$agf.bs[pftconow]) * bdeadconow
       bstemconow        = mymont$BSAPWOODA +       pft$agf.bs[pftconow]  * bdeadconow
       brootconow        = bfrootconow + bcrootconow
-      baliveconow       = bleafconow + bfrootconow + bsapwoodconow
+      baliveconow       = bleafconow  + bfrootconow + bsapwoodconow
       #------------------------------------------------------------------------------#
 
       #----- Find the variables that must be rendered extensive. -----------------------#
-      maxh.pa   = (data.frame(tapply(X= heightconow , INDEX = list(ipaconow, pftconow), FUN = max)))[sequence(npftuse)]
+      maxh.pa   = (data.frame(tapply(X= heightconow, INDEX = list(ipaconow, pftconow), FUN = max)))[sequence(npftuse)]
       #---------------------------------------------------------------------------------#
 
       #---------------------------------------------------------------------------------#
@@ -229,6 +226,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       laiconow          = mymont$MMEAN_LAI_CO
       gppconow          = mymont$MMEAN_GPP_CO
       nppconow          = mymont$MMEAN_NPP_CO
+      agb.growthconow   = pmax(0,mymont$DLNAGB_DT)
 
       #---------------------------------------------------------------------------------#
       #     Find biomass of all tissues.                                                #
@@ -282,6 +280,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       heightconow         = NA
       baconow             = NA
       agbconow            = NA
+      agb.growthconow     = NA
       laiconow            = NA
       gppconow            = NA
       baliveconow         = NA
@@ -310,6 +309,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       cohort$height       [[clab]] = heightconow
       cohort$ba           [[clab]] = nplantconow * baconow * areaconow
       cohort$agb          [[clab]] = agbconow
+      cohort$agb.growth   [[clab]] = 100. * agb.growthconow
       cohort$lai          [[clab]] = laiconow
       cohort$gpp          [[clab]] = gppconow
       cohort$npp          [[clab]] = nppconow
@@ -416,6 +416,16 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                            , na.rm = TRUE
           )#end if
         }#end if
+        sel = sel.pft & sel.dbh# & dbhconow >= dbhminconow
+        if (any(sel)){
+          
+          acc.growth = sum( w.nplant[sel]
+                            * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
+          )#end sum
+          szpft$acc.growth [m,d,p] = acc.growth
+        }
+          #---------------------------------------------------------------------------#
+          
 
 
         #------------------------------------------------------------------------------#

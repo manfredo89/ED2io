@@ -409,7 +409,7 @@ C2B    <<- 2.0
 if ("iallom" %in% ls()){
    iallom <<- iallom
 }else{
-   iallom <<- 3
+   iallom <<- 2
 }#end if
 #------------------------------------------------------------------------------------------#
 
@@ -497,7 +497,7 @@ pft01 = list( name               = "C4 grass"
             , b1WAI              = 0.00
             , b2WAI              = 1.00
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.5
             , hgt.max            = 1.5
             , qroot              = 1.0
@@ -535,7 +535,7 @@ pft02 = list( name               = "Early tropical"
             , b                  = b.c3 * umol.2.mol
             , gamma.resp         = gamma.c3
             , effarea.transp     = 1.0
-            , rho                = 0.53
+            , rho                = 0.4 #0.53 was the old
             , leaf.turnover.rate = 1.0
             , root.turnover.rate = 1.0
             , SLA                = NA
@@ -558,7 +558,7 @@ pft02 = list( name               = "Early tropical"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.5
             , hgt.max            = 35.0
             , qroot              = 1.0
@@ -596,7 +596,7 @@ pft03 = list( name               = "Mid tropical"
             , b                  = b.c3 * umol.2.mol
             , gamma.resp         = gamma.c3
             , effarea.transp     = 1.0
-            , rho                = 0.71
+            , rho                = 0.6 #0.71 was the old
             , leaf.turnover.rate = 0.50
             , root.turnover.rate = 0.50
             , SLA                = NA
@@ -619,7 +619,7 @@ pft03 = list( name               = "Mid tropical"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.5
             , hgt.max            = 35.0
             , qroot              = 1.0
@@ -657,7 +657,7 @@ pft04 = list( name               = "Late tropical"
             , b                  = b.c3 * umol.2.mol
             , gamma.resp         = gamma.c3
             , effarea.transp     = 1.0
-            , rho                = 0.90
+            , rho                = 0.81 #0.90 was the old
             , leaf.turnover.rate = 1./3.
             , root.turnover.rate = 1./3.
             , SLA                = NA
@@ -680,7 +680,7 @@ pft04 = list( name               = "Late tropical"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.5
             , hgt.max            = 35.0
             , qroot              = 1.0
@@ -741,7 +741,7 @@ pft05 = list( name               = "Temperate C3 Grass"
             , b1WAI              = 0.0
             , b2WAI              = 1.0
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.15
             , hgt.max            = 0.95 * 0.4778
             , qroot              = 1.0
@@ -802,7 +802,7 @@ pft06 = list( name               = "North Pine"
             , b1WAI              = 0.0553 * 0.5
             , b2WAI              = 1.9769
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 1.5
             , hgt.max            = 0.999 * 27.14
             , qroot              = 0.3463
@@ -863,7 +863,7 @@ pft07 = list( name               = "South Pine"
             , b1WAI              = 0.0553 * 0.5
             , b2WAI              = 1.9769
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 1.5
             , hgt.max            = 0.999 * 27.14
             , qroot              = 0.3463
@@ -924,7 +924,7 @@ pft08 = list( name               = "Late conifer"
             , b1WAI              = 0.0553 * 0.5
             , b2WAI              = 1.9769
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 1.5
             , hgt.max            = 0.999 * 22.79
             , qroot              = 0.3463
@@ -985,7 +985,7 @@ pft09 = list( name               = "Early hardwood"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 1.5
             , hgt.max            = 0.999 * 22.6799
             , qroot              = 1.1274
@@ -1046,7 +1046,7 @@ pft10 = list( name               = "Mid hardwood"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 1.5
             , hgt.max            = 0.999 * 25.18
             , qroot              = 1.1274
@@ -1107,7 +1107,7 @@ pft11 = list( name               = "Late hardwood"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 1.5
             , hgt.max            = 0.999 * 23.3874
             , qroot              = 1.1274
@@ -1173,7 +1173,7 @@ pft16 = list( name               = "C3 grass"
             , b1WAI              = 0.0
             , b2WAI              = 1.0
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.5
             , hgt.max            = 1.5
             , qroot              = 1.0
@@ -1188,7 +1188,7 @@ pft16 = list( name               = "C3 grass"
 
 pft17 = list( name               = "Lianas"
             , key                = "Lia"
-            , colour             = "#BF60A7"
+            , colour             = "#1E64C8"
             , tropical           = TRUE
             , liana              = TRUE
             , pathway            = 3
@@ -1214,7 +1214,7 @@ pft17 = list( name               = "Lianas"
             , rho                = 0.46
             , leaf.turnover.rate = 0.54
             , root.turnover.rate = 0.54
-            , SLA                = 16.02
+            , SLA                = NA
             , hgt.ref            = hgt.ref.trop
             , b1Ht               = 0.06422235
             , b2Ht               = 0.8675
@@ -1234,7 +1234,7 @@ pft17 = list( name               = "Lianas"
             , b1WAI              = 0.0192 * 0.5
             , b2WAI              = 2.0947
             , b1Vol              = 0.65 * pi * 0.11 * 0.11
-            , b2Vol              = 0.65 * pi * 0.11 * 0.11
+            , b2Vol              = 2.0
             , hgt.min            = 0.5
             , hgt.max            = 35.0
             , qroot              = 1.0
@@ -1292,6 +1292,9 @@ for (ipft in sequence(npft)){
    }#end if
    pft$dbh.adult[ipft]   = 10.0
 }#end for
+
+pft$dbh.crit[17]  = 26
+pft$dbh.adult[17] = 4.48
 
 
 #------------------------------------------------------------------------------------------#
@@ -1401,9 +1404,16 @@ for (ipft in sequence(npft)){
          pft$b2Bs.large[ipft] = ndead.large[2]
       }#end if
       #------------------------------------------------------------------------------------#
-
-
-
+       pft$b1Bs.small[17] = 0.2749
+       pft$b1Bs.large[17] = pft$b1Bs.small[17]
+       pft$b2Bs.small[17] = 2.69373
+       pft$b2Bs.large[17] = pft$b2Bs.small[17]
+         
+       pft$b1Bl.small[17] = pft$b1Bl.small[2]
+       pft$b2Bl.small[17] = pft$b2Bl.small[2]
+       pft$b1Bl.large[17] = 0.0856 
+       pft$b2Bl.large[17] = 2.0
+       
       #------------------------------------------------------------------------------------#
       #      Replace the coefficients if we are going to use Poorter et al. (2006)         #
       # parameters for crown area.                                                         #
@@ -1415,7 +1425,7 @@ for (ipft in sequence(npft)){
          pft$b1Ca[ipft] = exp(ncrown.area[1])
          pft$b2Ca[ipft] = ncrown.area[2]
       }#end if
-     pft$b2Ca[17] = pft$b2Ca[17] * 1.2
+     pft$b2Ca[17] = 1.26254364
       #------------------------------------------------------------------------------------#
 
 

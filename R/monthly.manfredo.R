@@ -48,7 +48,7 @@ create.monthly <<- function(ntimes,yeara,inpref){
   #---------------------------------------------------------------------------------------#
   runmonths        = montha + sequence(ntimes) - 1
   ed$ntimes        = ntimes
-  ed$month         = 1 + (runmonths-1) %% 12
+  ed$month         = 1 + (runmonths - 1) %% 12
   ed$year          = yeara - 1 + ceiling(runmonths/12)
   ed$when          = chron(paste(ed$month,1,ed$year,sep="/"))
   ed$tomonth       = chron(ed$when,out.format=c(dates="day-mon-yr",times=NULL))
@@ -88,6 +88,8 @@ create.monthly <<- function(ntimes,yeara,inpref){
   emean$biomass                 = rep(NA,times=ntimes)
   emean$lai                     = rep(NA,times=ntimes)
   emean$area                    = rep(NA,times=ntimes)
+  emean$acc.growth              = rep(NA,times=ntimes)
+  
   #---------------------------------------------------------------------------------------#
 
 
@@ -122,6 +124,7 @@ create.monthly <<- function(ntimes,yeara,inpref){
   szpft$f.bleaf           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bstem           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.broot           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$acc.growth        = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   #---------------------------------------------------------------------------------------#
 
   #---------------------------------------------------------------------------------------#
@@ -214,6 +217,7 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$emean$nplant            [idx ] = old.datum$emean$nplant              [sel ]
   new.datum$emean$lai               [idx ] = old.datum$emean$lai                 [sel ]
   new.datum$emean$area              [idx ] = old.datum$emean$area                [sel ]
+  new.datum$emean$acc.growth        [idx ] = old.datum$emean$acc.growth          [sel ]
   #---------------------------------------------------------------------------------------#
 
 
@@ -238,6 +242,7 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$f.bleaf        [idx,,] = old.datum$szpft$f.bleaf         [sel,,]
   new.datum$szpft$f.bstem        [idx,,] = old.datum$szpft$f.bstem         [sel,,]
   new.datum$szpft$f.broot        [idx,,] = old.datum$szpft$f.broot         [sel,,]
+  new.datum$szpft$acc.growth     [idx,,] = old.datum$szpft$acc.growth      [sel,,]
   #---------------------------------------------------------------------------------------#
 
 
@@ -254,7 +259,7 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$patch$ba            = old.datum$patch$ba
   new.datum$patch$gpp           = old.datum$patch$gpp
   new.datum$patch$npp           = old.datum$patch$npp
-  new.datum$patch$maxh           = old.datum$patch$maxh
+  new.datum$patch$maxh          = old.datum$patch$maxh
   #---------------------------------------------------------------------------------------#
 
 

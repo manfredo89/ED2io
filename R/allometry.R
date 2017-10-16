@@ -104,10 +104,10 @@ dbh2bl <- function(dbh,ipft,...){
   dbhuse = pmin(zdbh,pft$dbh.crit[zpft])
   bleaf  = ifelse( dbhuse %<% pft$dbh.adult[zpft]
                    , pft$b1Bl.small[zpft] /C2B * dbhuse ^ pft$b2Bl.small[zpft]
-                   , pft$b1Bl.large[zpft] /C2B * dbhuse ^ pft$b2Bl.large[zpft]
+                   , ifelse(is.liana, pft$b1Bl.large[zpft] /C2B * dbhuse ^ pft$b2Bl.large[zpft] - 0.1538
+                                    , pft$b1Bl.large[zpft] /C2B * dbhuse ^ pft$b2Bl.large[zpft]
+                   )
   )#end ifelse
-  #putz allometry
-  bleaf[is.liana] = pmax(0.1, (0.0856 * zdbh[is.liana]^2 - 0.376) / C2B)
 
   return(bleaf)
 }# end function dbh2bl
@@ -135,7 +135,7 @@ dbh2bd <- function(dbh,ipft,...){
 
   small = is.finite(zdbh) & zdbh <= pft$dbh.crit[zpft]
   large = is.finite(zdbh) & zdbh >  pft$dbh.crit[zpft]
-  is.liana = pft$liana[zpft]
+  #is.liana = pft$liana[zpft]
 
   bdead = NA * zdbh
   bdead[small] = ( pft$b1Bs.small[zpft[small]] / C2B * zdbh[small]
@@ -143,7 +143,7 @@ dbh2bd <- function(dbh,ipft,...){
   bdead[large] = ( pft$b1Bs.large[zpft[large]] / C2B * zdbh[large]
                    ^ pft$b2Bs.large[zpft[large]] )
   #bdead[liana] =  10. ^ 0.12 * (0.785 * zdbh * zdbh) ^ 0.91
-  bdead[is.liana] =  0.13745 * (zdbh[is.liana]) ^ 2.69373
+  #bdead[is.liana] =  0.13745 * (zdbh[is.liana]) ^ 2.69373
   return(bdead)
 }# end function dbh2bl
 
@@ -587,11 +587,11 @@ agb.SL <- function(dbh,h,wdens,type=NULL,dead=NULL,...){
     }#end if (! all(c(fine.dbh,fine.h,fine.wdens,fine.type,fine.dead)))
   }#end if ( length(lens) != 1)
   #---------------------------------------------------------------------------------------#
-
+  
   #----- Initialise the output. ----------------------------------------------------------#
   agb = NA * dbh
   #---------------------------------------------------------------------------------------#
-
+  
   #---------------------------------------------------------------------------------------#
   #     Find the possible statuses, then choose the best equation.                        #
   #---------------------------------------------------------------------------------------#
@@ -600,7 +600,7 @@ agb.SL <- function(dbh,h,wdens,type=NULL,dead=NULL,...){
   liana = type %in% "L"
   dead  = type %in% "O" & dead
   #---------------------------------------------------------------------------------------#
-
+  
   #---------------------------------------------------------------------------------------#
   #     AGB by type.                                                                      #
   #---------------------------------------------------------------------------------------#
@@ -617,8 +617,8 @@ agb.SL <- function(dbh,h,wdens,type=NULL,dead=NULL,...){
   a1 = 1 - 2*v1
   agb[dead] = 1000. * wdens[dead] * a0 * dbh[dead]^2 * h[dead]^a1 / C2B
   #---------------------------------------------------------------------------------------#
-
-
+  
+  
   return(agb)
 }#end function agb.SL
 #==========================================================================================#
