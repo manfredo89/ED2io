@@ -418,14 +418,14 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         }#end if
         sel = sel.pft & sel.dbh# & dbhconow >= dbhminconow
         if (any(sel)){
-          
+
           acc.growth = sum( w.nplant[sel]
                             * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
           )#end sum
           szpft$acc.growth [m,d,p] = acc.growth
         }
           #---------------------------------------------------------------------------#
-          
+
 
 
         #------------------------------------------------------------------------------#

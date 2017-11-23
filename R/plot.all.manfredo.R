@@ -36,8 +36,8 @@ library (R.utils)
 args         <- commandArgs(TRUE)
 arg.runtype  <- as.character(args[])
 if (length(args)==0) {
-  cat("No arguments were passed, defaulting to lianas \n")
-  arg.runtype="lianas"
+  cat("No arguments were passed, defaulting to current \n")
+  arg.runtype="current"
 }
 arg.runtype   = c("current")
 here          = "/Users/manfredo/Desktop/r_minimal/ED2io/R/"
@@ -134,8 +134,8 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",s
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
 #for trials so to shorten things up
-#yeara = 2000
-#yearz = 2005
+#yeara = 1500
+#yearz = 1524
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -521,23 +521,39 @@ if (! dir.exists(outdir)) dir.create(outdir)
 #---------------------------------------------------------------------------------#
 
 df = patch$maxh
-npatches = 20
+npatches = 24
 y.txt = desc.unit(desc = description, unit = unit)
+
+#We need to fill the missing plants heights with NAs
+for(name in names(df)){
+  
+  colnames = paste("X",pftuse,sep="")
+
+  for (t in seqle(pftuse)){
+
+    column = colnames[t]
+    if (! column %in% colnames(df[[name]])){
+
+      df[[name]][[column]] = rep(NA,max(as.numeric(lapply(df[[name]], function(x) length(x)))))
+    }
+  }
+  df[[name]] = df[[name]][,colnames]
+}
 
 for (p in sequence(npatches)){
  mydf = NULL 
   for(t in seqle(pftuse)){
   tempdf = as.numeric(lapply(df, function(x) unlist(x[t])[p]))
-  tempdf = cbind (yfac[[1]] + rep(seq(0,0.95,0.083333333),19), tempdf, pftuse[t])
+  # Add the coordinates of the 12 months
+  tempdf = cbind (yfac[[1]] + rep(seq(0,0.99,0.083333333),nyears), tempdf, pftuse[t])
   mydf = rbind(mydf, tempdf)
 }
 mydf = as.data.frame(mydf)
   colnames(mydf) = c("Year","height","pft")
   
 ggp = ggplot(mydf,aes(x=Year, y=height, group = pft, colour = factor(pft))) +
-  geom_point() +
+  geom_point(data=subset(mydf, pft != 17)) +
   geom_line() +
-#  scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
   scale_color_manual(name = "PFT", values = setNames(mycol[mydf$pft],mydf$pft), labels = setNames(mynam[mydf$pft],mydf$pft)) +
   ylab(y.txt) +
   theme(legend.position = "bottom",
