@@ -1,0 +1,1477 @@
+here: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR 
+there: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned 
+srcdir: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR 
+outroot: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/figures 
+Loading required package: abind
+Loading required package: akima
+Loading required package: boot
+Loading required package: car
+
+Attaching package: ‘car’
+
+The following object is masked from ‘package:boot’:
+
+    logit
+
+Loading required package: caTools
+Loading required package: chron
+Loading required package: compiler
+Loading required package: fields
+Loading required package: methods
+Loading required package: spam
+Loading required package: grid
+Spam version 1.3-0 (2015-10-24) is loaded.
+Type 'help( Spam)' or 'demo( spam)' for a short introduction 
+and overview of this package.
+Help for individual functions is also obtained by adding the
+suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+
+Attaching package: ‘spam’
+
+The following objects are masked from ‘package:base’:
+
+    backsolve, forwardsolve
+
+Loading required package: maps
+
+ # maps v3.1: updated 'world': all lakes moved to separate new #
+ # 'lakes' database. Type '?world' or 'news(package="maps")'.  #
+
+
+Loading required package: gbm
+Loading required package: survival
+
+Attaching package: ‘survival’
+
+The following object is masked from ‘package:boot’:
+
+    aml
+
+Loading required package: lattice
+
+Attaching package: ‘lattice’
+
+The following object is masked from ‘package:boot’:
+
+    melanoma
+
+Loading required package: splines
+Loading required package: parallel
+Loaded gbm 2.1.1
+Loading required package: rhdf5
+Loading required package: klaR
+Loading required package: MASS
+Loading required package: nlme
+Loading required package: numDeriv
+Loading required package: plotrix
+
+Attaching package: ‘plotrix’
+
+The following object is masked from ‘package:fields’:
+
+    color.scale
+
+Loading required package: proto
+Loading required package: randomForest
+randomForest 4.6-12
+Type rfNews() to see new features/changes/bug fixes.
+Loading required package: raster
+Loading required package: sp
+
+Attaching package: ‘raster’
+
+The following object is masked from ‘package:nlme’:
+
+    getData
+
+The following objects are masked from ‘package:MASS’:
+
+    area, select
+
+Loading required package: rgdal
+rgdal: version: 1.1-10, (SVN revision 622)
+ Geospatial Data Abstraction Library extensions to R successfully loaded
+ Loaded GDAL runtime: GDAL 2.1.0, released 2016/04/25
+ Path to GDAL shared files: /apps/gent/CO7/sandybridge/software/GDAL/2.1.0-intel-2016b/share/gdal
+ Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
+ Path to PROJ.4 shared files: (autodetected)
+ Linking to sp version: 1.2-3 
+Loading required package: robustbase
+
+Attaching package: ‘robustbase’
+
+The following object is masked from ‘package:survival’:
+
+    heart
+
+The following object is masked from ‘package:boot’:
+
+    salinity
+
+Loading required package: R.utils
+Loading required package: R.oo
+Loading required package: R.methodsS3
+R.methodsS3 v1.7.1 (2016-02-15) successfully loaded. See ?R.methodsS3 for help.
+R.oo v1.20.0 (2016-02-17) successfully loaded. See ?R.oo for help.
+
+Attaching package: ‘R.oo’
+
+The following object is masked from ‘package:rgdal’:
+
+    getDescription
+
+The following objects are masked from ‘package:raster’:
+
+    extend, trim
+
+The following objects are masked from ‘package:methods’:
+
+    getClasses, getMethods
+
+The following object is masked from ‘package:compiler’:
+
+    compile
+
+The following objects are masked from ‘package:base’:
+
+    attach, detach, gc, load, save
+
+R.utils v2.3.0 (2016-04-13) successfully loaded. See ?R.utils for help.
+
+Attaching package: ‘R.utils’
+
+The following objects are masked from ‘package:raster’:
+
+    extract, resample
+
+The following object is masked from ‘package:spam’:
+
+    cleanup
+
+The following object is masked from ‘package:utils’:
+
+    timestamp
+
+The following objects are masked from ‘package:base’:
+
+    cat, commandArgs, getOption, inherits, isOpen, parse, warnings
+
+Loading required package: stats4
+
+Attaching package: ‘stats4’
+
+The following object is masked from ‘package:spam’:
+
+    mle
+
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+ + Loading scripts from  /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR ... 
+ Script colour.utils.r sourced 
+ Script rconstants.r sourced 
+ Script globdims.r sourced 
+ Script unitlist.r sourced 
+ Script allometry.r sourced 
+ Script charutils.r sourced 
+ Script clean.tmp.r sourced 
+ Script desc.unit.r sourced 
+ Script locations.r sourced 
+ Script monthly.template.r sourced 
+ Script operators.r sourced 
+ Script panoply.r sourced 
+ Script plotsize.r sourced 
+ Script pretty.box.r sourced 
+ Script pretty.log.r sourced 
+ Script pretty.xylim.r sourced 
+ Script qapply.r sourced 
+ Script read.q.files.r sourced 
+ Script soilutils.r sourced 
+ Script sombreado.r sourced 
+ Script switch.col.r sourced 
+ Script thermlib.r sourced 
+ Script timeutils.r sourced 
+ Script iso3166.r sourced 
+ Script pft.coms.r sourced 
+ Script pmonthly_varlist.r sourced 
+ + Post-processing output from  Paracou, GUF ... 
+   - Loading previous session... 
+    - Reading data from year  2378 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2378-12-00-000000-g01.h5 
+    - Reading data from year  2379 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2379-12-00-000000-g01.h5 
+    - Reading data from year  2380 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2380-12-00-000000-g01.h5 
+    - Reading data from year  2381 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2381-12-00-000000-g01.h5 
+    - Reading data from year  2382 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2382-12-00-000000-g01.h5 
+    - Reading data from year  2383 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2383-12-00-000000-g01.h5 
+    - Reading data from year  2384 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2384-12-00-000000-g01.h5 
+    - Reading data from year  2385 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2385-12-00-000000-g01.h5 
+    - Reading data from year  2386 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2386-12-00-000000-g01.h5 
+    - Reading data from year  2387 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2387-12-00-000000-g01.h5 
+    - Reading data from year  2388 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2388-12-00-000000-g01.h5 
+    - Reading data from year  2389 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2389-12-00-000000-g01.h5 
+    - Reading data from year  2390 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2390-12-00-000000-g01.h5 
+    - Reading data from year  2391 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2391-12-00-000000-g01.h5 
+    - Reading data from year  2392 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2392-12-00-000000-g01.h5 
+    - Reading data from year  2393 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2393-12-00-000000-g01.h5 
+    - Reading data from year  2394 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2394-12-00-000000-g01.h5 
+    - Reading data from year  2395 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2395-12-00-000000-g01.h5 
+    - Reading data from year  2396 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2396-12-00-000000-g01.h5 
+    - Reading data from year  2397 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2397-12-00-000000-g01.h5 
+    - Reading data from year  2398 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2398-12-00-000000-g01.h5 
+    - Reading data from year  2399 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2399-12-00-000000-g01.h5 
+    - Reading data from year  2400 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2400-12-00-000000-g01.h5 
+    - Reading data from year  2401 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2401-12-00-000000-g01.h5 
+    - Reading data from year  2402 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2402-12-00-000000-g01.h5 
+    - Reading data from year  2403 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2403-12-00-000000-g01.h5 
+    - Reading data from year  2404 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2404-12-00-000000-g01.h5 
+    - Reading data from year  2405 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2405-12-00-000000-g01.h5 
+    - Reading data from year  2406 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2406-12-00-000000-g01.h5 
+    - Reading data from year  2407 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2407-12-00-000000-g01.h5 
+    - Reading data from year  2408 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2408-12-00-000000-g01.h5 
+    - Reading data from year  2409 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2409-12-00-000000-g01.h5 
+    - Reading data from year  2410 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2410-12-00-000000-g01.h5 
+    - Reading data from year  2411 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2411-12-00-000000-g01.h5 
+    - Reading data from year  2412 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2412-12-00-000000-g01.h5 
+    - Reading data from year  2413 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2413-12-00-000000-g01.h5 
+    - Reading data from year  2414 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2414-12-00-000000-g01.h5 
+    - Reading data from year  2415 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2415-12-00-000000-g01.h5 
+    - Reading data from year  2416 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2416-12-00-000000-g01.h5 
+    - Reading data from year  2417 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2417-12-00-000000-g01.h5 
+    - Reading data from year  2418 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2418-12-00-000000-g01.h5 
+    - Reading data from year  2419 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2419-12-00-000000-g01.h5 
+    - Reading data from year  2420 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2420-12-00-000000-g01.h5 
+    - Reading data from year  2421 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2421-12-00-000000-g01.h5 
+    - Reading data from year  2422 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2422-12-00-000000-g01.h5 
+    - Reading data from year  2423 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2423-12-00-000000-g01.h5 
+    - Reading data from year  2424 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2424-12-00-000000-g01.h5 
+    - Reading data from year  2425 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2425-12-00-000000-g01.h5 
+    - Reading data from year  2426 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2426-12-00-000000-g01.h5 
+    - Reading data from year  2427 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2427-12-00-000000-g01.h5 
+    - Reading data from year  2428 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2428-12-00-000000-g01.h5 
+    - Reading data from year  2429 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2429-12-00-000000-g01.h5 
+    - Reading data from year  2430 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2430-12-00-000000-g01.h5 
+    - Reading data from year  2431 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2431-12-00-000000-g01.h5 
+    - Reading data from year  2432 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2432-12-00-000000-g01.h5 
+    - Reading data from year  2433 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2433-12-00-000000-g01.h5 
+    - Reading data from year  2434 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2434-12-00-000000-g01.h5 
+    - Reading data from year  2435 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2435-12-00-000000-g01.h5 
+    - Reading data from year  2436 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2436-12-00-000000-g01.h5 
+    - Reading data from year  2437 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2437-12-00-000000-g01.h5 
+    - Reading data from year  2438 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2438-12-00-000000-g01.h5 
+    - Reading data from year  2439 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2439-12-00-000000-g01.h5 
+    - Reading data from year  2440 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2440-12-00-000000-g01.h5 
+    - Reading data from year  2441 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2441-12-00-000000-g01.h5 
+    - Reading data from year  2442 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2442-12-00-000000-g01.h5 
+    - Reading data from year  2443 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2443-12-00-000000-g01.h5 
+    - Reading data from year  2444 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2444-12-00-000000-g01.h5 
+    - Reading data from year  2445 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2445-12-00-000000-g01.h5 
+    - Reading data from year  2446 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2446-12-00-000000-g01.h5 
+    - Reading data from year  2447 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2447-12-00-000000-g01.h5 
+    - Reading data from year  2448 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2448-12-00-000000-g01.h5 
+    - Reading data from year  2449 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2449-12-00-000000-g01.h5 
+    - Reading data from year  2450 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2450-12-00-000000-g01.h5 
+    - Reading data from year  2451 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2451-12-00-000000-g01.h5 
+    - Reading data from year  2452 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2452-12-00-000000-g01.h5 
+    - Reading data from year  2453 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2453-12-00-000000-g01.h5 
+    - Reading data from year  2454 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2454-12-00-000000-g01.h5 
+    - Reading data from year  2455 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2455-12-00-000000-g01.h5 
+    - Reading data from year  2456 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2456-12-00-000000-g01.h5 
+    - Reading data from year  2457 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2457-12-00-000000-g01.h5 
+    - Reading data from year  2458 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2458-12-00-000000-g01.h5 
+    - Reading data from year  2459 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2459-12-00-000000-g01.h5 
+    - Reading data from year  2460 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-03-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-04-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-05-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-06-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-07-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-08-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-09-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-10-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-11-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned/analy/paracou-Q-2460-12-00-000000-g01.h5 
+ + Saving data to  M.paracou.RData ... 
+There were 50 or more warnings (use warnings() to see the first 50)
+    - Finding the annual statistics for multi-dimensional variables... 
+      * Aggregating the annual mean of PFT-DBH variables... 
+      * Aggregating the annual mean of LU variables... 
+    - Finding the monthly and annual means... 
+      * Aggregating the monthly mean and standard deviation... 
+    - Aggregating the annual mean and std. dev. of the diurnal cycle... 
+    - Plotting figures... 
+      + Above ground biomass time series for all PFTs... 
+      + Total biomass time series for all PFTs... 
+      + Basal area time series for all PFTs... 
+      + Leaf area index time series for all PFTs... 
+      + Wood area index time series for all PFTs... 
+      + Gross primary productivity time series for all PFTs... 
+      + Net primary productivity time series for all PFTs... 
+      + Maintenance costs time series for all PFTs... 
+      + Carbon balance time series for all PFTs... 
+      + Leaf drop time series for all PFTs... 
+      + Biomass of active tissues time series for all PFTs... 
+      + Leaf biomass time series for all PFTs... 
+      + Stem biomass time series for all PFTs... 
+      + Sapwood biomass time series for all PFTs... 
+      + Storage biomass time series for all PFTs... 
+      + Seed biomass time series for all PFTs... 
+      + Leaf respiration time series for all PFTs... 
+      + Stem respiration time series for all PFTs... 
+      + Root respiration time series for all PFTs... 
+      + Growth respiration time series for all PFTs... 
+      + Plant density time series for all PFTs... 
+      + Soil moisture stress factor time series for all PFTs... 
+      + Stomatal conductance time series for all PFTs... 
+      + Leaf boundary layer conductance time series for all PFTs... 
+      + Leaf area index (H > 1.5m) time series for all PFTs... 
+      + Above-ground biomass (DBH > 10cm) time series for all PFTs... 
+      + Basal area (DBH > 10cm) time series for all PFTs... 
+      + Mortality rate time series for all PFTs... 
+      + Mortality rate - Neg. C balance time series for all PFTs... 
+      + Mortality rate - Density independent time series for all PFTs... 
+      + Recruitment rate time series for all PFTs... 
+      + Growth rate time series for all PFTs... 
+      + Mortality rate time series for all PFTs... 
+      + Mortality rate - Neg. C balance time series for all PFTs... 
+      + Mortality rate - Density independent time series for all PFTs... 
+      + Recruitment rate time series for all PFTs... 
+      + Growth rate time series for all PFTs... 
+      + Change rate time series for all PFTs... 
+      + Change rate time series for all PFTs... 
+      + Mortality rate time series for all PFTs... 
+      + Mortality rate - Neg. C balance time series for all PFTs... 
+      + Mortality rate - Density independent time series for all PFTs... 
+      + Recruitment rate time series for all PFTs... 
+      + Growth rate time series for all PFTs... 
+      + Maximum Carbon balance time series for all PFTs... 
+      + Carbon balance - Maximum light time series for all PFTs... 
+      + Carbon balance - Maximum moisture time series for all PFTs... 
+      + Relative carbon balance time series for all PFTs... 
+      + Leaf sensible heat flux time series for all PFTs... 
+      + Leaf evaporation time series for all PFTs... 
+      + Leaf transpiration time series for all PFTs... 
+      + Water use efficiency time series for all PFTs... 
+      + Carbon use efficiency time series for all PFTs... 
+      + Effective carbon use efficiency time series for all PFTs... 
+      + Mean gross primary production time series for all PFTs... 
+      + Mean net primary production time series for all PFTs... 
+      + Mean plant respiration time series for all PFTs... 
+      + Mean maintenance costs time series for all PFTs... 
+      + Mean carbon balance time series for all PFTs... 
+      + Maximum carbon balance time series for all PFTs... 
+      + Mean carbon balance - maximum light time series for all PFTs... 
+      + Mean carbon balance - maximum moisture time series for all PFTs... 
+      + Mean leaf sensible heat flux time series for all PFTs... 
+      + Mean leaf evaporation time series for all PFTs... 
+      + Mean leaf evaporation time series for all PFTs... 
+      + Gross Primary Productivity time series for all PFTs... 
+      + Plant respiration time series for all PFTs... 
+      + Net Primary Productivity time series for all PFTs... 
+      + Carbon balance time series for all PFTs... 
+      + Relative storage biomass time series for all PFTs... 
+      + Relative leaf biomass time series for all PFTs... 
+      + Relative stem biomass time series for all PFTs... 
+      + Relative root biomass time series for all PFTs... 
+      + Relative seed biomass time series for all PFTs... 
+      + Norm. Absorbed PAR - Leaf time series for all PFTs... 
+      + Absolute Absorbed PAR - Leaf time series for all PFTs... 
+      + Leaf-level GPP time series for all PFTs... 
+      + Norm. Absorbed SW - Leaf time series for all PFTs... 
+      + Norm. Net absorbed LW - Leaf time series for all PFTs... 
+      + Light-limited assimilation rate time series for all PFTs... 
+      + RuBP-limited assimilation rate time series for all PFTs... 
+      + CO2-limited assimilation rate time series for all PFTs... 
+      + Light saturation time series for all PFTs... 
+    + Year-by-year comparisons of monthly means... 
+      -  Net Ecosystem Productivity comparison... 
+      -  Gross Primary Productivity comparison... 
+      -  Air CO2 mixing ratio comparison... 
+      -  Sensible heat flux comparison... 
+      -  Water flux comparison... 
+      -  Incoming shortwave radiation comparison... 
+      -  Incoming longwave radiation comparison... 
+      -  Air temperature comparison... 
+      -  Air specific humidity comparison... 
+      -  Precipitation rate comparison... 
+      -  Wind speed comparison... 
+      -  Air pressure comparison... 
+      -  CO2 flux comparison... 
+      -  CO2 storage comparison... 
+      -  Net Ecosystem Exchange comparison... 
+      -  Friction velocity comparison... 
+      -  Ecosystem respiration comparison... 
+      -  Albedo comparison... 
+      -  Outgoing SW Radiation comparison... 
+      -  Outgoing LW Radiation comparison... 
+      -  Outgoing PAR comparison... 
+      -  Net radiation comparison... 
+      + Above ground biomass time series for all LUs... 
+      + Total biomass time series for all LUs... 
+      + Leaf area index time series for all LUs... 
+      + Gross primary productivity time series for all LUs... 
+      + Net primary productivity time series for all LUs... 
+      + Fraction of area time series for all LUs... 
+      + Basal area time series for all LUs... 
+      + Mean above ground biomass time series for all LUs... 
+      + Mean total biomass time series for all LUs... 
+      + Mean leaf area index time series for all LUs... 
+      + Mean gross primary productivity time series for all LUs... 
+      + Mean net primary productivity time series for all LUs... 
+      + Mean basal area time series for all LUs... 
+      * Plot time series of groups of variables... 
+      + Ecosystem fluxes time series... 
+      + Energy fluxes time series... 
+      + Water fluxes time series... 
+      + Sensible heat fluxes time series... 
+      + Temperature time series... 
+      + Water vapour mixing ratio time series... 
+      + CO2 mixing ratio time series... 
+      + Precipitation distribution time series... 
+      + Total number of patches time series... 
+      + Total number of cohorts time series... 
+      + Respiration fluxes time series... 
+      + Winds time series... 
+      + Soil Carbon time series... 
+      + Vapour pressure deficit time series... 
+      + Average potential available water time series... 
+      + Average soil matric potential time series... 
+      + Monthly Water deficit time series... 
+      + CO2 fluxes time series... 
+      + Short wave radiation time series... 
+      + Long wave radiation time series... 
+      + Albedo time series... 
+      + Photosynthetically Active Radiation time series... 
+      + Conductance time series... 
+      * Plot mean diel for groups of variables... 
+      + Ecosystem fluxes  diurnal cycle... 
+      + Energy fluxes  diurnal cycle... 
+      + Water fluxes  diurnal cycle... 
+      + Sensible heat fluxes  diurnal cycle... 
+      + Temperature  diurnal cycle... 
+      + Water vapour mixing ratio  diurnal cycle... 
+      + CO2 mixing ratio  diurnal cycle... 
+      + Precipitation distribution  diurnal cycle... 
+      + Winds  diurnal cycle... 
+      + Vapour pressure deficit  diurnal cycle... 
+      + CO2 fluxes  diurnal cycle... 
+      + Short wave radiation  diurnal cycle... 
+      + Long wave radiation  diurnal cycle... 
+      + Albedo  diurnal cycle... 
+      + Photosynthetically Active Radiation  diurnal cycle... 
+      + Conductance  diurnal cycle... 
+      + Climatology profile of  Soil moisture ... 
+      + Climatology profile of  Soil temperature ... 
+      + Climatology profile of  (Negative) Soil moisture potential ... 
+      + Climatology profile of  Water extraction by plants ... 
+    + Bar plot by DBH classes... 
+      -  Above ground biomass ... 
+      -  Total biomass ... 
+      -  Basal area ... 
+      -  Leaf area index ... 
+      -  Gross primary productivity ... 
+      -  Plant density ... 
+      -  Soil moisture stress factor ... 
+      -  Leaf transpiration ... 
+      + Size and age structure plot:  Above ground biomass ... 
+      + Size and age structure plot:  Total biomass ... 
+      + Size and age structure plot:  Basal area ... 
+      + Size and age structure plot:  Leaf area index ... 
+      + Size and age structure plot:  Gross primary productivity ... 
+      + Size and age structure plot:  Root biomass ... 
+      + Size and age structure plot:  Relative carbon balance ... 
+      + Size and age structure plot:  Height ... 
+      + Size and age structure plot:  Light-limited assimilation rate ... 
+      + Size and age structure plot:  RuBP-limited assimilation rate ... 
+      + Size and age structure plot:  CO2-limited assimilation rate ... 
+      + Size and age structure plot:  Light saturation ... 
+There were 50 or more warnings (use warnings() to see the first 50)

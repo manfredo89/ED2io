@@ -1,0 +1,207 @@
+here: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR 
+there: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned4 
+srcdir: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR 
+outroot: /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned4/figures 
+Loading required package: abind
+Loading required package: akima
+Loading required package: boot
+Loading required package: car
+
+Attaching package: ‘car’
+
+The following object is masked from ‘package:boot’:
+
+    logit
+
+Loading required package: caTools
+Loading required package: chron
+Loading required package: compiler
+Loading required package: fields
+Loading required package: methods
+Loading required package: spam
+Loading required package: grid
+Spam version 1.3-0 (2015-10-24) is loaded.
+Type 'help( Spam)' or 'demo( spam)' for a short introduction 
+and overview of this package.
+Help for individual functions is also obtained by adding the
+suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+
+Attaching package: ‘spam’
+
+The following objects are masked from ‘package:base’:
+
+    backsolve, forwardsolve
+
+Loading required package: maps
+
+ # maps v3.1: updated 'world': all lakes moved to separate new #
+ # 'lakes' database. Type '?world' or 'news(package="maps")'.  #
+
+
+Loading required package: gbm
+Loading required package: survival
+
+Attaching package: ‘survival’
+
+The following object is masked from ‘package:boot’:
+
+    aml
+
+Loading required package: lattice
+
+Attaching package: ‘lattice’
+
+The following object is masked from ‘package:boot’:
+
+    melanoma
+
+Loading required package: splines
+Loading required package: parallel
+Loaded gbm 2.1.1
+Loading required package: rhdf5
+Loading required package: klaR
+Loading required package: MASS
+Loading required package: nlme
+Loading required package: numDeriv
+Loading required package: plotrix
+
+Attaching package: ‘plotrix’
+
+The following object is masked from ‘package:fields’:
+
+    color.scale
+
+Loading required package: proto
+Loading required package: randomForest
+randomForest 4.6-12
+Type rfNews() to see new features/changes/bug fixes.
+Loading required package: raster
+Loading required package: sp
+
+Attaching package: ‘raster’
+
+The following object is masked from ‘package:nlme’:
+
+    getData
+
+The following objects are masked from ‘package:MASS’:
+
+    area, select
+
+Loading required package: rgdal
+rgdal: version: 1.1-10, (SVN revision 622)
+ Geospatial Data Abstraction Library extensions to R successfully loaded
+ Loaded GDAL runtime: GDAL 2.1.0, released 2016/04/25
+ Path to GDAL shared files: /apps/gent/CO7/sandybridge/software/GDAL/2.1.0-intel-2016b/share/gdal
+ Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
+ Path to PROJ.4 shared files: (autodetected)
+ Linking to sp version: 1.2-3 
+Loading required package: robustbase
+
+Attaching package: ‘robustbase’
+
+The following object is masked from ‘package:survival’:
+
+    heart
+
+The following object is masked from ‘package:boot’:
+
+    salinity
+
+Loading required package: R.utils
+Loading required package: R.oo
+Loading required package: R.methodsS3
+R.methodsS3 v1.7.1 (2016-02-15) successfully loaded. See ?R.methodsS3 for help.
+R.oo v1.20.0 (2016-02-17) successfully loaded. See ?R.oo for help.
+
+Attaching package: ‘R.oo’
+
+The following object is masked from ‘package:rgdal’:
+
+    getDescription
+
+The following objects are masked from ‘package:raster’:
+
+    extend, trim
+
+The following objects are masked from ‘package:methods’:
+
+    getClasses, getMethods
+
+The following object is masked from ‘package:compiler’:
+
+    compile
+
+The following objects are masked from ‘package:base’:
+
+    attach, detach, gc, load, save
+
+R.utils v2.3.0 (2016-04-13) successfully loaded. See ?R.utils for help.
+
+Attaching package: ‘R.utils’
+
+The following objects are masked from ‘package:raster’:
+
+    extract, resample
+
+The following object is masked from ‘package:spam’:
+
+    cleanup
+
+The following object is masked from ‘package:utils’:
+
+    timestamp
+
+The following objects are masked from ‘package:base’:
+
+    cat, commandArgs, getOption, inherits, isOpen, parse, warnings
+
+Loading required package: stats4
+
+Attaching package: ‘stats4’
+
+The following object is masked from ‘package:spam’:
+
+    mle
+
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+ + Loading scripts from  /user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR ... 
+ Script colour.utils.r sourced 
+ Script rconstants.r sourced 
+ Script globdims.r sourced 
+ Script unitlist.r sourced 
+ Script allometry.r sourced 
+ Script charutils.r sourced 
+ Script clean.tmp.r sourced 
+ Script desc.unit.r sourced 
+ Script locations.r sourced 
+ Script monthly.template.r sourced 
+ Script operators.r sourced 
+ Script panoply.r sourced 
+ Script plotsize.r sourced 
+ Script pretty.box.r sourced 
+ Script pretty.log.r sourced 
+ Script pretty.xylim.r sourced 
+ Script qapply.r sourced 
+ Script read.q.files.r sourced 
+ Script soilutils.r sourced 
+ Script sombreado.r sourced 
+ Script switch.col.r sourced 
+ Script thermlib.r sourced 
+ Script timeutils.r sourced 
+ Script iso3166.r sourced 
+ Script pft.coms.r sourced 
+ Script pmonthly_varlist.r sourced 
+ + Post-processing output from  Paracou, GUF ... 
+   - Loading previous session... 
+    - Reading data from year  2160 ... 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned4/analy/paracou-Q-2160-01-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned4/analy/paracou-Q-2160-02-00-000000-g01.h5 
+/user/scratchdelcatty/gent/gvo000/gvo00074/manfredo/utilsR/../cleaned4/analy/paracou-Q-2160-03-00-000000-g01.h5 
