@@ -535,7 +535,7 @@ pft02 = list( name               = "Early tropical"
             , b                  = b.c3 * umol.2.mol
             , gamma.resp         = gamma.c3
             , effarea.transp     = 1.0
-            , rho                = 0.4 #0.53 was the old
+            , rho                = 0.53
             , leaf.turnover.rate = 1.0
             , root.turnover.rate = 1.0
             , SLA                = NA
@@ -596,7 +596,7 @@ pft03 = list( name               = "Mid tropical"
             , b                  = b.c3 * umol.2.mol
             , gamma.resp         = gamma.c3
             , effarea.transp     = 1.0
-            , rho                = 0.6 #0.71 was the old
+            , rho                = 0.71
             , leaf.turnover.rate = 0.50
             , root.turnover.rate = 0.50
             , SLA                = NA
@@ -657,7 +657,7 @@ pft04 = list( name               = "Late tropical"
             , b                  = b.c3 * umol.2.mol
             , gamma.resp         = gamma.c3
             , effarea.transp     = 1.0
-            , rho                = 0.81 #0.90 was the old
+            , rho                = 0.90
             , leaf.turnover.rate = 1./3.
             , root.turnover.rate = 1./3.
             , SLA                = NA
@@ -1408,12 +1408,12 @@ for (ipft in sequence(npft)){
        pft$b1Bs.large[17] = pft$b1Bs.small[17]
        pft$b2Bs.small[17] = 2.69373
        pft$b2Bs.large[17] = pft$b2Bs.small[17]
-         
+
        pft$b1Bl.small[17] = pft$b1Bl.small[2]
        pft$b2Bl.small[17] = pft$b2Bl.small[2]
-       pft$b1Bl.large[17] = 0.0856 
+       pft$b1Bl.large[17] = 0.0856
        pft$b2Bl.large[17] = 2.0
-       
+
       #------------------------------------------------------------------------------------#
       #      Replace the coefficients if we are going to use Poorter et al. (2006)         #
       # parameters for crown area.                                                         #

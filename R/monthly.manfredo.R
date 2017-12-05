@@ -29,9 +29,38 @@ create.monthly <<- function(ntimes,yeara,inpref){
     dummy     = file.remove(temp.file)
 
   }else{
-    cat (" Path: ",dirname (h5first),"\n")
-    cat (" File: ",basename(h5first),"\n")
-    stop(" File not found...")
+    cat ("Warning: I was looking for the first file to use as template but\n")
+    cat ("I have not found it. I will try to use the last one (the one of \n")
+    cat ("yearz). This usually happens when not all the analysis (the     \n")
+    cat ("first one in particular) are present. If even this one is not   \n")
+    cat ("found try to set yearz to the real last H5 file that you have...\n")
+
+    cyear        = sprintf("%4.4i", yeara + floor(ntimes/12) - 1)
+    h5first      = paste(inpref,"-Q-",cyear,"-01-00-000000-g01.h5"    ,sep="")
+    h5first.bz2  = paste(inpref,"-Q-",cyear,"-01-00-000000-g01.h5.bz2",sep="")
+    h5first.gz   = paste(inpref,"-Q-",cyear,"-01-00-000000-g01.h5.gz" ,sep="")
+
+    if ( file.exists(h5first) ){
+      mymont    = H5Fopen(h5first)
+
+    }else if ( file.exists(h5first.bz2) ){
+      temp.file = file.path(tempdir(),basename(h5first))
+      dummy     = bunzip2(filename=h5first.bz2,destname=temp.file,remove=FALSE)
+      mymont    = H5Fopen(temp.file)
+      dummy     = file.remove(temp.file)
+
+    }else if ( file.exists(h5first.gz) ){
+      temp.file = file.path(tempdir(),basename(h5first))
+      dummy     = gunzip(filename=h5first.gz,destname=temp.file,remove=FALSE)
+      mymont    = H5Fopen(temp.file)
+      dummy     = file.remove(temp.file)
+
+    }else{
+
+      cat (" Path: ",dirname (h5first),"\n")
+      cat (" File: ",basename(h5first),"\n")
+      stop(" File not found...")
+    }
 
   }#end if
   #---------------------------------------------------------------------------------------#
@@ -70,26 +99,6 @@ create.monthly <<- function(ntimes,yeara,inpref){
   ndcycle  = ed$ndcycle
   nzg      = ed$nzg
   nzs      = ed$nzs
-  #---------------------------------------------------------------------------------------#
-
-  #---------------------------------------------------------------------------------------#
-  # emean -- variables that we can either compare directly with observations, or are      #
-  #          or that may be used to draw time series.   They don't need to be really      #
-  #          monthly means, but you should put only the variables that make sense to be   #
-  #          plotted in simple time series (with no PFT or DBH information).              #
-  #---------------------------------------------------------------------------------------#
-  emean = list()
-  emean$gpp                     = rep(NA,times=ntimes)
-  emean$nep                     = rep(NA,times=ntimes)
-  emean$evap                    = rep(NA,times=ntimes)
-  emean$npp                     = rep(NA,times=ntimes)
-  emean$nplant                  = rep(NA,times=ntimes)
-  emean$agb                     = rep(NA,times=ntimes)
-  emean$biomass                 = rep(NA,times=ntimes)
-  emean$lai                     = rep(NA,times=ntimes)
-  emean$area                    = rep(NA,times=ntimes)
-  emean$acc.growth              = rep(NA,times=ntimes)
-  
   #---------------------------------------------------------------------------------------#
 
 
@@ -135,42 +144,15 @@ create.monthly <<- function(ntimes,yeara,inpref){
   #---------------------------------------------------------------------------------------#
 
 
-
-
-  #----- Cohort level, we save as lists because the dimensions vary. ---------------------#
-  cohort                = list()
-  cohort$ipa            = list()
-  cohort$ico            = list()
-  cohort$area           = list()
-  cohort$dbh            = list()
-  cohort$age            = list()
-  cohort$pft            = list()
-  cohort$nplant         = list()
-  cohort$height         = list()
-  cohort$ba             = list()
-  cohort$agb            = list()
-  cohort$lai            = list()
-  cohort$gpp            = list()
-  cohort$npp            = list()
-  cohort$balive         = list()
-  cohort$bdead          = list()
-  cohort$bleaf          = list()
-  cohort$bstem          = list()
-  cohort$broot          = list()
-  cohort$bsapwood       = list()
-  cohort$f.bleaf        = list()
-  cohort$f.bstem        = list()
-  cohort$f.broot        = list()
-  #---------------------------------------------------------------------------------------#
-
-
-
-
+  dbhds = list()
+  dbhds$liana_clss = array(data=0 ,dim=c(ntimes,18,npft+1))
+  dbhds$tree_clss  = array(data=0 ,dim=c(ntimes,15,npft+1))
 
   #----- Copy the polygon-level variable to the main structure. --------------------------#
   ed$szpft  = szpft
   ed$patch  = patch
-  ed$cohort = cohort
+  ed$dbhds  = dbhds
+  # ed$cohort = cohort
   #---------------------------------------------------------------------------------------#
 
 
@@ -200,28 +182,6 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   sel = old.datum$when %in% new.datum$when
   idx = match(old.datum$when[sel],new.datum$when)
 
-
-  #---------------------------------------------------------------------------------------#
-  #---------------------------------------------------------------------------------------#
-  # emean -- variables that we can either compare directly with observations, or are      #
-  #          or that may be used to draw time series.   They don't need to be really      #
-  #          monthly means, but you should put only the variables that make sense to be   #
-  #          plotted in simple time series (with no PFT or DBH information).              #
-  #---------------------------------------------------------------------------------------#
-  new.datum$emean$gpp               [idx ] = old.datum$emean$gpp                 [sel ]
-  new.datum$emean$npp               [idx ] = old.datum$emean$npp                 [sel ]
-  new.datum$emean$nep               [idx ] = old.datum$emean$nep                 [sel ]
-  new.datum$emean$evap              [idx ] = old.datum$emean$evap                [sel ]
-  new.datum$emean$agb               [idx ] = old.datum$emean$agb                 [sel ]
-  new.datum$emean$biomass           [idx ] = old.datum$emean$biomass             [sel ]
-  new.datum$emean$nplant            [idx ] = old.datum$emean$nplant              [sel ]
-  new.datum$emean$lai               [idx ] = old.datum$emean$lai                 [sel ]
-  new.datum$emean$area              [idx ] = old.datum$emean$area                [sel ]
-  new.datum$emean$acc.growth        [idx ] = old.datum$emean$acc.growth          [sel ]
-  #---------------------------------------------------------------------------------------#
-
-
-
   #---------------------------------------------------------------------------------------#
   # SZPFT -- Size (DBH) and plant functional type (PFT) array.  An extra level is         #
   #          appended to the end, which will hold the sum of all categories.              #
@@ -245,7 +205,8 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$acc.growth     [idx,,] = old.datum$szpft$acc.growth      [sel,,]
   #---------------------------------------------------------------------------------------#
 
-
+  new.datum$dbhds$liana_clss     [idx,,] = old.datum$dbhds$liana_clss      [sel,,]
+  new.datum$dbhds$tree_clss      [idx,,] = old.datum$dbhds$tree_clss       [sel,,]
 
   #---------------------------------------------------------------------------------------#
   #  PATCH -- patch level variables, we save as lists because the dimensions vary.    #
@@ -262,67 +223,12 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$patch$maxh          = old.datum$patch$maxh
   #---------------------------------------------------------------------------------------#
 
-
-
-  #----- Cohort level, we save as lists because the dimensions vary. ---------------------#
-  new.datum$cohort$ipa              = old.datum$cohort$ipa
-  new.datum$cohort$ico              = old.datum$cohort$ico
-  new.datum$cohort$area             = old.datum$cohort$area
-  new.datum$cohort$dbh              = old.datum$cohort$dbh
-  new.datum$cohort$age              = old.datum$cohort$age
-  new.datum$cohort$pft              = old.datum$cohort$pft
-  new.datum$cohort$nplant           = old.datum$cohort$nplant
-  new.datum$cohort$height           = old.datum$cohort$height
-  new.datum$cohort$ba               = old.datum$cohort$ba
-  new.datum$cohort$agb              = old.datum$cohort$agb
-  new.datum$cohort$lai              = old.datum$cohort$lai
-  new.datum$cohort$gpp              = old.datum$cohort$gpp
-  new.datum$cohort$npp              = old.datum$cohort$npp
-  new.datum$cohort$balive           = old.datum$cohort$balive
-  new.datum$cohort$bdead            = old.datum$cohort$bdead
-  new.datum$cohort$bleaf            = old.datum$cohort$bleaf
-  new.datum$cohort$bstem            = old.datum$cohort$bstem
-  new.datum$cohort$broot            = old.datum$cohort$broot
-  new.datum$cohort$bsapwood         = old.datum$cohort$bsapwood
-  new.datum$cohort$f.bleaf          = old.datum$cohort$f.bleaf
-  new.datum$cohort$f.bstem          = old.datum$cohort$f.bstem
-  new.datum$cohort$f.broot          = old.datum$cohort$f.broot
   #---------------------------------------------------------------------------------------#
-
-  #---------------------------------------------------------------------------------------#
-  #  PATCH -- patch level variables, we save as lists because the dimensions vary.    #
+  #  PATCH -- patch level variables, we save as lists because the dimensions vary.        #
   #---------------------------------------------------------------------------------------#
   patch               = list()
   patch$maxh          = list()
   #---------------------------------------------------------------------------------------#
-
-
-  #----- Cohort level, we save as lists because the dimensions vary. ---------------------#
-  cohort                = list()
-  cohort$ipa            = list()
-  cohort$ico            = list()
-  cohort$area           = list()
-  cohort$dbh            = list()
-  cohort$age            = list()
-  cohort$pft            = list()
-  cohort$nplant         = list()
-  cohort$height         = list()
-  cohort$ba             = list()
-  cohort$agb            = list()
-  cohort$lai            = list()
-  cohort$gpp            = list()
-  cohort$npp            = list()
-  cohort$balive         = list()
-  cohort$bdead          = list()
-  cohort$bleaf          = list()
-  cohort$bstem          = list()
-  cohort$broot          = list()
-  cohort$bsapwood       = list()
-  cohort$f.bleaf        = list()
-  cohort$f.bstem        = list()
-  cohort$f.broot        = list()
-  #---------------------------------------------------------------------------------------#
-
 
   #---------------------------------------------------------------------------------------#
   #     Send the data back.                                                               #

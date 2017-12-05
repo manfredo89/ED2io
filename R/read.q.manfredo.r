@@ -15,29 +15,28 @@
 #                                                                                          #
 #------------------------------------------------------------------------------------------#
 read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
-
+  
   #---------------------------------------------------------------------------------------#
   #     Copy the variables to scratch lists, we will copy them back once we are done.     #
   #---------------------------------------------------------------------------------------#
-  emean  = datum$emean
   szpft  = datum$szpft
-  cohort = datum$cohort
   patch  = datum$patch
+  dbhds  = datum$dbhds
   #---------------------------------------------------------------------------------------#
-
-
+ 
+  
   #---------------------------------------------------------------------------------------#
   #     Loop over all times that haven't been read yet.                                   #
   #---------------------------------------------------------------------------------------#
   for (m in tresume:ntimes){
-
+    
     #----- Print a banner to entertain the bored user staring at the screen. ------------#
     if (m == tresume | datum$month[m] == 1){
       cat("    - Reading data from year ",datum$year[m],"...","\n")
     }#end if
     #------------------------------------------------------------------------------------#
-
-
+    
+    
     #------------------------------------------------------------------------------------#
     #     Number of days in a month.                                                     #
     #------------------------------------------------------------------------------------#
@@ -46,8 +45,8 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     lastmonth = 1 + (thismonth - 2) %% 12
     thisyear  = datum$year [m]
     #------------------------------------------------------------------------------------#
-
-
+    
+    
     #----- Read data and close connection immediately after. ----------------------------#
     h5file       = datum$input[m]
     h5file.bz2   = paste(datum$input[m],"bz2",sep=".")
@@ -55,13 +54,13 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     if (file.exists(h5file)){
       cat(h5file,"\n")
       mymont    = H5Fopen(h5file)
-
+      
     }else if(file.exists(h5file.bz2)){
       temp.file = file.path(tempdir(),basename(h5file))
       dummy     = bunzip2(filename=h5file.bz2,destname=temp.file,remove=FALSE)
       mymont    = H5Fopen(temp.file)
       dummy     = file.remove(temp.file)
-
+      
     }else if(file.exists(h5file.gz)){
       temp.file = file.path(tempdir(),basename(h5file))
       dummy     = gunzip(filename=h5file.gz,destname=temp.file,remove=FALSE)
@@ -71,32 +70,23 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       cat (" - File      : ",h5file    ,"\n")
       cat (" - File (bz2): ",h5file.bz2,"\n")
       stop(" Neither the expanded nor the compressed files were found!")
-
+      
     }#end if
     #------------------------------------------------------------------------------------#
-
-    #----- Load the simple variables_ ---------------------------------------------------#
-    emean$gpp             [m] =   mymont$MMEAN_GPP_PY
-    emean$npp             [m] =   mymont$MMEAN_NPP_PY
-    emean$nep             [m] =   mymont$MMEAN_NEP_PY
-    emean$evap            [m] = ( mymont$MMEAN_VAPOR_GC_PY
-                                  + mymont$MMEAN_VAPOR_LC_PY
-                                  + mymont$MMEAN_VAPOR_WC_PY ) * day.sec
-
 
     #---- Read in the site-level area. --------------------------------------------------#
     areasi     = mymont$AREA_SI
     npatches   = mymont$SIPA_N
     #------------------------------------------------------------------------------------#
-
-
+    
+    
     #----- Read a few patch-level variables. --------------------------------------------#
     areapa      = mymont$AREA * rep(areasi,times=npatches)
     areapa      = areapa / sum(areapa)
     ipa         = sequence(mymont$NPATCHES_GLOBAL)
     agepa       = mymont$AGE
     #------------------------------------------------------------------------------------#
-
+    
     #------------------------------------------------------------------------------------#
     #     Get the total number of cohorts.                                               #
     #------------------------------------------------------------------------------------#
@@ -108,69 +98,22 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     #idx is the index of the patch (i don't understand the operation though)
     idx         = match(unique(ipaconow),sequence(mymont$NPATCHES_GLOBAL))
     #------------------------------------------------------------------------------------#
-
+    
     #----- Used pft and derived properties ----------------------------------------#
     pftconow = mymont$PFT
     pftuse   = sort(unique(pftconow))
     npftuse  = length(pftuse)
     #------------------------------------------------------------------------------#
-
-
-
+    
+    
+    
     #------------------------------------------------------------------------------------#
     #      Build the cohort-level lists if this is the right month.                      #
     #------------------------------------------------------------------------------------#
     plab = paste( "y",sprintf("%4.4i",thisyear )
                   , "m",sprintf("%2.2i",thismonth),sep="")
     patch$maxh         [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-
-    if (any(ncohorts >0)){
-      #----- Find some auxiliary patch-level properties. -------------------------------#
-      #sum the lai value of cohorts for each patch
-      lai.pa         = tapply(X = mymont$MMEAN_LAI_CO, INDEX = ipaconow, FUN = sum)
-
-      #---------------------------------------------------------------------------------#
-      #     Load some cohort-level structures that we will use multiple times.          #
-      #---------------------------------------------------------------------------------#
-      dbhconow          = mymont$DBH
-      dbhconow.lastmon  = mymont$DBH * exp(-pmax(0,mymont$DLNDBH_DT/12))
-      nplantconow       = mymont$NPLANT
-      heightconow       = mymont$HITE
-      baconow           = mymont$BA_CO
-      agbconow          = mymont$AGB_CO
-      laiconow          = mymont$MMEAN_LAI_CO
-      gppconow          = mymont$MMEAN_GPP_CO
-      nppconow          = mymont$MMEAN_NPP_CO
-
-      #----- Find biomass of some tissues. ------------------------------------------#
-      bdeadconow        = mymont$BDEAD
-      bleafconow        = mymont$MMEAN_BLEAF_CO
-      bsapwoodconow     = mymont$BSAPWOODA+mymont$BSAPWOODB
-      if (all(mymont$MMEAN_BROOT_CO == 0)){
-        bfrootconow    = ( dbh2bl(dbh=dbhconow.lastmon,ipft=pftconow)
-                           * pft$qroot[pftconow] )
-      }else{
-        bfrootconow    = mymont$MMEAN_BROOT_CO
-      }#end if
-      bcrootconow       = mymont$BSAPWOODB + (1. - pft$agf.bs[pftconow]) * bdeadconow
-      bstemconow        = mymont$BSAPWOODA +       pft$agf.bs[pftconow]  * bdeadconow
-      brootconow        = bfrootconow + bcrootconow
-      baliveconow       = bleafconow  + bfrootconow + bsapwoodconow
-      #------------------------------------------------------------------------------#
-
-      #----- Find the variables that must be rendered extensive. -----------------------#
-      maxh.pa   = (data.frame(tapply(X= heightconow, INDEX = list(ipaconow, pftconow), FUN = max)))[sequence(npftuse)]
-      #---------------------------------------------------------------------------------#
-
-      #---------------------------------------------------------------------------------#
-      #     Copy the data back to the patch.                                            #
-      #---------------------------------------------------------------------------------#
-      patch$maxh      [[plab]] = maxh.pa
-      #---------------------------------------------------------------------------------#
-    }#end if
-    #------------------------------------------------------------------------------------#
-
-
+    
     #------------------------------------------------------------------------------------#
     #     Read the cohort-level variables.  Because empty patchs do exist (deserts),     #
     # we must check whether there is any cohort to be read.  If not, assign NA to        #
@@ -178,9 +121,9 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     #------------------------------------------------------------------------------------#
     one.cohort = sum(ncohorts) == 1
     one.patch  = sum(npatches) == 1
-
-    if (one.cohort || one.patch){
-
+    
+    if ((one.cohort || one.patch) & m > 12){
+      
       cat (" ##########################################################################
              ################                                          ################
              ################     WARNING: ONLY ONE COHORT FOUND       ################
@@ -189,11 +132,11 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
              ##########################################################################
            ")
     }
-
+    
     if (any (ncohorts > 0)){
-
+      
       areaconow  = rep(areapa,times=ncohorts)
-
+      
       #----- Define the DBH classes. ---------------------------------------------------#
       dbhconow        = mymont$DBH
       # dbhcut is the DBH interval in which the cohorts fall
@@ -204,20 +147,17 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       # depending on the DBH class the cohort will have 1,2,3 or 4 as its interval index
       dbhfac          = match(dbhcut,dbhlevs)
       #---------------------------------------------------------------------------------#
-
-
-
+      
       #----- Define the previous DBH class (for recruitment). --------------------------#
       dbhconow.lastmon = mymont$DBH * exp(-pmax(0,mymont$DLNDBH_DT/12))
       #---------------------------------------------------------------------------------#
-
-
+      
+      
       #----- Define the age classes. ---------------------------------------------------#
       ageconow          = rep(x=agepa,times=ncohorts)
       #---------------------------------------------------------------------------------#
-
-
-
+      
+      
       #----- Read the cohort level variables. ------------------------------------------#
       nplantconow       = mymont$NPLANT
       heightconow       = mymont$HITE
@@ -227,7 +167,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       gppconow          = mymont$MMEAN_GPP_CO
       nppconow          = mymont$MMEAN_NPP_CO
       agb.growthconow   = pmax(0,mymont$DLNAGB_DT)
-
+      
       #---------------------------------------------------------------------------------#
       #     Find biomass of all tissues.                                                #
       #---------------------------------------------------------------------------------#
@@ -248,7 +188,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       bseedsconow       = mymont$BSEEDS_CO
       biomassconow      = baliveconow + bstorageconow + bseedsconow + bdeadconow
       #---------------------------------------------------------------------------------#
-
+      
       #---------------------------------------------------------------------------------#
       #      Find the fractions that go to each pool.                                   #
       #---------------------------------------------------------------------------------#
@@ -259,7 +199,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       fs.stem  = bstemconow  / ( bcrootconow + bstemconow )
       fs.croot = bcrootconow / ( bcrootconow + bstemconow )
       #---------------------------------------------------------------------------------#
-
+      
       #----- Allocation and productivity relative to the total living biomass. ---------#
       f.gppconow        =  100. * gppconow        / pmax(baliveconow,0.01)
       f.nppconow        =  100. * nppconow        / pmax(baliveconow,0.01)
@@ -267,8 +207,20 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       f.bstemconow      =         bstemconow      / pmax(baliveconow,0.01)
       f.brootconow      =         brootconow      / pmax(baliveconow,0.01)
       #---------------------------------------------------------------------------------#
-
-
+      
+      #----- Find the variables that must be rendered extensive. -----------------------#
+      maxh.pa   = (data.frame(tapply(X= heightconow, INDEX = list(ipaconow, pftconow), 
+                                     FUN = max)))[sequence(npftuse)]
+      #---------------------------------------------------------------------------------#
+      
+      #---------------------------------------------------------------------------------#
+      #     Copy the data back to the patch.                                            #
+      #---------------------------------------------------------------------------------#
+      patch$maxh      [[plab]] = maxh.pa
+      #---------------------------------------------------------------------------------#
+      
+      
+      
     }else{
       #----- Make everything NA. -------------------------------------------------------#
       ipaconow            = NA
@@ -291,40 +243,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       bstemconow          = NA
     }#end if
     #------------------------------------------------------------------------------------#
-
-    #------------------------------------------------------------------------------------#
-    #      Build the cohort-level lists if this is the right month.                      #
-    #------------------------------------------------------------------------------------#
-    if (thismonth %in% sasmonth){
-      clab = paste( "y",sprintf("%4.4i",thisyear )
-                    , "m",sprintf("%2.2i",thismonth),sep="")
-      #----- Binding the current cohorts. ----------------------------------------------#
-      cohort$ipa          [[clab]] = ipaconow
-      cohort$ico          [[clab]] = icoconow
-      cohort$area         [[clab]] = areaconow
-      cohort$dbh          [[clab]] = dbhconow
-      cohort$age          [[clab]] = ageconow
-      cohort$pft          [[clab]] = pftconow
-      cohort$nplant       [[clab]] = nplantconow * areaconow
-      cohort$height       [[clab]] = heightconow
-      cohort$ba           [[clab]] = nplantconow * baconow * areaconow
-      cohort$agb          [[clab]] = agbconow
-      cohort$agb.growth   [[clab]] = 100. * agb.growthconow
-      cohort$lai          [[clab]] = laiconow
-      cohort$gpp          [[clab]] = gppconow
-      cohort$npp          [[clab]] = nppconow
-      cohort$balive       [[clab]] = baliveconow
-      cohort$bdead        [[clab]] = bdeadconow
-      cohort$bleaf        [[clab]] = bleafconow
-      cohort$bstem        [[clab]] = bstemconow
-      cohort$broot        [[clab]] = brootconow
-      cohort$bsapwood     [[clab]] = bsapwoodconow
-      cohort$f.bleaf      [[clab]] = f.bleafconow
-      cohort$f.bstem      [[clab]] = f.bstemconow
-      cohort$f.broot      [[clab]] = f.brootconow
-    } #end if month=sasmonth
-    #------------------------------------------------------------------------------------#
-
+   
     #------------------------------------------------------------------------------------#
     #     The following two variables are used to scale "intensive" properties           #
     # (whatever/plant) to "extensive" (whatever/m2).  Sometimes they may be used to      #
@@ -335,8 +254,8 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     w.balive  = baliveconow  * w.nplant
     w.basarea = baconow      * w.nplant
     #------------------------------------------------------------------------------------#
-
-
+    
+    
     #------------------------------------------------------------------------------------#
     #     Build the size (DBH) structure arrays.                                         #
     #------------------------------------------------------------------------------------#
@@ -354,8 +273,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         #------------------------------------------------------------------------------#
       }#end if
       #---------------------------------------------------------------------------------#
-
-
+      
       #----- Decide which PFT to use. --------------------------------------------------#
       for (p in sequence(npft+1)){
         sel.pft   = pftconow == p | p == (npft+1)
@@ -415,19 +333,15 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                            * bsapwoodconow     [sel]
                                            , na.rm = TRUE
           )#end if
-        }#end if
-        sel = sel.pft & sel.dbh# & dbhconow >= dbhminconow
-        if (any(sel)){
-
           acc.growth = sum( w.nplant[sel]
                             * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
           )#end sum
           szpft$acc.growth [m,d,p] = acc.growth
         }
-          #---------------------------------------------------------------------------#
-
-
-
+        #---------------------------------------------------------------------------#
+        
+        
+        
         #------------------------------------------------------------------------------#
         # Fractional biomass: use the total variable and divide by the total biomass   #
         #                     so it gives a full community fraction.  Like in the UE   #
@@ -440,40 +354,79 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         szpft$f.bstem     [m,d,p] =        szpft$bstem     [m,d,p] / balive.szpft
         szpft$f.broot     [m,d,p] =        szpft$broot     [m,d,p] / balive.szpft
         #------------------------------------------------------------------------------#
-
+        
       }#end for PFT
       #---------------------------------------------------------------------------------#
     }#end for DBH
     #------------------------------------------------------------------------------------#
 
+    #Temporary variables for debugging purpose. These can go once everyting is set
+    print.sizehisto = T
+    if(print.sizehisto && any (ncohorts > 0)){
+      
+      for (i in names(dbhds)){
+        
+        if (i == "tree_clss"){
+          this.classdbh   = c(0,10,15,20,25,30,35,40,50,60,70,80,90,100)
+        } else {
+          this.classdbh   = c(0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,20)
+        }
+        
+        this.breakdbh = c(-Inf,this.classdbh[-1],Inf)
+        this.ndbh     = length(this.classdbh)
+        # dbhcut is the DBH interval in which the cohorts fall
+        this.dbhcut   = cut(dbhconow,breaks=this.breakdbh)
+        # dbhlevs are the possible DBH intervals
+        this.dbhlevs  = levels(this.dbhcut)
+        # dbhfac is the cohort's interval index; if there are 4 possible intervals,
+        # depending on the DBH class the cohort will have 1,2,3 or 4 as its interval index
+        this.dbhfac   = match(this.dbhcut,this.dbhlevs)
+        #---------------------------------------------------------------------------------#
 
+        #---------------------------------------------------------------------------------#
+        #     Build the size (DBH) structure arrays.                                      #
+        #---------------------------------------------------------------------------------#
+        for (d in sequence(this.ndbh+1)){
+          #----- Decide which DBH to use. ------------------------------------------------#
+          if (all(is.na(this.dbhfac))){
+            sel.dbh = rep(FALSE,times=length(this.dbhfac))
+          }else{
+            sel.dbh = this.dbhfac == d | d == (this.ndbh+1)
+          }#end if
+          #-------------------------------------------------------------------------------#
 
-    #------------------------------------------------------------------------------------#
-    #       Build the derived variables.                                                 #
-    #------------------------------------------------------------------------------------#
-    emean$nplant          [m] = szpft$nplant         [m,ndbh+1,npft+1]
-    emean$lai             [m] = szpft$lai            [m,ndbh+1,npft+1]
-    emean$agb             [m] = szpft$agb            [m,ndbh+1,npft+1]
-    emean$biomass         [m] = szpft$biomass        [m,ndbh+1,npft+1]
-    emean$npp             [m] = szpft$npp            [m,ndbh+1,npft+1]
-    #------------------------------------------------------------------------------------#
+          
+          #----- Decide which PFT to use. ------------------------------------------------#
+          for (p in sequence(npft+1)){
+            sel.pft   = pftconow == p | p == (npft+1)
+            sel       = sel.pft & sel.dbh
+            if (any(sel)){
 
+              dbhds[[i]][m,d,p] = sum( nplantconow [sel]* areaconow [sel], na.rm = TRUE)
+            }
+            #-----------------------------------------------------------------------------#
+            
+          }#end for PFT
+          #-------------------------------------------------------------------------------#
+        }#end for DBH
+        #---------------------------------------------------------------------------------#
+      }#end for idbh
+      #-----------------------------------------------------------------------------------#
+    }#end if sizehisto
 
     H5close()
-
+    
   }# end for (m in tresume,ntimes)
   #---------------------------------------------------------------------------------------#
-
 
   #---------------------------------------------------------------------------------------#
   #     Copy the variables back to datum.                                                 #
   #---------------------------------------------------------------------------------------#
-  datum$emean  = emean
   datum$szpft  = szpft
   datum$patch  = patch
-  datum$cohort = cohort
+  datum$dbhds  = dbhds
   #---------------------------------------------------------------------------------------#
-
+  
   return(datum)
   #---------------------------------------------------------------------------------------#
 }#end function read.q.files
