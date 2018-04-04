@@ -29,7 +29,7 @@ para[[1]]=list(
   name = "vm0",
   description = "Maximum Photosynthetic capacity at 25 °C",
   unit = untab$umolom2os,
-  value = c(18.75,12.5,6.25,9.097) * ssfact * vmfact.c3
+  value = c(18.75,12.5,6.25,18.75) * ssfact * vmfact.c3
 )
 
 
@@ -42,9 +42,9 @@ para[[2]]=list(
 
 para[[3]]=list(
   name = "leaf_turnover_rate",
-  description = "Leaf turnover rate",
+  description = "Leaf / fine root turnover rate",
   unit = untab$oneoyr,
-  value = c(1.0,0.5,1./3,0.54)
+  value = c(1.0,0.5,1./3,1.27)
 )
 
 para[[4]]=list(

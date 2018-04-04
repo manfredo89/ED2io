@@ -113,6 +113,11 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     plab = paste( "y",sprintf("%4.4i",thisyear )
                   , "m",sprintf("%2.2i",thismonth),sep="")
     patch$maxh         [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
+    patch$agb          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
+    patch$bleaf        [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
+    patch$lai          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
+    patch$gpp          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
+    patch$nplant       [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
     
     #------------------------------------------------------------------------------------#
     #     Read the cohort-level variables.  Because empty patchs do exist (deserts),     #
@@ -168,6 +173,14 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       nppconow          = mymont$MMEAN_NPP_CO
       agb.growthconow   = pmax(0,mymont$DLNAGB_DT)
       
+      #------------------------------------------------------------------------------------#
+      #     The following two variables are used to scale "intensive" properties           #
+      # (whatever/plant) to "extensive" (whatever/m2).  Sometimes they may be used to      #
+      # build weighted averages.                                                           #
+      #------------------------------------------------------------------------------------#
+      w.nplant  = nplantconow  * areaconow
+      #------------------------------------------------------------------------------------#
+      
       #---------------------------------------------------------------------------------#
       #     Find biomass of all tissues.                                                #
       #---------------------------------------------------------------------------------#
@@ -209,14 +222,31 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       #---------------------------------------------------------------------------------#
       
       #----- Find the variables that must be rendered extensive. -----------------------#
-      maxh.pa   = (data.frame(tapply(X= heightconow, INDEX = list(ipaconow, pftconow), 
+      
+      maxh.pa   = (data.frame(tapply(X= heightconow,           INDEX = list(ipaconow, pftconow), 
                                      FUN = max)))[sequence(npftuse)]
+      agb.pa    = (data.frame(tapply(X= agbconow * w.nplant,   INDEX = list(ipaconow, pftconow), 
+                                     FUN = sum)))[sequence(npftuse)]
+      bleaf.pa  = (data.frame(tapply(X= bleafconow * w.nplant, INDEX = list(ipaconow, pftconow), 
+                                    FUN = sum)))[sequence(npftuse)]
+      lai.pa    = (data.frame(tapply(X= laiconow * areaconow,  INDEX = list(ipaconow, pftconow), 
+                                    FUN = sum)))[sequence(npftuse)]
+      gpp.pa    = (data.frame(tapply(X= gppconow * w.nplant,   INDEX = list(ipaconow, pftconow), 
+                                    FUN = sum)))[sequence(npftuse)]
+      nplant.pa = (data.frame(tapply(X= nplantconow,           INDEX = list(ipaconow, pftconow), 
+                                    FUN = sum)))[sequence(npftuse)]
+        
       #---------------------------------------------------------------------------------#
       
       #---------------------------------------------------------------------------------#
       #     Copy the data back to the patch.                                            #
       #---------------------------------------------------------------------------------#
-      patch$maxh      [[plab]] = maxh.pa
+      patch$maxh   [[plab]] = maxh.pa
+      patch$agb    [[plab]] = agb.pa
+      patch$bleaf  [[plab]] = bleaf.pa
+      patch$lai    [[plab]] = lai.pa
+      patch$gpp    [[plab]] = gpp.pa
+      patch$nplant [[plab]] = nplant.pa
       #---------------------------------------------------------------------------------#
       
       
@@ -244,17 +274,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     }#end if
     #------------------------------------------------------------------------------------#
    
-    #------------------------------------------------------------------------------------#
-    #     The following two variables are used to scale "intensive" properties           #
-    # (whatever/plant) to "extensive" (whatever/m2).  Sometimes they may be used to      #
-    # build weighted averages.                                                           #
-    #------------------------------------------------------------------------------------#
-    w.nplant  = nplantconow  * areaconow
-    w.lai     = laiconow     * areaconow
-    w.balive  = baliveconow  * w.nplant
-    w.basarea = baconow      * w.nplant
-    #------------------------------------------------------------------------------------#
-    
     
     #------------------------------------------------------------------------------------#
     #     Build the size (DBH) structure arrays.                                         #

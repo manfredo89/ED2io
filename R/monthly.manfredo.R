@@ -139,8 +139,13 @@ create.monthly <<- function(ntimes,yeara,inpref){
   #---------------------------------------------------------------------------------------#
   #  PATCH -- patch level variables, we save as lists because the dimensions vary.    #
   #---------------------------------------------------------------------------------------#
-  patch               = list()
-  patch$maxh          = list()
+  patch        = list()
+  patch$maxh   = list()
+  patch$agb    = list()
+  patch$bleaf  = list()
+  patch$lai    = list()
+  patch$gpp    = list()
+  patch$nplant = list()
   #---------------------------------------------------------------------------------------#
 
 
@@ -221,13 +226,23 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$patch$gpp           = old.datum$patch$gpp
   new.datum$patch$npp           = old.datum$patch$npp
   new.datum$patch$maxh          = old.datum$patch$maxh
+  new.datum$patch$agb           = old.datum$patch$agb
+  new.datum$patch$bleaf         = old.datum$patch$bleaf
+  new.datum$patch$lai           = old.datum$patch$lai
+  new.datum$patch$gpp           = old.datum$patch$gpp
+  new.datum$patch$nplant        = old.datum$patch$nplant
   #---------------------------------------------------------------------------------------#
 
   #---------------------------------------------------------------------------------------#
   #  PATCH -- patch level variables, we save as lists because the dimensions vary.        #
   #---------------------------------------------------------------------------------------#
-  patch               = list()
-  patch$maxh          = list()
+  patch        = list()
+  patch$maxh   = list()
+  patch$agb    = list()
+  patch$bleaf  = list()
+  patch$lai    = list()
+  patch$gpp    = list()
+  patch$nplant = list()
   #---------------------------------------------------------------------------------------#
 
   #---------------------------------------------------------------------------------------#

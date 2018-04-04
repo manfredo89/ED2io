@@ -1212,8 +1212,8 @@ pft17 = list( name               = "Lianas"
             , gamma.resp         = gamma.aa
             , effarea.transp     = 1.0
             , rho                = 0.46
-            , leaf.turnover.rate = 0.54
-            , root.turnover.rate = 0.54
+            , leaf.turnover.rate = 1.27
+            , root.turnover.rate = 1.27
             , SLA                = NA
             , hgt.ref            = hgt.ref.trop
             , b1Ht               = 0.06422235

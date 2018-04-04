@@ -42,7 +42,7 @@ if (length(args)==0) {
 arg.runtype   = c("current")
 here          = "/Users/manfredo/Desktop/r_minimal/ED2io/R/"
 #site.dir     = paste(here,"../",sep="/")
-site.dir      = "/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/"
+site.dir      = "/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/"
 run.type      = arg.runtype
 if (length(run.type) > 2 || length(run.type) < 1){
   cat ("Error: comparison mode works with a maximum of two simulations.")
@@ -135,8 +135,8 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",s
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
 #for trials so to shorten things up
-yeara = 1850
-yearz = 1899
+yeara = 1500
+yearz = 1600
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -180,7 +180,7 @@ szpft = list()
 dbhds = list()
 runn = 1
 for (csite in file.dir){
-csite="/Users/manfredo/Documents/Eclipse_workspace/ED/build/post_process/paracou/current"
+csite="/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/current"
 if (reload.data && file.exists(ed22.rdata[runn])){
     #----- Load the modelled dataset. ---------------------------------------------------#
     cat("   - Loading previous session...","\n")
@@ -308,7 +308,7 @@ if(nyears >= 2){
   total.outdir = file.path(figdir,"totals")
   if (! dir.exists(total.outdir)) dir.create(total.outdir)
 
-  for(n in sequence(ntspftdbh - 1)){
+  for(n in sequence(ntspftdbh)){
     #----- Load settings for this variable.-------------------------------------------#
     thisvar     = tspftdbh[[n]]
     vnam        = thisvar$vnam
@@ -398,6 +398,9 @@ if(plot.nplant.hystogram){
                                         30.12,12.74,4.59,3.51,1.88,0.5,0.5))
   exp[["tree_clss"]] = cbind(exp[["tree_clss"]],undist=c(0,203.36,102.89,63.24,40.98,25.77,
                                           22.51,33.92,16,8.39,3.51,2.96,0.5,0.5))
+  
+  bci = c(0, 78.889, 42.604, 23.09, 10.764, 6.736, 3.368, 1.667, 
+          1.007, 0.799, 0.729, 0.312, 0.347, 0.104, 0.069, 0.069, 0.208)
 
   #------ Set up the title and axis labels. ----------------------------------#
   lexlab="DBH Classes [cm]"
@@ -445,6 +448,7 @@ if(plot.nplant.hystogram){
     ystart    = max(1, nyears-nyaverage)
     yend      = nyears
     # 10000 is the multiplication by ha conversion
+    # my.avg is the averaged nplants
     my.avg    = apply(thisvnam[ystart:yend,,], c(2, 3), mean, na.rm = TRUE) * 10000
 
     # Melt the data in the proper format
@@ -452,10 +456,20 @@ if(plot.nplant.hystogram){
     ggdf=as.data.frame(my.avg)
 
     #Add the field data (undisturbed then disturbed)
+    if(arg.runtype=="bci" | arg.runtype=="bci0"){
+      if(i=="liana_clss"){
+        ggdf=cbind(ggdf, bci)
+        colnames(ggdf)=c(pftuse,5)
+      } else { colnames(ggdf)=pftuse }
+      
+    } else {
+      
     ggdf=cbind(ggdf, exp[[i]][,2], exp[[i]][,1])
+    colnames(ggdf)=c(pftuse,5,6)
+    
+    }
 
     # When using lianas PFT 5 and 6 should not be used... (dirty hack)
-    colnames(ggdf)=c(pftuse,5,6)
     ggdf=cbind(ggdf,max.dbh)
 
     ggdf=reshape2::melt(ggdf,id.vars = "max.dbh",variable.name="pft",value.name="nplant")
@@ -469,17 +483,33 @@ if(plot.nplant.hystogram){
     # Start the plot
     ggp = ggplot(ggdf,aes(x=max.dbh,y=nplant,fill=pft))
 
-    if (i == "tree_clss"){
-      ggp = ggp +
-        geom_bar(data=subset(ggdf,pft%in%c(2,3,4)),aes(x=as.numeric(max.dbh)-0.22),stat="identity", position="stack", width=0.22) +
-        geom_bar(data=subset(ggdf,pft%in%c(5,6)),aes(x=as.numeric(max.dbh)+0.11),stat="identity", position="dodge", width=0.44) +
-        scale_fill_manual(name = "KIND", values = cols[c(1,2,3,6,5)], labels=nams[c(1,2,3,6,5)])
+    if(arg.runtype=="bci" | arg.runtype=="bci0"){
+      if (i == "tree_clss"){
+        ggp = ggp +
+          geom_bar(data=subset(ggdf,pft%in%c(2,3,4)),aes(x=as.numeric(max.dbh)-0.2),stat="identity", position="stack", width=0.4) +
+          geom_bar(data=subset(ggdf,pft==17),aes(x=as.numeric(max.dbh)+0.2),stat="identity", position="dodge", width=0.4) +
+          scale_fill_manual(name = "KIND", values = cols[c(4,1,2,3)], labels=nams[c(4,1,2,3)])
+        
+      } else {
+        ggp = ggp +
+          geom_bar(data=subset(ggdf,pft%in%c(5,17)),stat="identity", position="dodge",width=0.75) +
+          scale_fill_manual(name = "KIND", values = cols[c(4,5)], labels=c(nams[4],"50ha plot"))
+      }
+      
     } else {
-      ggp = ggp +
-        geom_bar(data=subset(ggdf,pft%in%c(5,6,17)),stat="identity", position="dodge",width=0.66) +
-        scale_fill_manual(name = "KIND", values = cols[c(4,6,5)], labels=nams[c(4,6,5)])
+      
+      if (i == "tree_clss"){
+        ggp = ggp +
+          geom_bar(data=subset(ggdf,pft%in%c(2,3,4)),aes(x=as.numeric(max.dbh)-0.22),stat="identity", position="stack", width=0.22) +
+          geom_bar(data=subset(ggdf,pft%in%c(5,6)),aes(x=as.numeric(max.dbh)+0.11),stat="identity", position="dodge", width=0.44) +
+          scale_fill_manual(name = "KIND", values = cols[c(1,2,3,6,5)], labels=nams[c(1,2,3,6,5)])
+      } else {
+        ggp = ggp +
+          geom_bar(data=subset(ggdf,pft%in%c(5,6,17)),stat="identity", position="dodge",width=0.66) +
+          scale_fill_manual(name = "KIND", values = cols[c(4,6,5)], labels=nams[c(4,6,5)])
+      }
     }
-      ggp = ggp +
+    ggp = ggp +
       scale_x_discrete(limits=max.dbh,labels = this.dbhnames) +
       xlab(lexlab) +
       ylab(leylab) +
@@ -504,74 +534,81 @@ if(plot.nplant.hystogram){
   }
 }
 
-
-#-------- Here we will do the height graph to track lianas and trees heights ------#
-
-#----------------- Load settings for this variable.--------------------------------#
-thisvar     = tspftdbh[[ntspftdbh]]
-vnam        = thisvar$vnam
-description = thisvar$desc
-unit        = thisvar$e.unit
-plog        = thisvar$plog
-
 #---------------------------------------------------------------------------------#
 #     Check if the n directory exists.  If not, create it.                        #
 #---------------------------------------------------------------------------------#
-outdir = file.path(figdir,vnam)
-if (! dir.exists(outdir)) dir.create(outdir)
+patch_plot_dir = file.path(figdir,"patch_plots")
+if (! dir.exists(patch_plot_dir)) dir.create(patch_plot_dir)
 #---------------------------------------------------------------------------------#
 
-df = patch$maxh
+#-------- Here we will do the height graph to track lianas and trees heights ------#
 npatches = 24
-y.txt = desc.unit(desc = description, unit = unit)
-
-#We need to fill the missing plants heights with NAs
-for(name in names(df)){
-
-  colnames = paste("X",pftuse,sep="")
-
-  for (t in seqle(pftuse)){
-
-    column = colnames[t]
-    if (! column %in% colnames(df[[name]])){
-
-      df[[name]][[column]] = rep(NA,max(as.numeric(lapply(df[[name]], function(x) length(x)))))
+for (n in sequence(npatch_plots)){
+  #----------------- Load settings for this variable.--------------------------------#
+  thisvar     = patch_plots[[n]]
+  vnam        = thisvar$vnam
+  description = thisvar$desc
+  unit        = thisvar$e.unit
+  plog        = thisvar$plog
+  
+  #---------------------------------------------------------------------------------#
+  #     Check if the n directory exists.  If not, create it.                        #
+  #---------------------------------------------------------------------------------#
+  outdir = file.path(patch_plot_dir,vnam)
+  if (! dir.exists(outdir)) dir.create(outdir)
+  #---------------------------------------------------------------------------------#
+  
+  df = patch[[vnam]]
+  y.txt = desc.unit(desc = description, unit = unit)
+  
+  #We need to fill the missing plants heights with NAs
+  for(name in names(df)){
+    
+    colnames = paste("X",pftuse,sep="")
+    
+    for (t in seqle(pftuse)){
+      
+      column = colnames[t]
+      if (! column %in% colnames(df[[name]])){
+        
+        df[[name]][[column]] = rep(NA,max(as.numeric(lapply(df[[name]], function(x) length(x)))))
+      }
     }
+    df[[name]] = df[[name]][,colnames]
   }
-  df[[name]] = df[[name]][,colnames]
-}
-
-for (p in sequence(npatches)){
- mydf = NULL
-  for(t in seqle(pftuse)){
-  tempdf = as.numeric(lapply(df, function(x) unlist(x[t])[p]))
-  # Add the coordinates of the 12 months
-  tempdf = cbind (yfac[[1]] + rep(seq(0,0.99,0.083333333),nyears), tempdf, pftuse[t])
-  mydf = rbind(mydf, tempdf)
-}
-mydf = as.data.frame(mydf)
-  colnames(mydf) = c("Year","height","pft")
-
-ggp = ggplot(mydf,aes(x=Year, y=height, group = pft, colour = factor(pft))) +
-  geom_point(data=subset(mydf, pft != 17)) +
-  geom_line() +
-  scale_color_manual(name = "PFT", values = setNames(mycol[mydf$pft],mydf$pft),
-                                   labels = setNames(mynam[mydf$pft],mydf$pft)) +
-  ylab(y.txt) +
-  theme(legend.position = "bottom",
-        axis.title   = element_text(size = 16),
-        axis.text    = element_text(face = "bold", size = 12, colour = "black"),
-        plot.title   = element_text(lineheight = .8, face="bold"),
-        legend.text  = element_text(size = 14),
-        legend.title = element_text(size = 14, face="bold"),
-        legend.key.size = unit(2, "lines"),
-        legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
-        panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
-  ggtitle("Height of the tallest cohort inside patch")
-  theme(plot.title = element_text(hjust = 0.5))
-
-file.name = paste("h_patch-",p,".pdf",sep="")
-
-ggsave(file.name, plot = ggp, device = "pdf", path = outdir,
-       width = plt.opt$width, height = plt.opt$height)
+  
+  for (p in sequence(npatches)){
+    mydf = NULL
+    for(t in seqle(pftuse)){
+      tempdf = as.numeric(lapply(df, function(x) unlist(x[t])[p]))
+      # Add the coordinates of the 12 months
+      tempdf = cbind (yfac[[1]] + rep(seq(0,0.99,0.083333333),nyears), tempdf, pftuse[t])
+      mydf = rbind(mydf, tempdf)
+    }
+    mydf = as.data.frame(mydf)
+    colnames(mydf) = c("Year","height","pft")
+    
+    ggp = ggplot(mydf,aes(x=Year, y=height, group = pft, colour = factor(pft))) +
+      geom_point(data=subset(mydf, pft != 17)) +
+      geom_line() +
+      scale_color_manual(name = "PFT", values = setNames(mycol[mydf$pft],mydf$pft),
+                         labels = setNames(mynam[mydf$pft],mydf$pft)) +
+      ylab(y.txt) +
+      theme(legend.position = "bottom",
+            axis.title   = element_text(size = 16),
+            axis.text    = element_text(face = "bold", size = 12, colour = "black"),
+            plot.title   = element_text(lineheight = .8, face="bold"),
+            legend.text  = element_text(size = 14),
+            legend.title = element_text(size = 14, face="bold"),
+            legend.key.size = unit(2, "lines"),
+            legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
+            panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
+      ggtitle(description)
+    theme(plot.title = element_text(hjust = 0.5))
+    
+    file.name = paste("patch-",p,".pdf",sep="")
+    
+    ggsave(file.name, plot = ggp, device = "pdf", path = outdir,
+           width = plt.opt$width, height = plt.opt$height)
+  }
 }

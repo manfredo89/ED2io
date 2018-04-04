@@ -185,9 +185,10 @@ tspftdbh[[n]]     = list( vnam     = "acc.growth"
                           , stack    = FALSE
                           , scsout   = TRUE
 )#end list 15
-n                 = n + 1
-tspftdbh[[n]]     = list( vnam     = "height"
-                          , desc     = "Height"
+patch_plots       = list()
+n                 = 1
+patch_plots[[n]]  = list( vnam     = "maxh"
+                          , desc     = "Maximum height"
                           , e.unit   = untab$m
                           , i.unit   = untab$m
                           , plog     = FALSE
@@ -196,13 +197,74 @@ tspftdbh[[n]]     = list( vnam     = "height"
                           , bar.plot = FALSE
                           , stack    = FALSE
                           , scsout   = FALSE
-)#end list 16
+)#end list 1
+n=n+1
+patch_plots[[n]]  = list( vnam     = "agb"
+                          , desc     = "Above Ground Biomass"
+                          , e.unit   = untab$kgcom2
+                          , i.unit   = untab$kgcopl
+                          , plog     = FALSE
+                          , pft      = FALSE
+                          , pftdbh   = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list 2
+n=n+1
+patch_plots[[n]]  = list( vnam     = "bleaf"
+                          , desc     = "Leaf Biomass"
+                          , e.unit   = untab$kgcom2
+                          , i.unit   = untab$kgcopl
+                          , plog     = FALSE
+                          , pft      = FALSE
+                          , pftdbh   = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list 3
+n=n+1
+patch_plots[[n]]  = list( vnam     = "lai"
+                          , desc     = "Leaf Area Index"
+                          , e.unit   = untab$m2lom2
+                          , i.unit   = untab$m2lom2
+                          , plog     = FALSE
+                          , pft      = FALSE
+                          , pftdbh   = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list 4
+n=n+1
+patch_plots[[n]]  = list( vnam     = "gpp"
+                          , desc     = "Gross Primary productivity"
+                          , e.unit   = untab$kgcom2oyr
+                          , i.unit   = untab$kgcom2opl
+                          , plog     = FALSE
+                          , pft      = FALSE
+                          , pftdbh   = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list 5
+n=n+1
+patch_plots[[n]]  = list( vnam     = "nplant"
+                          , desc     = "Plant density"
+                          , e.unit   = untab$plom2
+                          , i.unit   = untab$plom2
+                          , plog     = FALSE
+                          , pft      = FALSE
+                          , pftdbh   = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list 1
 #------------------------------------------------------------------------------------------#
 
 
 #------------------------------------------------------------------------------------------#
 #     Define the number of plots of each kind, and make the lists global.                  #
 #------------------------------------------------------------------------------------------#
-tserdist    <<- TRUE                  # Time series of disturbance rates
-ntspftdbh   <<- length(tspftdbh)
+tserdist     <<- TRUE                  # Time series of disturbance rates
+ntspftdbh    <<- length(tspftdbh)
+npatch_plots <<- length(patch_plots)
 #------------------------------------------------------------------------------------------#

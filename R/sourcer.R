@@ -14,12 +14,14 @@ sourcer = function (source.dir){
   at.first      = c("rconstants.r","globdims.r","unitlist.r")
   at.end        = "pft.coms.r"
   myself        = c("plot.all.manfredo.R", "sourcer.R")
+  others        = "Bci_histogram.R"
   all.scripts   = sort(list.files(path=source.dir,pattern="\\.[Rr]$"))
   back.up       = sort(list.files(path=source.dir,pattern="^[~]"))
   keep          = ! ( all.scripts %in% at.first
                       | all.scripts %in% at.end
                       | all.scripts %in% back.up
                       | all.scripts %in% myself
+                      | all.scripts %in% others
   )#end
   middle        = all.scripts[keep]
   order.scripts = c(at.first,middle,at.end)
