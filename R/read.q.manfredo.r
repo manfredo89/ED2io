@@ -202,6 +202,20 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       biomassconow      = baliveconow + bstorageconow + bseedsconow + bdeadconow
       #---------------------------------------------------------------------------------#
       
+      #------ Find the demographic rates. ----------------------------------------------#
+      if (one.cohort){
+        mortconow    = sum(mymont$MMEAN_MORT_RATE_CO)
+        mortconow    = max(0,mortconow)
+      }else{
+        mortconow    = try(colSums(mymont$MMEAN_MORT_RATE_CO))
+        if ("try-error" %in% is(mortconow)) browser()
+        mortconow    = pmax(0,mortconow)
+      }#end if
+      ncbmortconow    = pmax(0,mymont$MMEAN_MORT_RATE_CO[2,])
+      dimortconow     = pmax(0,mortconow - ncbmortconow)
+      growthconow     = pmax(0,mymont$DLNDBH_DT)
+
+      
       #---------------------------------------------------------------------------------#
       #      Find the fractions that go to each pool.                                   #
       #---------------------------------------------------------------------------------#
@@ -210,7 +224,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       fg.froot = bfrootconow / ( baliveconow + bdeadconow )
       fg.croot = bcrootconow / ( baliveconow + bdeadconow )
       fs.stem  = bstemconow  / ( bcrootconow + bstemconow )
-      fs.croot = bcrootconow / ( bcrootconow + bstemconow )
       #---------------------------------------------------------------------------------#
       
       #----- Allocation and productivity relative to the total living biomass. ---------#
@@ -219,6 +232,8 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       f.bleafconow      =         bleafconow      / pmax(baliveconow,0.01)
       f.bstemconow      =         bstemconow      / pmax(baliveconow,0.01)
       f.brootconow      =         brootconow      / pmax(baliveconow,0.01)
+      f.bseedsconow     =         bseedsconow     / pmax(baliveconow,0.01)
+      f.bstorageconow   =         bstorageconow   / pmax(baliveconow,0.01)
       #---------------------------------------------------------------------------------#
       
       #----- Find the variables that must be rendered extensive. -----------------------#
@@ -262,6 +277,9 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       heightconow         = NA
       baconow             = NA
       agbconow            = NA
+      mortconow           = NA
+      ncbmortconow        = NA
+      dimortconow         = NA
       agb.growthconow     = NA
       laiconow            = NA
       gppconow            = NA
@@ -271,6 +289,13 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       bsapwoodconow       = NA
       brootconow          = NA
       bstemconow          = NA
+      bseedsconow         = NA
+      bstorageconow       = NA
+      f.bstorageconow     = NA
+      f.bleafconow        = NA
+      f.bstemconow        = NA
+      f.brootconow        = NA
+      f.bseedsconow       = NA
     }#end if
     #------------------------------------------------------------------------------------#
    
@@ -298,6 +323,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         sel.pft   = pftconow == p | p == (npft+1)
         sel       = sel.pft & sel.dbh
         if (any(sel)){
+
           #----- Extensive properties. -----------------------------------------------#
           szpft$lai         [m,d,p] = sum( laiconow          [sel]
                                            * areaconow         [sel]
@@ -352,6 +378,28 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                            * bsapwoodconow     [sel]
                                            , na.rm = TRUE
           )#end if
+          szpft$bseeds       [m,d,p] = sum( w.nplant          [sel]
+                                            * bseedsconow       [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          szpft$bstorage     [m,d,p] = sum( w.nplant          [sel]
+                                            * bstorageconow     [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          
+          #---------------------------------------------------------------------------#
+          #      Find the total number of plants and previous population if the only  #
+          # mortality was the mortality we test.                                      #
+          #---------------------------------------------------------------------------#
+          survivor             = sum( w.nplant[sel]                          )
+          previous             = sum( w.nplant[sel] * exp(mortconow   [sel]) )
+          ncb.previous         = sum( w.nplant[sel] * exp(ncbmortconow[sel]) )
+          di.previous          = sum( w.nplant[sel] * exp(dimortconow [sel]) )
+          szpft$mort   [m,d,p] = log( previous     / survivor )
+          szpft$ncbmort[m,d,p] = log( ncb.previous / survivor )
+          szpft$dimort [m,d,p] = log( di.previous  / survivor )
+          #---------------------------------------------------------------------------#
+          
           acc.growth = sum( w.nplant[sel]
                             * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
           )#end sum
@@ -359,19 +407,20 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         }
         #---------------------------------------------------------------------------#
         
-        
-        
         #------------------------------------------------------------------------------#
         # Fractional biomass: use the total variable and divide by the total biomass   #
         #                     so it gives a full community fraction.  Like in the UE   #
         #                     case, force values to be NA if no cohort matches this    #
         #                     class, or if it didn't have much living biomass.         #
         #------------------------------------------------------------------------------#
-        balive.szpft              = szpft$balive[m,d,p]
-        balive.szpft              = ifelse(balive.szpft > 1.e-7,balive.szpft,NA)
-        szpft$f.bleaf     [m,d,p] =        szpft$bleaf     [m,d,p] / balive.szpft
-        szpft$f.bstem     [m,d,p] =        szpft$bstem     [m,d,p] / balive.szpft
-        szpft$f.broot     [m,d,p] =        szpft$broot     [m,d,p] / balive.szpft
+        b.szpft              = szpft$balive[m,d,p] + szpft$bstorage[m,d,p] + 
+                               szpft$bseeds[m,d,p] + szpft$bdead[m,d,p]
+        b.szpft              = ifelse(b.szpft > 1.e-7,b.szpft,NA)
+        szpft$f.bleaf     [m,d,p] =        szpft$bleaf     [m,d,p] / b.szpft
+        szpft$f.bstem     [m,d,p] =        szpft$bstem     [m,d,p] / b.szpft
+        szpft$f.broot     [m,d,p] =        szpft$broot     [m,d,p] / b.szpft
+        szpft$f.bseeds    [m,d,p] =        szpft$bseeds    [m,d,p] / b.szpft
+        szpft$f.bstorage  [m,d,p] =        szpft$bstorage  [m,d,p] / b.szpft
         #------------------------------------------------------------------------------#
         
       }#end for PFT

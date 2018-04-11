@@ -149,6 +149,19 @@ tspftdbh[[n]]     = list( vnam     = "bsapwood"
                           , scsout   = TRUE
 )#end list 12
 n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "bseeds"
+                          , desc     = "Seed biomass"
+                          , e.unit   = untab$kgcom2
+                          , i.unit   = untab$kgcopl
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = TRUE
+                          , scsout   = TRUE
+)#end list
+n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "bstorage"
                           , desc     = "Storage biomass"
                           , e.unit   = untab$kgcom2
@@ -161,17 +174,57 @@ tspftdbh[[n]]     = list( vnam     = "bstorage"
                           , scsout   = TRUE
 )#end list 13
 n                 = n + 1
-tspftdbh[[n]]     = list( vnam     = "nplant"
-                          , desc     = "Plant density"
-                          , e.unit   = untab$plom2
-                          , i.unit   = untab$plom2
-                          , plog     = TRUE
+tspftdbh[[n]]     = list( vnam     = "mort"
+                          , desc     = "Mortality rate"
+                          , e.unit   = untab$pcpopoyr
+                          , i.unit   = untab$pcpopoyr
+                          , plog     = FALSE
                           , pft      = TRUE
                           , pftdbh   = TRUE
-                          , bar.plot = TRUE
-                          , stack    = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "ncbmort"
+                          , desc     = "Mortality rate - Neg. C balance"
+                          , e.unit   = untab$pcpopoyr
+                          , i.unit   = untab$pcpopoyr
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
                           , scsout   = TRUE
-)#end list 14
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "dimort"
+                          , desc     = "Mortality rate - Density independent"
+                          , e.unit   = untab$pcpopoyr
+                          , i.unit   = untab$pcpopoyr
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "recr"
+                          , desc     = "Recruitment rate"
+                          , e.unit   = untab$pcpopoyr
+                          , i.unit   = untab$pcpopoyr
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "acc.growth"
                           , desc     = "Growth rate"
@@ -185,6 +238,20 @@ tspftdbh[[n]]     = list( vnam     = "acc.growth"
                           , stack    = FALSE
                           , scsout   = TRUE
 )#end list 15
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "nplant"
+                          , desc     = "Plant density"
+                          , e.unit   = untab$plom2
+                          , i.unit   = untab$plom2
+                          , plog     = TRUE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , bar.plot = TRUE
+                          , stack    = TRUE
+                          , scsout   = TRUE
+)#end list 14
+
+
 patch_plots       = list()
 n                 = 1
 patch_plots[[n]]  = list( vnam     = "maxh"
@@ -210,18 +277,6 @@ patch_plots[[n]]  = list( vnam     = "agb"
                           , stack    = FALSE
                           , scsout   = FALSE
 )#end list 2
-n=n+1
-patch_plots[[n]]  = list( vnam     = "bleaf"
-                          , desc     = "Leaf Biomass"
-                          , e.unit   = untab$kgcom2
-                          , i.unit   = untab$kgcopl
-                          , plog     = FALSE
-                          , pft      = FALSE
-                          , pftdbh   = FALSE
-                          , bar.plot = FALSE
-                          , stack    = FALSE
-                          , scsout   = FALSE
-)#end list 3
 n=n+1
 patch_plots[[n]]  = list( vnam     = "lai"
                           , desc     = "Leaf Area Index"
@@ -258,6 +313,72 @@ patch_plots[[n]]  = list( vnam     = "nplant"
                           , stack    = FALSE
                           , scsout   = FALSE
 )#end list 1
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "f.bstorage"
+                          , desc     = "Relative storage biomass"
+                          , e.unit   = untab$gcokgcbio
+                          , i.unit   = untab$gcokgcbio
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "f.bleaf"
+                          , desc     = "Relative leaf biomass"
+                          , e.unit   = untab$gcokgcbio
+                          , i.unit   = untab$gcokgcbio
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "f.bstem"
+                          , desc     = "Relative stem biomass"
+                          , e.unit   = untab$gcokgcbio
+                          , i.unit   = untab$gcokgcbio
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "f.broot"
+                          , desc     = "Relative root biomass"
+                          , e.unit   = untab$gcokgcbio
+                          , i.unit   = untab$gcokgcbio
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "f.bseeds"
+                          , desc     = "Relative seed biomass"
+                          , e.unit   = untab$gcokgcbio
+                          , i.unit   = untab$gcokgcbio
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list
+
 #------------------------------------------------------------------------------------------#
 
 

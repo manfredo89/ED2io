@@ -135,14 +135,14 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",s
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
 #for trials so to shorten things up
-yeara = 1500
-yearz = 1600
+#yeara = 1500
+#yearz = 1600
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
 #---------------------------------------------------------------------------------------#
-  cat(" - Yeara:  ",yeara,"\n")
-  cat(" - Yearz:  ",yearz,"\n")
+cat(" - Yeara:  ",yeara,"\n")
+cat(" - Yearz:  ",yearz,"\n")
 if (yeara >= yearz){
   cat(" - Prefix: ",analy.path,"\n")
   cat(" - Invalid years, will not process data...","\n")
@@ -180,8 +180,8 @@ szpft = list()
 dbhds = list()
 runn = 1
 for (csite in file.dir){
-csite="/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/current"
-if (reload.data && file.exists(ed22.rdata[runn])){
+  csite="/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/current"
+  if (reload.data && file.exists(ed22.rdata[runn])){
     #----- Load the modelled dataset. ---------------------------------------------------#
     cat("   - Loading previous session...","\n")
     load(ed22.rdata[runn])
@@ -203,39 +203,39 @@ if (reload.data && file.exists(ed22.rdata[runn])){
     )#end create.monthly
   }#end if
   #---------------------------------------------------------------------------------------#
-
-
+  
+  
   #---------------------------------------------------------------------------------------#
   #     Check whether we have anything to update.                                         #
   #---------------------------------------------------------------------------------------#
   complete = tresume > ntimes
   #---------------------------------------------------------------------------------------#
-
-
+  
+  
   #---------------------------------------------------------------------------------------#
   #     Loop over all times in case there is anything new to be read.                     #
   #---------------------------------------------------------------------------------------#
   if (! complete){
-
+    
     #------------------------------------------------------------------------------------#
     #     This function will read the files.                                             #
     #------------------------------------------------------------------------------------#
     datum = read.q.files(datum=datum,ntimes=ntimes,tresume=tresume,sasmonth=sasmonth)
     #------------------------------------------------------------------------------------#
-
+    
     #------ Save the data to the R object. ----------------------------------------------#
     cat(" + Saving data to ",basename(ed22.rdata[runn]),"...","\n")
     save(datum,file=ed22.rdata[runn])
     #------------------------------------------------------------------------------------#
-
+    
     #----- Update status file with latest data converted into R. ---------------------------#
     latest = paste(datum$year[ntimes],datum$month[ntimes],sep=" ")
     dummy  = write(x=latest,file=ed22.status[runn],append=FALSE)
     #---------------------------------------------------------------------------------------#
-
-    }#end if (! complete)
+    
+  }#end if (! complete)
   #---------------------------------------------------------------------------------------#
-
+  
   #----- Make some shorter versions of some variables. -----------------------------------#
   # I don't think it makes sense to specify multiple patch variables (patch[[runn]])      #
   # since we don't want to compare maxh for different runs                                #
@@ -260,7 +260,7 @@ if (is.comparison){
   allpft_2    = which(apply(X=szpft[[2]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
   allpft      = sort(unique(c(allpft_1,allpft_2)))
 } else {
-allpft      = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
+  allpft      = which(apply(X=szpft[[1]]$nplant,MARGIN=3,FUN=sum,na.rm=TRUE) > 0.)
 }
 
 # Remove total
@@ -282,8 +282,8 @@ for(i in seqle(run.type)){
   for (vname in names(szpft[[i]]))
     szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac[[i]],DIM=1,
                                  FUN=mean,na.rm=TRUE)
-
-
+  
+  
   #---------------------------------------------------------------------------------------#
   #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
   # at any given time.                                                                    #
@@ -307,7 +307,7 @@ pftave  = apply( X      = szpft[[1]]$agb[,ndbh+1,] #ndbh+1 contains the total
 if(nyears >= 2){
   total.outdir = file.path(figdir,"totals")
   if (! dir.exists(total.outdir)) dir.create(total.outdir)
-
+  
   for(n in sequence(ntspftdbh)){
     #----- Load settings for this variable.-------------------------------------------#
     thisvar     = tspftdbh[[n]]
@@ -315,13 +315,13 @@ if(nyears >= 2){
     description = thisvar$desc
     unit        = thisvar$e.unit
     plog        = thisvar$plog
-
+    
     if (! vnam %in% names(szpft[[1]])) next
-
+    
     mycol = pft$colour
     mynam = pft$name
     y.txt = desc.unit(desc = description, unit = unit)
-
+    
     #---------------------------------------------------------------------------------------#
     #     Prepare the variable in the ggplot friendly format:                               #
     #                                                                                       #
@@ -341,7 +341,7 @@ if(nyears >= 2){
       } else {
         dft = szpft[[i]][[vnam]][,ndbh+1,]
       }
-
+      
       empty = (is.na(dft) || dft == 0.0)
       dft = dft[, allpft]
       colnames(dft) = allpft
@@ -353,7 +353,7 @@ if(nyears >= 2){
     # Set the simulation to terminate at year 2000
     df$Year = df$Year + 2000 - (nyears + yeara)
     #---------------------------------------------------------------------------------------#
-
+    
     p = ggplot(df,aes(x=Year,y=value, colour = factor(mpft))) +
       geom_line(aes(group = index, linetype=LETTERS[df$type]), size = .8) +
       scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
@@ -371,14 +371,15 @@ if(nyears >= 2){
             legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
       ggtitle(description) +
-      theme(plot.title = element_text(hjust = 0.5))
-
+      theme(plot.title = element_text(hjust = 0.5)) + 
+      theme_bw()
+    
     if (! is.comparison) p = p + guides(linetype = FALSE)
     file.name = paste(vnam,"-total",".pdf",sep="")
-
+    
     ggsave(file.name, plot = p, device = "pdf", path = total.outdir,
            width = plt.opt$width, height = plt.opt$height)
-
+    
   }
 } else cat("Less than 2 years of output, aborting Total plots!")
 #------------------------------------------------------------------------------------#
@@ -386,60 +387,60 @@ if(nyears >= 2){
 
 
 if(plot.nplant.hystogram){
-
+  
   exp   = list()
   #---------------------------------------------------------------------------------#
   exp[["liana_clss"]] = cbind(exp[["liana_clss"]],dist=c(0,117.1,53.594,28.79,15.454,12.631,9.331,5.552,
-                                         5.357,3.728,2.816,1.188,0.754,0.573,0.5,0.5,0.5))
+                                                         5.357,3.728,2.816,1.188,0.754,0.573,0.5,0.5,0.5))
   exp[["liana_clss"]] = cbind(exp[["liana_clss"]],undist=c(0,52,31.831,20.801,10.735,10.29,5.996,4.11,
-                                           2.701,2.258,1.814,1.369,0.5,0.5,0.5,0.5,0.5))
-
+                                                           2.701,2.258,1.814,1.369,0.5,0.5,0.5,0.5,0.5))
+  
   exp[["tree_clss"]] = cbind(exp[["tree_clss"]],dist=c(0,262.07,140.36,93.11,57.27,39.89,33.92,
-                                        30.12,12.74,4.59,3.51,1.88,0.5,0.5))
+                                                       30.12,12.74,4.59,3.51,1.88,0.5,0.5))
   exp[["tree_clss"]] = cbind(exp[["tree_clss"]],undist=c(0,203.36,102.89,63.24,40.98,25.77,
-                                          22.51,33.92,16,8.39,3.51,2.96,0.5,0.5))
+                                                         22.51,33.92,16,8.39,3.51,2.96,0.5,0.5))
   
   bci = c(0, 78.889, 42.604, 23.09, 10.764, 6.736, 3.368, 1.667, 
           1.007, 0.799, 0.729, 0.312, 0.347, 0.104, 0.069, 0.069, 0.208)
-
+  
   #------ Set up the title and axis labels. ----------------------------------#
   lexlab="DBH Classes [cm]"
   leylab  = desc.unit(desc="Plant density",unit="p*l*a*n*t^phantom(1)*h*a^{-1}")
   #---------------------------------------------------------------------------#
-
+  
   # Set colors and names
   cols=c(mycol[pftuse],"#363939","#838B8B")
   nams=c(mynam[pftuse],"Disturbed plot", "Undisturbed plot")
-
-
+  
+  
   histo.outdir = file.path(figdir,"size_class")
   if (! dir.exists(histo.outdir)) dir.create(histo.outdir)
-
+  
   cat("    + Nplant histograms...","\n")
   for (i in names(dbhds)){
-
+    
     temp = qapply(X=dbhds[[i]], INDEX=yfac[[1]], DIM=1, FUN=mean, na.rm=TRUE)
-
+    
     if (i == "tree_clss"){
       this.classdbh   = c(0,10,15,20,25,30,35,40,50,60,70,80,90,100)
     } else {
       this.classdbh   = c(0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,20)
     }
-
+    
     this.ndbh     = length(this.classdbh)
     this.breakdbh = c(-Inf,this.classdbh[-1],Inf)
     this.dbhnames     = paste( c("<",paste("[",this.classdbh[-c(1,this.ndbh)],"-",sep=""),">")
-                              , c(this.classdbh[2],paste(this.classdbh[-c(1,2)],"]",sep=""),
-                                  this.classdbh[this.ndbh])
-                              , sep="")
-
+                               , c(this.classdbh[2],paste(this.classdbh[-c(1,2)],"]",sep=""),
+                                   this.classdbh[this.ndbh])
+                               , sep="")
+    
     if(length(this.dbhnames) > 10){
       for(j in 3:(length(this.dbhnames) - 1)){
         if(j%%2 == 1 | this.dbhnames[j] == "[90-100]") this.dbhnames[j] = " "
       }
     }
-
-
+    
+    
     #---------------------------------------------------------------------------------#
     #     Retrieve the variable, and keep only the part that is usable.               #
     #---------------------------------------------------------------------------------#
@@ -450,11 +451,11 @@ if(plot.nplant.hystogram){
     # 10000 is the multiplication by ha conversion
     # my.avg is the averaged nplants
     my.avg    = apply(thisvnam[ystart:yend,,], c(2, 3), mean, na.rm = TRUE) * 10000
-
+    
     # Melt the data in the proper format
     max.dbh=as.character(this.classdbh)
     ggdf=as.data.frame(my.avg)
-
+    
     #Add the field data (undisturbed then disturbed)
     if(arg.runtype=="bci" | arg.runtype=="bci0"){
       if(i=="liana_clss"){
@@ -464,25 +465,25 @@ if(plot.nplant.hystogram){
       
     } else {
       
-    ggdf=cbind(ggdf, exp[[i]][,2], exp[[i]][,1])
-    colnames(ggdf)=c(pftuse,5,6)
-    
+      ggdf=cbind(ggdf, exp[[i]][,2], exp[[i]][,1])
+      colnames(ggdf)=c(pftuse,5,6)
+      
     }
-
+    
     # When using lianas PFT 5 and 6 should not be used... (dirty hack)
     ggdf=cbind(ggdf,max.dbh)
-
+    
     ggdf=reshape2::melt(ggdf,id.vars = "max.dbh",variable.name="pft",value.name="nplant")
-
+    
     # Set the first bin to 0 as it is always too large (saplings)
     ggdf[ggdf$max.dbh==0,]$nplant = 0
-
+    
     # This is to have the correct order of levels
     ggdf$max.dbh = factor(ggdf$max.dbh, levels = this.classdbh)
-
+    
     # Start the plot
     ggp = ggplot(ggdf,aes(x=max.dbh,y=nplant,fill=pft))
-
+    
     if(arg.runtype=="bci" | arg.runtype=="bci0"){
       if (i == "tree_clss"){
         ggp = ggp +
@@ -524,13 +525,14 @@ if(plot.nplant.hystogram){
             legend.background = element_rect(color="black", fill="gray90", size=.5, linetype = 1),
             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
       ggtitle("Size distribution") +
-      theme(plot.title = element_text(hjust = 0.5))
-
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme_bw()
+    
     file.name = paste(i,".pdf",sep="")
-
+    
     ggsave(file.name, plot = ggp, device = "pdf", path = histo.outdir,
            width = plt.opt$width, height = plt.opt$height)
-
+    
   }
 }
 
@@ -603,8 +605,9 @@ for (n in sequence(npatch_plots)){
             legend.key.size = unit(2, "lines"),
             legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
-      ggtitle(description)
-    theme(plot.title = element_text(hjust = 0.5))
+      ggtitle(description) +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme_bw()
     
     file.name = paste("patch-",p,".pdf",sep="")
     

@@ -127,13 +127,20 @@ create.monthly <<- function(ntimes,yeara,inpref){
   szpft$bstem             = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$broot             = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$bsapwood          = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$bseeds            = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$bstorage          = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   #----- Initial value should be NA. -----------------------------------------------------#
   szpft$gpp               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$npp               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bleaf           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bstem           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.broot           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$f.bseeds          = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$f.bstorage        = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$acc.growth        = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$mort              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$dimort            = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$ncbmort           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   #---------------------------------------------------------------------------------------#
 
   #---------------------------------------------------------------------------------------#
@@ -204,10 +211,16 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$bstem          [idx,,] = old.datum$szpft$bstem           [sel,,]
   new.datum$szpft$broot          [idx,,] = old.datum$szpft$broot           [sel,,]
   new.datum$szpft$bsapwood       [idx,,] = old.datum$szpft$bsapwood        [sel,,]
+  new.datum$szpft$bstorage       [idx,,] = old.datum$szpft$bstorage        [sel,,]
+  new.datum$szpft$f.bstorage     [idx,,] = old.datum$szpft$f.bstorage      [sel,,]
   new.datum$szpft$f.bleaf        [idx,,] = old.datum$szpft$f.bleaf         [sel,,]
   new.datum$szpft$f.bstem        [idx,,] = old.datum$szpft$f.bstem         [sel,,]
   new.datum$szpft$f.broot        [idx,,] = old.datum$szpft$f.broot         [sel,,]
+  new.datum$szpft$f.bseeds       [idx,,] = old.datum$szpft$f.bseeds        [sel,,]
   new.datum$szpft$acc.growth     [idx,,] = old.datum$szpft$acc.growth      [sel,,]
+  new.datum$szpft$mort           [idx,,] = old.datum$szpft$mort            [sel,,]
+  new.datum$szpft$dimort         [idx,,] = old.datum$szpft$dimort          [sel,,]
+  new.datum$szpft$ncbmort        [idx,,] = old.datum$szpft$ncbmort         [sel,,]
   #---------------------------------------------------------------------------------------#
 
   new.datum$dbhds$liana_clss     [idx,,] = old.datum$dbhds$liana_clss      [sel,,]
