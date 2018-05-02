@@ -132,15 +132,27 @@ create.monthly <<- function(ntimes,yeara,inpref){
   #----- Initial value should be NA. -----------------------------------------------------#
   szpft$gpp               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$npp               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$nppr              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$npps              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$nppl              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$nppx              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$nppw              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bleaf           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bstem           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.broot           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bseeds          = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$f.bstorage        = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$acc.growth        = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$acc.mort          = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$acc.dimort        = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$acc.ncbmort       = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$mort              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$dimort            = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$ncbmort           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$lco               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$leaf.resp         = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$root.resp         = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$stem.resp         = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   #---------------------------------------------------------------------------------------#
 
   #---------------------------------------------------------------------------------------#
@@ -204,6 +216,11 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$ba             [idx,,] = old.datum$szpft$ba              [sel,,]
   new.datum$szpft$gpp            [idx,,] = old.datum$szpft$gpp             [sel,,]
   new.datum$szpft$npp            [idx,,] = old.datum$szpft$npp             [sel,,]
+  new.datum$szpft$nppr           [idx,,] = old.datum$szpft$nppr            [sel,,]
+  new.datum$szpft$npps           [idx,,] = old.datum$szpft$npps            [sel,,]
+  new.datum$szpft$nppl           [idx,,] = old.datum$szpft$nppl            [sel,,]
+  new.datum$szpft$nppx           [idx,,] = old.datum$szpft$nppx            [sel,,]
+  new.datum$szpft$nppw           [idx,,] = old.datum$szpft$nppw            [sel,,]
   new.datum$szpft$nplant         [idx,,] = old.datum$szpft$nplant          [sel,,]
   new.datum$szpft$bdead          [idx,,] = old.datum$szpft$bdead           [sel,,]
   new.datum$szpft$balive         [idx,,] = old.datum$szpft$balive          [sel,,]
@@ -218,9 +235,16 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$f.broot        [idx,,] = old.datum$szpft$f.broot         [sel,,]
   new.datum$szpft$f.bseeds       [idx,,] = old.datum$szpft$f.bseeds        [sel,,]
   new.datum$szpft$acc.growth     [idx,,] = old.datum$szpft$acc.growth      [sel,,]
+  new.datum$szpft$acc.mort       [idx,,] = old.datum$szpft$acc.mort        [sel,,]
+  new.datum$szpft$acc.dimort     [idx,,] = old.datum$szpft$acc.dimort      [sel,,]
+  new.datum$szpft$acc.ncbmort    [idx,,] = old.datum$szpft$acc.ncbmort     [sel,,]
   new.datum$szpft$mort           [idx,,] = old.datum$szpft$mort            [sel,,]
   new.datum$szpft$dimort         [idx,,] = old.datum$szpft$dimort          [sel,,]
   new.datum$szpft$ncbmort        [idx,,] = old.datum$szpft$ncbmort         [sel,,]
+  new.datum$szpft$lco            [idx,,] = old.datum$szpft$lco             [sel,,]
+  new.datum$szpft$leaf.resp      [idx,,] = old.datum$szpft$leaf.resp       [sel,,]
+  new.datum$szpft$root.resp      [idx,,] = old.datum$szpft$root.resp       [sel,,]
+  new.datum$szpft$stem.resp      [idx,,] = old.datum$szpft$stem.resp       [sel,,]
   #---------------------------------------------------------------------------------------#
 
   new.datum$dbhds$liana_clss     [idx,,] = old.datum$dbhds$liana_clss      [sel,,]

@@ -49,7 +49,7 @@ if (length(run.type) > 2 || length(run.type) < 1){
   cat ("Please enter a maximum of two arguments.")
   stop(1)
 }
-# sort data to have it consistentz
+# sort data to have it consistent
 run.type = run.type[order(nchar(run.type), run.type)]
 is.comparison = length(run.type) > 1
 setwd(here)
@@ -57,7 +57,7 @@ setwd(here)
 #------------------------------------------------------------------------------------------#
 #                             Time options                                                 #
 #------------------------------------------------------------------------------------------#
-reload.data    = T                               # Should I reload partially loaded data?
+reload.data    = F                               # Should I reload partially loaded data?
 sasmonth.short = c(2,5,8,11)                        # Months for SAS plots (short runs)
 sasmonth.long  = 5                                  # Months for SAS plots (long runs)
 nyears.long    = 15                                 # Max number of years for short run
@@ -136,7 +136,7 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",s
   yearz = yearz - 1
 #for trials so to shorten things up
 #yeara = 1500
-#yearz = 1600
+yearz = 1550
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -302,9 +302,12 @@ pftave  = apply( X      = szpft[[1]]$agb[,ndbh+1,] #ndbh+1 contains the total
 #---------------------------------------------------------------------------------------#
 
 #---------------------------------------------------------------------------#
-#----------------------- total PFT plots -----------------------------------#
+#----------------------- Time series plots ---------------------------------#
 #---------------------------------------------------------------------------#
 if(nyears >= 2){
+  
+  cat("+ Time series graphs","\n")
+  
   total.outdir = file.path(figdir,"totals")
   if (! dir.exists(total.outdir)) dir.create(total.outdir)
   
@@ -334,7 +337,7 @@ if(nyears >= 2){
     #     compare and index which is a unique combination of the previous 2 (just to order) #
     #                                                                                       #
     #---------------------------------------------------------------------------------------#
-    df = list()
+    df  = list()
     for(i in seqle(run.type)){
       if(only.common.part){
         dft = szpft[[i]][[vnam]][1:nyears,ndbh+1,]
@@ -346,7 +349,8 @@ if(nyears >= 2){
       dft = dft[, allpft]
       colnames(dft) = allpft
       dft = reshape2::melt(dft,varnames = c("Year","mpft"))
-      dft$type = i
+      dft$type = ifelse(i==1,"solid","3")
+      #dft$type = ifelse(i==1,i,5)
       dft$index = interaction(dft$mpft,i)
       df = rbind(df,dft)
     }
@@ -355,38 +359,61 @@ if(nyears >= 2){
     #---------------------------------------------------------------------------------------#
     
     p = ggplot(df,aes(x=Year,y=value, colour = factor(mpft))) +
-      geom_line(aes(group = index, linetype=LETTERS[df$type]), size = .8) +
-      scale_linetype_manual(name= "Run Type", values=lty.stock(seqle(run.type)),labels = run.type) +
+      geom_line(aes(group = index, linetype=df$type), size = 1.4) +
+      scale_linetype_manual(name= "Run Type", values=c("solid","dashed"), labels = run.type) +
       scale_color_manual(name = "PFT",
                          values = setNames(mycol[unique(df$mpft)], unique(df$mpft)),
                          labels = setNames(mynam[unique(df$mpft)], unique(df$mpft))) +
       ylab(y.txt) +
       theme(legend.position = "bottom",
+            legend.box   = "vertical",
             axis.title   = element_text(size = 16),
             axis.text    = element_text(face = "bold", size = 12, colour = "black"),
             plot.title   = element_text(lineheight = .8, face="bold"),
             legend.text  = element_text(size = 14),
             legend.title = element_text(size = 14, face="bold"),
-            legend.key.size = unit(2, "lines"),
+            legend.key.size = unit(0.8, "cm"),
+            panel.background = element_blank(),
             legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
       ggtitle(description) +
-      theme(plot.title = element_text(hjust = 0.5)) + 
-      theme_bw()
+      theme(plot.title = element_text(hjust = 0.5))
     
-    if (! is.comparison) p = p + guides(linetype = FALSE)
+    if (! is.comparison){
+      
+      if(nyears > 100){
+        mean_nyears = 50
+      } else if (nyears > 50){
+        mean_nyears = 20
+      } else {
+        mean_nyears = nyears
+      }
+      dfm = list()
+      dfm = df[df$Year %in% tail(df$Year, n=mean_nyears),]
+      mean_dfm = signif(qapply(X=dfm$value, INDEX=dfm$mpft, DIM=1, FUN=mean, na.rm=TRUE),4)
+        
+      p = p + 
+          guides(linetype = FALSE) +
+        annotate("text", x = 2000, y=1.1*df[df$Year==1999,]$value, label = as.character(mean_dfm),color=mycol[allpft])
+    }
+    
     file.name = paste(vnam,"-total",".pdf",sep="")
     
     ggsave(file.name, plot = p, device = "pdf", path = total.outdir,
            width = plt.opt$width, height = plt.opt$height)
     
   }
-} else cat("Less than 2 years of output, aborting Total plots!")
+} else cat("Less than 2 years of output, aborting Total plots!","\n")
 #------------------------------------------------------------------------------------#
 #------------------------------------------------------------------------------------#
 
 
-if(plot.nplant.hystogram){
+#---------------------------------------------------------------------------#
+#------------------------ Size class plots ---------------------------------#
+#---------------------------------------------------------------------------#
+if(plot.nplant.hystogram & length(run.type) == 1){
+  
+  cat("+ Size class plots","\n")
   
   exp   = list()
   #---------------------------------------------------------------------------------#
@@ -476,7 +503,10 @@ if(plot.nplant.hystogram){
     ggdf=reshape2::melt(ggdf,id.vars = "max.dbh",variable.name="pft",value.name="nplant")
     
     # Set the first bin to 0 as it is always too large (saplings)
-    ggdf[ggdf$max.dbh==0,]$nplant = 0
+    ggdf[ggdf$max.dbh==0,]$nplant = 100
+    
+    y_low_lim = 1
+    ggdf[ggdf$nplant<=y_low_lim,]$nplant = NA
     
     # This is to have the correct order of levels
     ggdf$max.dbh = factor(ggdf$max.dbh, levels = this.classdbh)
@@ -512,6 +542,7 @@ if(plot.nplant.hystogram){
     }
     ggp = ggp +
       scale_x_discrete(limits=max.dbh,labels = this.dbhnames) +
+      scale_y_log10(limits = c(y_low_lim, NA)) +
       xlab(lexlab) +
       ylab(leylab) +
       guides(fill=guide_legend(ncol=2)) +
@@ -521,12 +552,11 @@ if(plot.nplant.hystogram){
             plot.title   = element_text(lineheight = .8, face="bold"),
             legend.text  = element_text(size = 14),
             legend.title = element_text(size = 14, face="bold"),
-            legend.key.size = unit(1.5, "lines"),
+            legend.key.size = unit(0.8, "cm"),
             legend.background = element_rect(color="black", fill="gray90", size=.5, linetype = 1),
             panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
       ggtitle("Size distribution") +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      theme_bw()
+      theme(plot.title = element_text(hjust = 0.5))
     
     file.name = paste(i,".pdf",sep="")
     
@@ -535,83 +565,95 @@ if(plot.nplant.hystogram){
     
   }
 }
+#------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------#
 
-#---------------------------------------------------------------------------------#
-#     Check if the n directory exists.  If not, create it.                        #
-#---------------------------------------------------------------------------------#
-patch_plot_dir = file.path(figdir,"patch_plots")
-if (! dir.exists(patch_plot_dir)) dir.create(patch_plot_dir)
-#---------------------------------------------------------------------------------#
-
-#-------- Here we will do the height graph to track lianas and trees heights ------#
-npatches = 24
-for (n in sequence(npatch_plots)){
-  #----------------- Load settings for this variable.--------------------------------#
-  thisvar     = patch_plots[[n]]
-  vnam        = thisvar$vnam
-  description = thisvar$desc
-  unit        = thisvar$e.unit
-  plog        = thisvar$plog
+#---------------------------------------------------------------------------#
+#-------------------------- Patch plots ------------------------------------#
+#---------------------------------------------------------------------------#
+if(length(run.type) == 1){
+  
+  cat("+ Patch plots","\n")
   
   #---------------------------------------------------------------------------------#
   #     Check if the n directory exists.  If not, create it.                        #
   #---------------------------------------------------------------------------------#
-  outdir = file.path(patch_plot_dir,vnam)
-  if (! dir.exists(outdir)) dir.create(outdir)
+  patch_plot_dir = file.path(figdir,"patch_plots")
+  if (! dir.exists(patch_plot_dir)) dir.create(patch_plot_dir)
   #---------------------------------------------------------------------------------#
   
-  df = patch[[vnam]]
-  y.txt = desc.unit(desc = description, unit = unit)
-  
-  #We need to fill the missing plants heights with NAs
-  for(name in names(df)){
+  #-------- Here we will do the height graph to track lianas and trees heights ------#
+  npatches = 24
+  for (n in sequence(npatch_plots)){
+    #----------------- Load settings for this variable.--------------------------------#
+    thisvar     = patch_plots[[n]]
+    vnam        = thisvar$vnam
+    description = thisvar$desc
+    unit        = thisvar$e.unit
+    plog        = thisvar$plog
     
-    colnames = paste("X",pftuse,sep="")
+    #---------------------------------------------------------------------------------#
+    #     Check if the n directory exists.  If not, create it.                        #
+    #---------------------------------------------------------------------------------#
+    outdir = file.path(patch_plot_dir,vnam)
+    if (! dir.exists(outdir)) dir.create(outdir)
+    #---------------------------------------------------------------------------------#
     
-    for (t in seqle(pftuse)){
+    df = patch[[vnam]]
+    y.txt = desc.unit(desc = description, unit = unit)
+    
+    #We need to fill the missing plants heights with NAs
+    for(name in names(df)){
       
-      column = colnames[t]
-      if (! column %in% colnames(df[[name]])){
+      colnames = paste("X",pftuse,sep="")
+      
+      for (t in seqle(pftuse)){
         
-        df[[name]][[column]] = rep(NA,max(as.numeric(lapply(df[[name]], function(x) length(x)))))
+        column = colnames[t]
+        if (! column %in% colnames(df[[name]])){
+          
+          df[[name]][[column]] = rep(NA,max(as.numeric(lapply(df[[name]], function(x) length(x)))))
+        }
       }
+      df[[name]] = df[[name]][,colnames]
     }
-    df[[name]] = df[[name]][,colnames]
+    
+    for (p in sequence(npatches)){
+      mydf = NULL
+      for(t in seqle(pftuse)){
+        tempdf = as.numeric(lapply(df, function(x) unlist(x[t])[p]))
+        # Add the coordinates of the 12 months
+        tempdf = cbind (yfac[[1]] + rep(seq(0,0.99,0.083333333),nyears), tempdf, pftuse[t])
+        mydf = rbind(mydf, tempdf)
+      }
+      mydf = as.data.frame(mydf)
+      colnames(mydf) = c("Year","height","pft")
+      
+      ggp = ggplot(mydf,aes(x=Year, y=height, group = pft, colour = factor(pft))) +
+        geom_point(data=subset(mydf, pft != 17)) +
+        geom_line() +
+        scale_color_manual(name = "PFT", values = setNames(mycol[mydf$pft],mydf$pft),
+                           labels = setNames(mynam[mydf$pft],mydf$pft)) +
+        ylab(y.txt) +
+        theme(legend.position = "bottom",
+              axis.title   = element_text(size = 16),
+              axis.text    = element_text(face = "bold", size = 12, colour = "black"),
+              plot.title   = element_text(lineheight = .8, face="bold"),
+              legend.text  = element_text(size = 14),
+              legend.title = element_text(size = 14, face="bold"),
+              legend.key.size = unit(0.8, "cm"),
+              legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
+              panel.border = element_rect(color = "black", fill = NA, size=.5)) +
+        ggtitle(description) +
+        theme(plot.title = element_text(hjust = 0.5))
+      
+      file.name = paste("patch-",p,".pdf",sep="")
+      
+      ggsave(file.name, plot = ggp, device = "pdf", path = outdir,
+             width = plt.opt$width, height = plt.opt$height)
+    }
   }
   
-  for (p in sequence(npatches)){
-    mydf = NULL
-    for(t in seqle(pftuse)){
-      tempdf = as.numeric(lapply(df, function(x) unlist(x[t])[p]))
-      # Add the coordinates of the 12 months
-      tempdf = cbind (yfac[[1]] + rep(seq(0,0.99,0.083333333),nyears), tempdf, pftuse[t])
-      mydf = rbind(mydf, tempdf)
-    }
-    mydf = as.data.frame(mydf)
-    colnames(mydf) = c("Year","height","pft")
-    
-    ggp = ggplot(mydf,aes(x=Year, y=height, group = pft, colour = factor(pft))) +
-      geom_point(data=subset(mydf, pft != 17)) +
-      geom_line() +
-      scale_color_manual(name = "PFT", values = setNames(mycol[mydf$pft],mydf$pft),
-                         labels = setNames(mynam[mydf$pft],mydf$pft)) +
-      ylab(y.txt) +
-      theme(legend.position = "bottom",
-            axis.title   = element_text(size = 16),
-            axis.text    = element_text(face = "bold", size = 12, colour = "black"),
-            plot.title   = element_text(lineheight = .8, face="bold"),
-            legend.text  = element_text(size = 14),
-            legend.title = element_text(size = 14, face="bold"),
-            legend.key.size = unit(2, "lines"),
-            legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
-            panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
-      ggtitle(description) +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      theme_bw()
-    
-    file.name = paste("patch-",p,".pdf",sep="")
-    
-    ggsave(file.name, plot = ggp, device = "pdf", path = outdir,
-           width = plt.opt$width, height = plt.opt$height)
-  }
 }
+#------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------#

@@ -171,8 +171,18 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       laiconow          = mymont$MMEAN_LAI_CO
       gppconow          = mymont$MMEAN_GPP_CO
       nppconow          = mymont$MMEAN_NPP_CO
+      npprconow         = mymont$MMEAN_NPPFROOT_CO + mymont$MMEAN_NPPCROOT_CO
+      nppsconow         = mymont$MMEAN_NPPSAPWOOD_CO
+      npplconow         = mymont$MMEAN_NPPLEAF_CO
+      nppwconow         = mymont$MMEAN_NPPWOOD_CO
+      nppxconow         = mymont$MMEAN_NPPSEEDS_CO
       agb.growthconow   = pmax(0,mymont$DLNAGB_DT)
+      lcostconow        = mymont$MMEAN_LEAF_MAINTENANCE_CO * yr.day
       
+      #------ Find the AGB of the previous month. --------------------------------------#
+      agbcolmon        = agbconow * exp(-agb.growthconow/12.)
+      #---------------------------------------------------------------------------------#
+
       #------------------------------------------------------------------------------------#
       #     The following two variables are used to scale "intensive" properties           #
       # (whatever/plant) to "extensive" (whatever/m2).  Sometimes they may be used to      #
@@ -219,12 +229,43 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       #---------------------------------------------------------------------------------#
       #      Find the fractions that go to each pool.                                   #
       #---------------------------------------------------------------------------------#
-      fg.leaf  = bleafconow  / ( baliveconow + bdeadconow )
-      fg.stem  = bstemconow  / ( baliveconow + bdeadconow )
-      fg.froot = bfrootconow / ( baliveconow + bdeadconow )
-      fg.croot = bcrootconow / ( baliveconow + bdeadconow )
-      fs.stem  = bstemconow  / ( bcrootconow + bstemconow )
+      fg.leaf    = bleafconow  / ( baliveconow + bdeadconow )
+      fg.stem    = bstemconow  / ( baliveconow + bdeadconow )
+      fg.froot   = bfrootconow / ( baliveconow + bdeadconow )
+      fg.croot   = bcrootconow / ( baliveconow + bdeadconow )
+      fs.stem    = bstemconow  / ( bcrootconow + bstemconow )
+      fs.croot   = bcrootconow / ( bcrootconow + bstemconow )
+      
+      
       #---------------------------------------------------------------------------------#
+      #      Attribute respiration to the different pools.  Assuming that non-          #
+      # structural carbon respiration 
+      #---------------------------------------------------------------------------------#
+      #----- Mean monthly cycle. ----------------------------------------------------#
+      leaf.respconow  = ( mymont$MMEAN_LEAF_RESP_CO
+                          + mymont$MMEAN_LEAF_GROWTH_RESP_CO
+                          + mymont$MMEAN_LEAF_STORAGE_RESP_CO
+      )#end leaf.respconow
+      stem.respconow  = ( mymont$MMEAN_SAPA_GROWTH_RESP_CO
+                          + mymont$MMEAN_SAPA_STORAGE_RESP_CO
+      )#end leaf.respconow
+      froot.respconow = ( mymont$MMEAN_ROOT_RESP_CO
+                          + mymont$MMEAN_ROOT_GROWTH_RESP_CO
+                          + mymont$MMEAN_ROOT_STORAGE_RESP_CO
+      )#end leaf.respconow
+      croot.respconow = ( mymont$MMEAN_SAPB_GROWTH_RESP_CO
+                          + mymont$MMEAN_SAPB_STORAGE_RESP_CO
+      )#end leaf.respconow
+      root.respconow  = froot.respconow + croot.respconow
+      #---------------------------------------------------------------------------------#
+      
+      
+      
+      
+      ###################################################################################      
+      ################ Here I have finished reading the H5 file #########################
+      ###################################################################################
+      
       
       #----- Allocation and productivity relative to the total living biomass. ---------#
       f.gppconow        =  100. * gppconow        / pmax(baliveconow,0.01)
@@ -283,6 +324,16 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       agb.growthconow     = NA
       laiconow            = NA
       gppconow            = NA
+      leaf.respconow      = NA
+      stem.respconow      = NA
+      root.respconow      = NA
+      nppconow            = NA
+      npprconow           = NA
+      nppsconow           = NA
+      npplconow           = NA
+      nppxconow           = NA
+      nppwconow           = NA
+      lcostconow          = NA
       baliveconow         = NA
       bdeadconow          = NA
       bleafconow          = NA
@@ -313,7 +364,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       }else{
         sel.dbh       = dbhfac      == d | d == (ndbh+1)
         #----- Define the minimum DBH. ------------------------------------------------#
-        dbhminconow   = pft$dbh.min[pftconow] * (d == 1) + census.dbh.min * (d != 1)
+        dbhminconow   = pft$dbh.min[pftconow]
         #------------------------------------------------------------------------------#
       }#end if
       #---------------------------------------------------------------------------------#
@@ -350,10 +401,46 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                            * gppconow          [sel]
                                            , na.rm = TRUE
           )#end if
+          szpft$leaf.resp    [m,d,p] = sum( w.nplant          [sel]
+                                            * leaf.respconow    [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          szpft$stem.resp    [m,d,p] = sum( w.nplant          [sel]
+                                            * stem.respconow    [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          szpft$root.resp    [m,d,p] = sum( w.nplant          [sel]
+                                            * root.respconow    [sel]
+                                            , na.rm = TRUE
+          )#end sum
           szpft$npp         [m,d,p] = sum( w.nplant          [sel]
                                            * nppconow          [sel]
                                            , na.rm = TRUE
           )#end if
+          szpft$nppr        [m,d,p] = sum( w.nplant          [sel]
+                                           * npprconow         [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$npps        [m,d,p] = sum( w.nplant          [sel]
+                                           * nppsconow        [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$nppl        [m,d,p] = sum( w.nplant          [sel]
+                                           * npplconow        [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$nppx        [m,d,p] = sum( w.nplant          [sel]
+                                           * nppxconow         [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$nppw        [m,d,p] = sum( w.nplant          [sel]
+                                           * nppwconow         [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$lco          [m,d,p] = sum( w.nplant          [sel]
+                                            * lcostconow        [sel]
+                                            , na.rm = TRUE
+          )#end sum
           szpft$bdead       [m,d,p] = sum( w.nplant          [sel]
                                            * bdeadconow        [sel]
                                            , na.rm = TRUE
@@ -387,23 +474,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                             , na.rm = TRUE
           )#end sum
           
-          #---------------------------------------------------------------------------#
-          #      Find the total number of plants and previous population if the only  #
-          # mortality was the mortality we test.                                      #
-          #---------------------------------------------------------------------------#
-          survivor             = sum( w.nplant[sel]                          )
-          previous             = sum( w.nplant[sel] * exp(mortconow   [sel]) )
-          ncb.previous         = sum( w.nplant[sel] * exp(ncbmortconow[sel]) )
-          di.previous          = sum( w.nplant[sel] * exp(dimortconow [sel]) )
-          szpft$mort   [m,d,p] = log( previous     / survivor )
-          szpft$ncbmort[m,d,p] = log( ncb.previous / survivor )
-          szpft$dimort [m,d,p] = log( di.previous  / survivor )
-          #---------------------------------------------------------------------------#
-          
-          acc.growth = sum( w.nplant[sel]
-                            * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
-          )#end sum
-          szpft$acc.growth [m,d,p] = acc.growth
         }
         #---------------------------------------------------------------------------#
         
@@ -422,7 +492,52 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         szpft$f.bseeds    [m,d,p] =        szpft$bseeds    [m,d,p] / b.szpft
         szpft$f.bstorage  [m,d,p] =        szpft$bstorage  [m,d,p] / b.szpft
         #------------------------------------------------------------------------------#
+
         
+        #------------------------------------------------------------------------------#
+        #    For mortality and growth, we keep deleting the tiny guys because they     #
+        # skew the rates quite significantly.                                          #
+        #------------------------------------------------------------------------------#
+        sel = sel.pft & sel.dbh & dbhconow >= dbhminconow
+        if (any(sel)){
+          
+          #---------------------------------------------------------------------------#
+          #      Find the total number of plants and previous population if the only  #
+          # mortality was the mortality we test.                                      #
+          #---------------------------------------------------------------------------#
+          survivor             = sum( w.nplant[sel]                          )
+          previous             = sum( w.nplant[sel] * exp(mortconow   [sel]) )
+          ncb.previous         = sum( w.nplant[sel] * exp(ncbmortconow[sel]) )
+          di.previous          = sum( w.nplant[sel] * exp(dimortconow [sel]) )
+          szpft$mort   [m,d,p] = log( previous     / survivor )
+          szpft$ncbmort[m,d,p] = log( ncb.previous / survivor )
+          szpft$dimort [m,d,p] = log( di.previous  / survivor )
+          #---------------------------------------------------------------------------#
+          
+          acc.growth = sum( w.nplant[sel]
+                            * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
+          )#end sum
+          szpft$acc.growth [m,d,p] = acc.growth
+          
+          
+          #---------------------------------------------------------------------------#
+          #      Find the total AGB and previous AGB if the only mortality was the    #
+          # mortality we test.                                                        #
+          #---------------------------------------------------------------------------#
+          survivor                 = sum( w.nplant[sel] * agbcolmon[sel])
+          previous                 = sum( w.nplant[sel] * agbcolmon[sel]
+                                          * exp(mortconow            [sel] / 12.) )
+          ncb.previous             = sum( w.nplant[sel] * agbcolmon[sel]
+                                          * exp(ncbmortconow         [sel] / 12. ) )
+          di.previous              = sum( w.nplant[sel] * agbcolmon[sel]
+                                          * exp(dimortconow          [sel] / 12. ) )
+          szpft$acc.mort   [m,d,p] = 12. * (previous     - survivor)
+          szpft$acc.ncbmort[m,d,p] = 12. * (ncb.previous - survivor)
+          szpft$acc.dimort [m,d,p] = 12. * (di.previous  - survivor)
+          #---------------------------------------------------------------------------#
+          
+          
+        }
       }#end for PFT
       #---------------------------------------------------------------------------------#
     }#end for DBH

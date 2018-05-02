@@ -37,158 +37,6 @@
 #'
 if (! "npft" %in% ls()) npft = 17
 
-#------------------------------------------------------------------------------------------#
-#     Bounds for internal carbon and water stomatal conductance.                           #
-#------------------------------------------------------------------------------------------#
-c34smin.lint.co2 <<- 10.   * umol.2.mol # Minimum carbon dioxide concentration  [  mol/mol]
-c34smax.lint.co2 <<- 1200. * umol.2.mol # Maximum carbon dioxide concentration  [  mol/mol]
-c34smax.gsw      <<- 1.e+2              # Max. stomatal conductance (water)     [ mol/m2/s]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     Many parameters in the model are temperature-dependent and utilise a modified        #
-# Arrhenius function to determine this dependence.  For that to work, reference values at  #
-# a given temperature (tarrh, in Kelvin).                                                  #
-#------------------------------------------------------------------------------------------#
-tarrh        <<- 15.0+t00
-tarrhi       <<- 1./tarrh
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     This is an alternative way to express the temperature dependence, which is used by   #
-# C91.  (tcollatz, in Kelvin).  fcollatz is the factor that multiply the temperature       #
-# departure from reference.                                                                #
-#------------------------------------------------------------------------------------------#
-tcollatz        <<- 25.0+t00
-fcollatz        <<- 0.1
-#------------------------------------------------------------------------------------------#
-
-
-#------------------------------------------------------------------------------------------#
-#     The next two variables are the parameters for the compensation point as in IBIS.     #
-#------------------------------------------------------------------------------------------#
-compp.ref.ibis  <<-  o2.ref / (2 * 4500.) # Gamma* reference                     [ mol/mol]
-compp.hor.ibis  <<- 5000.                 # Gamma* "Activation energy"           [       K]
-#------------------------------------------------------------------------------------------#
-
-
-#------------------------------------------------------------------------------------------#
-#     The next two variables are the parameters for the compensation point.  Notice that   #
-# we give the compensation point rather than tau.                                          #
-#------------------------------------------------------------------------------------------#
-compp.ref.coll  <<-  o2.ref * 0.57 / (2 * 2600.) # Ref. value at 15C (not 25C)   [ mol/mol]
-compp.base.coll <<-  1/0.57                      # Comp. point base parameter    [    ----]
-#------------------------------------------------------------------------------------------#
-
-
-#------------------------------------------------------------------------------------------#
-#     The next three variables are the parameters for the compensation point using         #
-# Bernacchi data.  Their equation is the Arrhenius formula, just expressed in a different  #
-# way, so here we give the converted values.  They have 2 papers, in which the results are #
-# quite different, so I will add both here.                                                #
-#------------------------------------------------------------------------------------------#
-compp.ref.b01 <<-  25.28064 * umol.2.mol # Reference compensation point at 25 C  [ mol/mol]
-compp.hor.b01 <<-  4549.877              # Compensation point "c" parameter      [    ----]
-compp.ref.b02 <<-  26.59113 * umol.2.mol # Reference compensation point at 25 C  [ mol/mol]
-compp.hor.b02 <<-  2941.845              # Compensation point "c" parameter      [    ----]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#      The following terms are used to find the Michaelis-Menten coefficient for CO2.      #
-#------------------------------------------------------------------------------------------#
-kco2.ref.ibis  <<- 150. * umol.2.mol # Reference CO2 concentration               [ mol/mol]
-kco2.hor.ibis  <<- 6000.             # Reference exponential coefficient         [       K]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     The next two variables are the parameters for the Michaelis-Menten coefficients when #
-# using Collatz equation.  Collatz equation uses partial pressure, so we must convert them #
-# to mixing ratio.  Also, we use the reference at 15 C rather than 25 C, so Vm is the      #
-# same.                                                                                    #
-#------------------------------------------------------------------------------------------#
-kco2.ref.coll  <<-  30. * mmco2 * mmdryi / prefsea / 2.1 # Ref. CO2 conc.        [ mol/mol]
-kco2.base.coll <<-  2.1                                  # Power base            [    ----]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     The next two variables are the parameters for the Michaelis-Menten coefficients when #
-# using Bernacchi equations.                                                               #
-#------------------------------------------------------------------------------------------#
-kco2.ref.b01  <<-  133.38 * umol.2.mol            # Reference CO2 concentration  [ mol/mol]
-kco2.hor.b01  <<-  9553.179                       # "Activation energy           [       K]
-kco2.ref.b02  <<-  87.828 * umol.2.mol            # Reference CO2 concentration  [ mol/mol]
-kco2.hor.b02  <<-  9740.803                       # "Activation energy           [       K]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     These terms are used to find the Michaelis-Menten coefficient for O2.                #
-#------------------------------------------------------------------------------------------#
-ko2.ref.ibis  <<- 0.250     # Reference O2 concentration.                        [ mol/mol]
-ko2.hor.ibis  <<-  1400.    # Reference exponential coefficient                  [       K]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     These terms are used to find the Michaelis-Menten coefficient for O2.  Notice that   #
-# the reference must be given at 15 C, not 25 C as usual.                                  #
-#------------------------------------------------------------------------------------------#
-ko2.ref.coll   <<- 3.e4 * mmo2 * mmdryi / prefsea / 1.2 # Ref. O2 concentration.  [ mol/mol]
-ko2.base.coll  <<-  1.2                                 # Power base              [    ----]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     These terms are used to find the Michaelis-Menten coefficient for O2 using the       #
-# Bernacchi et al. (2002) method.                                                          #
-#------------------------------------------------------------------------------------------#
-ko2.ref.b01  <<-  0.1665438                       # Reference O2 concentration   [ mol/mol]
-ko2.hor.b01  <<-  4376.483                        # "Activation energy           [       K]
-ko2.ref.b02  <<-  0.1190386                       # Reference O2 concentration   [ mol/mol]
-ko2.hor.b02  <<-  2852.844                        # "Activation energy           [       K]
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     These are constants obtained in Leuning et al. (1995) and Collatz et al. (1991) to   #
-# convert different conductivities.                                                        #
-#------------------------------------------------------------------------------------------#
-gbh.2.gbw  <<- 1.075               # heat   to water  - leaf boundary layer
-gsc.2.gsw  <<- 1.60                # carbon to water  - stomata
-gbc.2.gbw  <<- gsc.2.gsw^twothirds # carbon to water  - leaf boundary layer
-gsw.2.gsc  <<- 1.0 / gsc.2.gsw     # water  to carbon - stomata
-gbw.2.gbc  <<- 1.0 / gbc.2.gbw     # water  to carbon - leaf boundary layer
-gsc.2.gsw  <<- 1.0 / gsw.2.gsc     # carbon to water  - stomata
-#------------------------------------------------------------------------------------------#
-
-
-
-#------------------------------------------------------------------------------------------#
-#     This is the minimum threshold for the photosynthetically active radiation, in        #
-# umol/m2/s to consider non-night time conditions (day time or twilight).                  #
-#------------------------------------------------------------------------------------------#
-par.twilight.min <<- 0.5 * Watts.2.Ein # Minimum non-nocturnal PAR.              [mol/m2/s]
-#------------------------------------------------------------------------------------------#
-
-#----- This is a flag for the maximum representable number in R. --------------------------#
-discard <<- 2^1023
-#------------------------------------------------------------------------------------------#
-
-
 
 #----- Fudging parameters to try to tune photosynthesis. ----------------------------------#
 if (! "alpha.c3" %in% ls()){
@@ -409,11 +257,9 @@ C2B    <<- 2.0
 if ("iallom" %in% ls()){
    iallom <<- iallom
 }else{
-   iallom <<- 2
+   iallom <<- 3
 }#end if
 #------------------------------------------------------------------------------------------#
-
-
 
 
 #------------------------------------------------------------------------------------------#
@@ -1216,7 +1062,7 @@ pft17 = list( name               = "Lianas"
             , root.turnover.rate = 1.27
             , SLA                = NA
             , hgt.ref            = hgt.ref.trop
-            , b1Ht               = 0.06422235
+            , b1Ht               = 0.1136442
             , b2Ht               = 0.8675
             , b1Bl.small         = NA
             , b2Bl.small         = NA
@@ -1238,7 +1084,7 @@ pft17 = list( name               = "Lianas"
             , hgt.min            = 0.5
             , hgt.max            = 35.0
             , qroot              = 1.0
-            , qsw                = 16.02 / 3900.
+            , qsw                = 17.88 / 3900.
             , agf.bs             = 0.7
             , orient.factor      = orient.aa
             , clumping.factor    = clumping.aa
@@ -1294,7 +1140,7 @@ for (ipft in sequence(npft)){
 }#end for
 
 pft$dbh.crit[17]  = 26
-pft$dbh.adult[17] = 4.48
+pft$dbh.adult[17] = 1.81
 
 
 #------------------------------------------------------------------------------------------#
@@ -1315,7 +1161,7 @@ for (ipft in sequence(npft)){
 #----- Constants shared by both bdead and bleaf -------------------------------------------#
 a1    =  -1.981
 b1    =   1.047
-dcrit = 100.0
+dcrit =   100.0
 #----- Constants used by bdead only -------------------------------------------------------#
 c1d   =   0.572
 d1d   =   0.931
@@ -1443,7 +1289,7 @@ for (ipft in sequence(npft)){
    }else{
       pft$bleaf.adult[ipft] = ( pft$b1Bl.large[ipft] / C2B
                               * pft$dbh.adult [ipft] ^ pft$b2Bl.large[ipft] )
-   }#end if (pft$tropical[ipft]
+   }#end if (pft$tropical[ipft])
    #---------------------------------------------------------------------------------------#
 }#end for (ipft in sequence(npft))
 #------------------------------------------------------------------------------------------#
@@ -1486,7 +1332,8 @@ if (iallom %in% c(0)){
 pft$bleaf.min = c(dbh2bl(dbh=pft$dbh.min[1:npft],ipft=1:npft),NA)
 pft$lai.min   = onesixth * pft$init.dens * pft$bleaf.min * pft$SLA
 #------------------------------------------------------------------------------------------#
-
+pft$dbh.min[c(2,3,4)]=10.0
+pft$dbh.min[17]=2.0
 
 #----- Make it global. --------------------------------------------------------------------#
 pft <<- pft
