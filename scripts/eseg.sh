@@ -1,7 +1,6 @@
 #
 #PBS -N $mykey
-#PBS -q default
-#PBS -l walltime=30:00:00
+#PBS -l walltime=48:00:00
 #PBS -l nodes=1:ppn=24
 #PBS -m ae
 #
@@ -10,7 +9,7 @@
 ulimit -s unlimited
 
 #module load ED2/20170201-intel-2017a
-module load HDF5/1.10.1-intel-2017a
+module load HDF5
 
 site=paracou
 ORIGDIR=$PBS_O_WORKDIR
@@ -61,7 +60,7 @@ copy_data() {
     rsync --remove-source-files -avum $analy/* $DESTFOLDER/analy/
     rsync -avum $histo/* $DESTFOLDER/histo/
 
-    cp -a *.txt $DESTFOLDER/reports/
+    cp -a *.txt *.dat $DESTFOLDER/reports/
 
     plot_data
 }
@@ -95,7 +94,7 @@ update_ED2IN(){
         echo $lastmonth
         echo $lastyear
 
-        #eidt ED2IN history starting point
+        #edit ED2IN history starting point
         sed -i -e "s/IYEARH   =.*/IYEARH   = ${lastyear}   ! Year/" ED2IN
         sed -i -e "s/IMONTHH  =.*/IMONTHH  = ${lastmonth}     ! Month/" ED2IN
         sed -i -e "s/IDATEH   =.*/IDATEH   = ${lastday}     ! Day/" ED2IN
@@ -109,7 +108,7 @@ update_ED2IN(){
 #copy stuff to work directory (to upgrade copying only strictly needed stuff)
 cp -pRL $VSCDIR/ED2_data/{FAO,OGE2,Paracou,thermal_sums,csspss} $WORKDIR/
 #cp /apps/gent/CO7/sandybridge/software/ED2/20170201-intel-2017a/bin/ed_2.1-opt $WORKDIR/
-cp -fpRL $ORIGDIR/$mykey/{ED2IN,ed_2.1-opt_golett,${site}.xml} $WORKDIR/
+cp -fpRL $ORIGDIR/$mykey/{ED2IN,ed_2.1-opt_golett,*.xml} $WORKDIR/
 
 mkdir -p analy
 mkdir -p histo
@@ -136,7 +135,7 @@ else "No history file found in $ORIGDIR/$mykey/histo "
 fi
 
 # I don't like the report to be appended, delete the old ones.
-rm $ORIGDIR/${mykey}/${mykey}.{err,out}
+rm $ORIGDIR/${mykey}/reports/${mykey}.{err,out}
 
 # start sleep_and_copy function in the background (done with '&'), remember process ID
 sleep_and_copy &
@@ -145,7 +144,7 @@ SLEEP_PID=$!
 update_ED2IN
 
 #sleep 600
-./ed_2.1-opt_golett
+./ed_2.1-opt_golett > ed_output.dat
 
 # kill sleep_and_copy if main program is done
 kill -9 $SLEEP_PID

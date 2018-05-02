@@ -19,8 +19,8 @@ while getopts ":n" opt; do
   esac
 done
 
-which_cluster=$(module list | grep cluster | sed 's/.*cluster\///' | cut -c1-6)
-if [[ $which_cluster != "raichu" && $which_cluster != "delcat" && $which_cluster != "golett" ]]; then
+w_c=$(module list | grep cluster | sed 's/.*cluster\///' | cut -c1-6)
+if [[ $w_c != "raichu" && $w_c != "delcat" && $w_c != "golett" && $w_c != ".victi" ]]; then
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
    echo "!!!!!!!!!!!!!!!!     ERROR     !!!!!!!!!!!!!!!!!!!!!"
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -33,7 +33,7 @@ if [[ $which_cluster != "raichu" && $which_cluster != "delcat" && $which_cluster
    
    exit 1
 
-elif [[ $which_cluster == "delcat" ]]; then
+elif [[ $w_c == "delcat" ]]; then
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
    echo "!!!!!!!!!!!!!!!!    WARNING    !!!!!!!!!!!!!!!!!!!!!"
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -46,7 +46,7 @@ if [[ $response =~ ^(no|n)$ ]]; then
 fi
 fi
 
-unset which_cluster
+unset w_c
 
 # This is the list of simulations that you want
 # to restart
@@ -93,7 +93,7 @@ if [[ ${mysim[@]:+${mysim[@]}} ]]; then
    for i in ${mysim[@]}; do
    if [[ $LAUNCH == "launch" ]]; then
       echo -e "\nRestarting $i simulation"
-      qsub -e $i/reports/$i.err -o $i/reports/$i.out -N $i -v mykey=$i eseg.sh       
+      qsub -e $i/reports/$i.err -o $i/reports/$i.out -N $i -v mykey=$i eseg_local.sh       
    fi
    done
    qstat -n

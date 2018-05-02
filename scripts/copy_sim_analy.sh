@@ -42,20 +42,22 @@ do
   echo -e "I am about to ssh to $simtype on worker node\n"
   if [ "$DRY" = false ]; then
 
-   MNAM=$(qselect -N $simtype | cut -c1-18)
+   MNAM=$(qselect -s R -N $simtype | cut -c1-18 | head -1)
    MYNODE=$(qstat -n | grep -A1 "$MNAM" | grep "node")
-   MYCL=$(qselect -N $simtype | cut -f3,4,5 -d'.')
+   MYCL=$(qselect -s R -N $simtype | cut -f3,4,5 -d'.' | head -1)
    echo -e "node    ---> $MYNODE\n"
    echo -e "cluster ---> $MYCL  \n"
     if [ "$HISTORY" = true ]; then
 
-      ssh ${MYNODE}.${MYCL} "rsync --remove-source-files -avum /local/$(qselect -N $simtype)/analy/* $VSC_SCRATCH_VO/manfredo/$simtype/analy/;"\
-     "rsync -avum /local/$(qselect -N $simtype)/histo/* $VSC_SCRATCH_VO/manfredo/$simtype/histo/;"\
-     "rsync -avum /local/$(qselect -N $simtype)/allom_param.txt $VSC_SCRATCH_VO/manfredo/$simtype/"
+      ssh ${MYNODE}.${MYCL} "rsync --remove-source-files -avum /local/$(qselect -s R -N $simtype | head -1)/analy/* $VSC_SCRATCH_VO/manfredo/$simtype/analy/;"\
+     "rsync -avum /local/$(qselect -s R -N $simtype | head -1)/histo/* $VSC_SCRATCH_VO/manfredo/$simtype/histo/;"\
+     "rsync -avum /local/$(qselect -s R -N $simtype | head -1)/allom_param.txt $VSC_SCRATCH_VO/manfredo/$simtype/;"\
+     "rsync -avum /local/$(qselect -s R -N $simtype | head -1)/ed_output.dat $VSC_SCRATCH_VO/manfredo/$simtype/reports/"
     else
       "echo "$(ls -l $analy/*)" >> analy.txt;"\
       "cp analy.txt $VSC_SCRATCH_VO/manfredo/$simtype/reports/;"\
-      ssh ${MYNODE}.${MYCL} "rsync --remove-source-files -avum /local/$(qselect -N $simtype)/analy/* $VSC_SCRATCH_VO/manfredo/$simtype/analy/;"
+      "cp ed_output.dat $VSC_SCRATCH_VO/manfredo/$simtype/reports/;"\
+      ssh ${MYNODE}.${MYCL} "rsync --remove-source-files -avum /local/$(qselect -s R -N $simtype | head -1)/analy/* $VSC_SCRATCH_VO/manfredo/$simtype/analy/;"
     fi
   else
     echo "Trying to sync $simtype"

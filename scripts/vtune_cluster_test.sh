@@ -1,7 +1,7 @@
 #
 #PBS -N Vtune_test
 #PBS -q default
-#PBS -l walltime=00:10:00
+#PBS -l walltime=02:00:00
 #PBS -l nodes=1:ppn=24
 #PBS -e Vtune_cleaned/reports/report.err
 #PBS -o Vtune_cleaned/reports/report.out
@@ -11,8 +11,8 @@ set -x
 
 ulimit -s unlimited
 
-module load HDF5/1.8.17-intel-2016b
-module load VTune
+ml VTune
+ml HDF5
 
 ORIGDIR=$PBS_O_WORKDIR
 VSCDIR=$VSC_SCRATCH
@@ -28,24 +28,28 @@ cd $WORKDIR
 
 copy_data() {
 
-    cp -a $WORKDIR/$analy/* $DESTFOLDER/analy/
-    cp -a $WORKDIR/$histo/* $DESTFOLDER/histo/
-    cp -a *.txt $DESTFOLDER/reports/
-    cp -a r*ah $DESTFOLDER/
+    #cp -a $WORKDIR/analy/* $DESTFOLDER/analy/
+    #cp -a $WORKDIR/histo/* $DESTFOLDER/histo/
+    #cp -a *.txt $DESTFOLDER/reports/
+    cp -a r* $DESTFOLDER/
 }
 
 mkdir -p analy
 mkdir -p histo
 
-cp -pfRL $VSCDIR/ED2_data/{FAO,OGE2,Paracou,thermal_sums,csspss} .
-cp -pfRL $DESTFOLDER/{ED2IN,ed_2.1-opt_golettF} .
-cp $ORIGDIR/cleaned/histo/paracou-S-2300-01-01-000000-g01.h5 ./histo/
+cp -pfRL $DESTFOLDER/{ED2IN*,ed_2.1-opt_golett} .
+cp $ORIGDIR/Vtune_cleaned/histo/* histo/
 
-amplxe-cl -collect advanced-hotspots -knob event-mode=os -knob analyze-openmp=true ./ed_2.1-opt_golettF
+for version in ED2IN*; do
+    mkdir -p r_$version
+    echo '#!/bin/bash' > exec.sh
+    echo "./ed_2.1-opt_golett -f $version" >> exec.sh
+    chmod +x exec.sh
+    amplxe-cl -collect advanced-hotspots -result-dir r_$version -knob event-mode=os -knob analyze-openmp=true ./exec.sh
+done
 
 # copy back final output
 copy_data
 
-#sleep 600
 # cleanup
 rm -Rf $WORKDIR

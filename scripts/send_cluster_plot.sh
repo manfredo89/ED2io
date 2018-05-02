@@ -11,6 +11,7 @@ fi
 
 for simtype in ${DIRS[@]}
 do
+    echo "Copying $simtype"
     ./copy_sim_analy.sh $simtype
 done
 
@@ -26,6 +27,6 @@ do
 
 done
 
-qstat
+qstat -n
 
 exit 0
