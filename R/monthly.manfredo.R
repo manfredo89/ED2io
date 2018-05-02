@@ -227,6 +227,7 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$bleaf          [idx,,] = old.datum$szpft$bleaf           [sel,,]
   new.datum$szpft$bstem          [idx,,] = old.datum$szpft$bstem           [sel,,]
   new.datum$szpft$broot          [idx,,] = old.datum$szpft$broot           [sel,,]
+  new.datum$szpft$bseeds         [idx,,] = old.datum$szpft$bseeds          [sel,,]
   new.datum$szpft$bsapwood       [idx,,] = old.datum$szpft$bsapwood        [sel,,]
   new.datum$szpft$bstorage       [idx,,] = old.datum$szpft$bstorage        [sel,,]
   new.datum$szpft$f.bstorage     [idx,,] = old.datum$szpft$f.bstorage      [sel,,]

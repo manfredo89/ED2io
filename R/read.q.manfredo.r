@@ -23,7 +23,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
   patch  = datum$patch
   dbhds  = datum$dbhds
   #---------------------------------------------------------------------------------------#
- 
+  
   
   #---------------------------------------------------------------------------------------#
   #     Loop over all times that haven't been read yet.                                   #
@@ -73,7 +73,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       
     }#end if
     #------------------------------------------------------------------------------------#
-
+    
     #---- Read in the site-level area. --------------------------------------------------#
     areasi     = mymont$AREA_SI
     npatches   = mymont$SIPA_N
@@ -126,18 +126,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     #------------------------------------------------------------------------------------#
     one.cohort = sum(ncohorts) == 1
     one.patch  = sum(npatches) == 1
-    
-    if ((one.cohort || one.patch) & m > 12){
-      
-      cat (" ##########################################################################
-             ################                                          ################
-             ################     WARNING: ONLY ONE COHORT FOUND       ################
-             ################     CHECK READ.Q.MANFREDO FILE           ################
-             ################                                          ################
-             ##########################################################################
-           ")
-    }
-    
     if (any (ncohorts > 0)){
       
       areaconow  = rep(areapa,times=ncohorts)
@@ -169,20 +157,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       baconow           = mymont$BA_CO
       agbconow          = mymont$AGB_CO
       laiconow          = mymont$MMEAN_LAI_CO
-      gppconow          = mymont$MMEAN_GPP_CO
-      nppconow          = mymont$MMEAN_NPP_CO
-      npprconow         = mymont$MMEAN_NPPFROOT_CO + mymont$MMEAN_NPPCROOT_CO
-      nppsconow         = mymont$MMEAN_NPPSAPWOOD_CO
-      npplconow         = mymont$MMEAN_NPPLEAF_CO
-      nppwconow         = mymont$MMEAN_NPPWOOD_CO
-      nppxconow         = mymont$MMEAN_NPPSEEDS_CO
-      agb.growthconow   = pmax(0,mymont$DLNAGB_DT)
-      lcostconow        = mymont$MMEAN_LEAF_MAINTENANCE_CO * yr.day
       
-      #------ Find the AGB of the previous month. --------------------------------------#
-      agbcolmon        = agbconow * exp(-agb.growthconow/12.)
-      #---------------------------------------------------------------------------------#
-
       #------------------------------------------------------------------------------------#
       #     The following two variables are used to scale "intensive" properties           #
       # (whatever/plant) to "extensive" (whatever/m2).  Sometimes they may be used to      #
@@ -212,20 +187,19 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       biomassconow      = baliveconow + bstorageconow + bseedsconow + bdeadconow
       #---------------------------------------------------------------------------------#
       
-      #------ Find the demographic rates. ----------------------------------------------#
-      if (one.cohort){
-        mortconow    = sum(mymont$MMEAN_MORT_RATE_CO)
-        mortconow    = max(0,mortconow)
-      }else{
-        mortconow    = try(colSums(mymont$MMEAN_MORT_RATE_CO))
-        if ("try-error" %in% is(mortconow)) browser()
-        mortconow    = pmax(0,mortconow)
-      }#end if
-      ncbmortconow    = pmax(0,mymont$MMEAN_MORT_RATE_CO[2,])
-      dimortconow     = pmax(0,mortconow - ncbmortconow)
-      growthconow     = pmax(0,mymont$DLNDBH_DT)
-
       
+      #---------------------------------------------------------------------------------#
+      #      Find total NPP then total autotrophic, growth and storage respiration.     #
+      # The latter two will be distributed amongst tissues.                             #
+      #---------------------------------------------------------------------------------#
+      #----- Monthly means. ------------------------------------------------------------#
+      gppconow          = mymont$MMEAN_GPP_CO
+      nppconow          = mymont$MMEAN_NPP_CO
+      npprconow         = mymont$MMEAN_NPPFROOT_CO + mymont$MMEAN_NPPCROOT_CO
+      nppsconow         = mymont$MMEAN_NPPSAPWOOD_CO
+      npplconow         = mymont$MMEAN_NPPLEAF_CO
+      nppwconow         = mymont$MMEAN_NPPWOOD_CO
+      nppxconow         = mymont$MMEAN_NPPSEEDS_CO
       #---------------------------------------------------------------------------------#
       #      Find the fractions that go to each pool.                                   #
       #---------------------------------------------------------------------------------#
@@ -239,7 +213,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       
       #---------------------------------------------------------------------------------#
       #      Attribute respiration to the different pools.  Assuming that non-          #
-      # structural carbon respiration 
+      # structural carbon respiration
       #---------------------------------------------------------------------------------#
       #----- Mean monthly cycle. ----------------------------------------------------#
       leaf.respconow  = ( mymont$MMEAN_LEAF_RESP_CO
@@ -262,7 +236,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       
       
       
-      ###################################################################################      
+      ###################################################################################
       ################ Here I have finished reading the H5 file #########################
       ###################################################################################
       
@@ -270,28 +244,51 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       #----- Allocation and productivity relative to the total living biomass. ---------#
       f.gppconow        =  100. * gppconow        / pmax(baliveconow,0.01)
       f.nppconow        =  100. * nppconow        / pmax(baliveconow,0.01)
+      f.bstorageconow   =         bstorageconow   / pmax(baliveconow,0.01)
       f.bleafconow      =         bleafconow      / pmax(baliveconow,0.01)
       f.bstemconow      =         bstemconow      / pmax(baliveconow,0.01)
       f.brootconow      =         brootconow      / pmax(baliveconow,0.01)
       f.bseedsconow     =         bseedsconow     / pmax(baliveconow,0.01)
-      f.bstorageconow   =         bstorageconow   / pmax(baliveconow,0.01)
       #---------------------------------------------------------------------------------#
+      
+      
+      #------ Find the demographic rates. ----------------------------------------------#
+      if (one.cohort){
+        mortconow    = sum(mymont$MMEAN_MORT_RATE_CO)
+        mortconow    = max(0,mortconow)
+      }else{
+        mortconow    = try(colSums(mymont$MMEAN_MORT_RATE_CO))
+        if ("try-error" %in% is(mortconow)) browser()
+        mortconow    = pmax(0,mortconow)
+      }#end if
+      ncbmortconow    = pmax(0,mymont$MMEAN_MORT_RATE_CO[2,])
+      dimortconow     = pmax(0,mortconow - ncbmortconow)
+      growthconow     = pmax(0,mymont$DLNDBH_DT)
+      agb.growthconow = pmax(0,mymont$DLNAGB_DT)
+      lcostconow        = mymont$MMEAN_LEAF_MAINTENANCE_CO * yr.day
+      
+      
+      #------ Find the AGB and basal area of the previous month. -----------------------#
+      agbcolmon        = agbconow * exp(-agb.growthconow/12.)
+      #---------------------------------------------------------------------------------#
+      
+      
       
       #----- Find the variables that must be rendered extensive. -----------------------#
       
-      maxh.pa   = (data.frame(tapply(X= heightconow,           INDEX = list(ipaconow, pftconow), 
+      maxh.pa   = (data.frame(tapply(X= heightconow,           INDEX = list(ipaconow, pftconow),
                                      FUN = max)))[sequence(npftuse)]
-      agb.pa    = (data.frame(tapply(X= agbconow * w.nplant,   INDEX = list(ipaconow, pftconow), 
+      agb.pa    = (data.frame(tapply(X= agbconow * w.nplant,   INDEX = list(ipaconow, pftconow),
                                      FUN = sum)))[sequence(npftuse)]
-      bleaf.pa  = (data.frame(tapply(X= bleafconow * w.nplant, INDEX = list(ipaconow, pftconow), 
-                                    FUN = sum)))[sequence(npftuse)]
-      lai.pa    = (data.frame(tapply(X= laiconow * areaconow,  INDEX = list(ipaconow, pftconow), 
-                                    FUN = sum)))[sequence(npftuse)]
-      gpp.pa    = (data.frame(tapply(X= gppconow * w.nplant,   INDEX = list(ipaconow, pftconow), 
-                                    FUN = sum)))[sequence(npftuse)]
-      nplant.pa = (data.frame(tapply(X= nplantconow,           INDEX = list(ipaconow, pftconow), 
-                                    FUN = sum)))[sequence(npftuse)]
-        
+      bleaf.pa  = (data.frame(tapply(X= bleafconow * w.nplant, INDEX = list(ipaconow, pftconow),
+                                     FUN = sum)))[sequence(npftuse)]
+      lai.pa    = (data.frame(tapply(X= laiconow * areaconow,  INDEX = list(ipaconow, pftconow),
+                                     FUN = sum)))[sequence(npftuse)]
+      gpp.pa    = (data.frame(tapply(X= gppconow * w.nplant,   INDEX = list(ipaconow, pftconow),
+                                     FUN = sum)))[sequence(npftuse)]
+      nplant.pa = (data.frame(tapply(X= nplantconow,           INDEX = list(ipaconow, pftconow),
+                                     FUN = sum)))[sequence(npftuse)]
+      
       #---------------------------------------------------------------------------------#
       
       #---------------------------------------------------------------------------------#
@@ -318,10 +315,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       heightconow         = NA
       baconow             = NA
       agbconow            = NA
-      mortconow           = NA
-      ncbmortconow        = NA
-      dimortconow         = NA
-      agb.growthconow     = NA
+      
       laiconow            = NA
       gppconow            = NA
       leaf.respconow      = NA
@@ -340,8 +334,13 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       bsapwoodconow       = NA
       brootconow          = NA
       bstemconow          = NA
-      bseedsconow         = NA
       bstorageconow       = NA
+      bseedsconow         = NA
+      mortconow           = NA
+      ncbmortconow        = NA
+      dimortconow         = NA
+      agb.growthconow     = NA
+      
       f.bstorageconow     = NA
       f.bleafconow        = NA
       f.bstemconow        = NA
@@ -349,7 +348,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       f.bseedsconow       = NA
     }#end if
     #------------------------------------------------------------------------------------#
-   
+    
     
     #------------------------------------------------------------------------------------#
     #     Build the size (DBH) structure arrays.                                         #
@@ -374,7 +373,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         sel.pft   = pftconow == p | p == (npft+1)
         sel       = sel.pft & sel.dbh
         if (any(sel)){
-
+          
           #----- Extensive properties. -----------------------------------------------#
           szpft$lai         [m,d,p] = sum( laiconow          [sel]
                                            * areaconow         [sel]
@@ -401,18 +400,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                            * gppconow          [sel]
                                            , na.rm = TRUE
           )#end if
-          szpft$leaf.resp    [m,d,p] = sum( w.nplant          [sel]
-                                            * leaf.respconow    [sel]
-                                            , na.rm = TRUE
-          )#end sum
-          szpft$stem.resp    [m,d,p] = sum( w.nplant          [sel]
-                                            * stem.respconow    [sel]
-                                            , na.rm = TRUE
-          )#end sum
-          szpft$root.resp    [m,d,p] = sum( w.nplant          [sel]
-                                            * root.respconow    [sel]
-                                            , na.rm = TRUE
-          )#end sum
           szpft$npp         [m,d,p] = sum( w.nplant          [sel]
                                            * nppconow          [sel]
                                            , na.rm = TRUE
@@ -439,6 +426,18 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
           )#end if
           szpft$lco          [m,d,p] = sum( w.nplant          [sel]
                                             * lcostconow        [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          szpft$leaf.resp    [m,d,p] = sum( w.nplant          [sel]
+                                            * leaf.respconow    [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          szpft$stem.resp    [m,d,p] = sum( w.nplant          [sel]
+                                            * stem.respconow    [sel]
+                                            , na.rm = TRUE
+          )#end sum
+          szpft$root.resp    [m,d,p] = sum( w.nplant          [sel]
+                                            * root.respconow    [sel]
                                             , na.rm = TRUE
           )#end sum
           szpft$bdead       [m,d,p] = sum( w.nplant          [sel]
@@ -483,16 +482,16 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         #                     case, force values to be NA if no cohort matches this    #
         #                     class, or if it didn't have much living biomass.         #
         #------------------------------------------------------------------------------#
-        b.szpft              = szpft$balive[m,d,p] + szpft$bstorage[m,d,p] + 
-                               szpft$bseeds[m,d,p] + szpft$bdead[m,d,p]
+        b.szpft              = szpft$balive[m,d,p] + szpft$bstorage[m,d,p] +
+          + szpft$bdead[m,d,p]
         b.szpft              = ifelse(b.szpft > 1.e-7,b.szpft,NA)
+        szpft$f.bstorage  [m,d,p] =        szpft$bstorage  [m,d,p] / b.szpft
         szpft$f.bleaf     [m,d,p] =        szpft$bleaf     [m,d,p] / b.szpft
         szpft$f.bstem     [m,d,p] =        szpft$bstem     [m,d,p] / b.szpft
         szpft$f.broot     [m,d,p] =        szpft$broot     [m,d,p] / b.szpft
         szpft$f.bseeds    [m,d,p] =        szpft$bseeds    [m,d,p] / b.szpft
-        szpft$f.bstorage  [m,d,p] =        szpft$bstorage  [m,d,p] / b.szpft
         #------------------------------------------------------------------------------#
-
+        
         
         #------------------------------------------------------------------------------#
         #    For mortality and growth, we keep deleting the tiny guys because they     #
@@ -501,6 +500,10 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         sel = sel.pft & sel.dbh & dbhconow >= dbhminconow
         if (any(sel)){
           
+          acc.growth = sum( w.nplant[sel]
+                            * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
+          )#end sum
+          szpft$acc.growth [m,d,p] = acc.growth
           #---------------------------------------------------------------------------#
           #      Find the total number of plants and previous population if the only  #
           # mortality was the mortality we test.                                      #
@@ -514,10 +517,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
           szpft$dimort [m,d,p] = log( di.previous  / survivor )
           #---------------------------------------------------------------------------#
           
-          acc.growth = sum( w.nplant[sel]
-                            * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
-          )#end sum
-          szpft$acc.growth [m,d,p] = acc.growth
           
           
           #---------------------------------------------------------------------------#
@@ -542,7 +541,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       #---------------------------------------------------------------------------------#
     }#end for DBH
     #------------------------------------------------------------------------------------#
-
+    
     #Temporary variables for debugging purpose. These can go once everyting is set
     print.sizehisto = T
     if(print.sizehisto && any (ncohorts > 0)){
@@ -565,7 +564,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         # depending on the DBH class the cohort will have 1,2,3 or 4 as its interval index
         this.dbhfac   = match(this.dbhcut,this.dbhlevs)
         #---------------------------------------------------------------------------------#
-
+        
         #---------------------------------------------------------------------------------#
         #     Build the size (DBH) structure arrays.                                      #
         #---------------------------------------------------------------------------------#
@@ -577,14 +576,14 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
             sel.dbh = this.dbhfac == d | d == (this.ndbh+1)
           }#end if
           #-------------------------------------------------------------------------------#
-
+          
           
           #----- Decide which PFT to use. ------------------------------------------------#
           for (p in sequence(npft+1)){
             sel.pft   = pftconow == p | p == (npft+1)
             sel       = sel.pft & sel.dbh
             if (any(sel)){
-
+              
               dbhds[[i]][m,d,p] = sum( nplantconow [sel]* areaconow [sel], na.rm = TRUE)
             }
             #-----------------------------------------------------------------------------#
@@ -596,12 +595,12 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       }#end for idbh
       #-----------------------------------------------------------------------------------#
     }#end if sizehisto
-
+    
     H5close()
     
   }# end for (m in tresume,ntimes)
   #---------------------------------------------------------------------------------------#
-
+  
   #---------------------------------------------------------------------------------------#
   #     Copy the variables back to datum.                                                 #
   #---------------------------------------------------------------------------------------#

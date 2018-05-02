@@ -365,8 +365,8 @@ tspftdbh[[n]]     = list( vnam     = "nplant"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "f.bstorage"
                           , desc     = "Relative storage biomass"
-                          , e.unit   = untab$gcokgcbio
-                          , i.unit   = untab$gcokgcbio
+                          , e.unit   = untab$kgcokgc
+                          , i.unit   = untab$kgcokgc
                           , plog     = FALSE
                           , pft      = TRUE
                           , pftdbh   = TRUE
@@ -378,8 +378,8 @@ tspftdbh[[n]]     = list( vnam     = "f.bstorage"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "f.bleaf"
                           , desc     = "Relative leaf biomass"
-                          , e.unit   = untab$gcokgcbio
-                          , i.unit   = untab$gcokgcbio
+                          , e.unit   = untab$kgcokgc
+                          , i.unit   = untab$kgcokgc
                           , plog     = FALSE
                           , pft      = TRUE
                           , pftdbh   = TRUE
@@ -391,8 +391,8 @@ tspftdbh[[n]]     = list( vnam     = "f.bleaf"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "f.bstem"
                           , desc     = "Relative stem biomass"
-                          , e.unit   = untab$gcokgcbio
-                          , i.unit   = untab$gcokgcbio
+                          , e.unit   = untab$kgcokgc
+                          , i.unit   = untab$kgcokgc
                           , plog     = FALSE
                           , pft      = TRUE
                           , pftdbh   = TRUE
@@ -404,8 +404,8 @@ tspftdbh[[n]]     = list( vnam     = "f.bstem"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "f.broot"
                           , desc     = "Relative root biomass"
-                          , e.unit   = untab$gcokgcbio
-                          , i.unit   = untab$gcokgcbio
+                          , e.unit   = untab$kgcokgc
+                          , i.unit   = untab$kgcokgc
                           , plog     = FALSE
                           , pft      = TRUE
                           , pftdbh   = TRUE
@@ -417,8 +417,8 @@ tspftdbh[[n]]     = list( vnam     = "f.broot"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "f.bseeds"
                           , desc     = "Relative seed biomass"
-                          , e.unit   = untab$gcokgcbio
-                          , i.unit   = untab$gcokgcbio
+                          , e.unit   = untab$kgcokgc
+                          , i.unit   = untab$kgcokgc
                           , plog     = FALSE
                           , pft      = TRUE
                           , pftdbh   = TRUE

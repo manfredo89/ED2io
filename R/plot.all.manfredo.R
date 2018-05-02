@@ -57,7 +57,7 @@ setwd(here)
 #------------------------------------------------------------------------------------------#
 #                             Time options                                                 #
 #------------------------------------------------------------------------------------------#
-reload.data    = F                               # Should I reload partially loaded data?
+reload.data    = T                               # Should I reload partially loaded data?
 sasmonth.short = c(2,5,8,11)                        # Months for SAS plots (short runs)
 sasmonth.long  = 5                                  # Months for SAS plots (long runs)
 nyears.long    = 15                                 # Max number of years for short run
@@ -136,7 +136,7 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",s
   yearz = yearz - 1
 #for trials so to shorten things up
 #yeara = 1500
-yearz = 1550
+yearz = 1600
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -345,12 +345,10 @@ if(nyears >= 2){
         dft = szpft[[i]][[vnam]][,ndbh+1,]
       }
       
-      empty = (is.na(dft) || dft == 0.0)
       dft = dft[, allpft]
       colnames(dft) = allpft
       dft = reshape2::melt(dft,varnames = c("Year","mpft"))
       dft$type = ifelse(i==1,"solid","3")
-      #dft$type = ifelse(i==1,i,5)
       dft$index = interaction(dft$mpft,i)
       df = rbind(df,dft)
     }
@@ -388,6 +386,8 @@ if(nyears >= 2){
       } else {
         mean_nyears = nyears
       }
+
+      # Compute the averages
       dfm = list()
       dfm = df[df$Year %in% tail(df$Year, n=mean_nyears),]
       mean_dfm = signif(qapply(X=dfm$value, INDEX=dfm$mpft, DIM=1, FUN=mean, na.rm=TRUE),4)
