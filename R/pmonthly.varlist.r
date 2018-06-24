@@ -545,7 +545,19 @@ patch_plots[[n]]  = list( vnam     = "nplant"
                           , stack    = FALSE
                           , scsout   = FALSE
 )#end list 1
-
+n=n+1
+patch_plots[[n]]  = list( vnam     = "growth"
+                          , desc     = "Growth rate"
+                          , e.unit   = untab$kgcom2oyr
+                          , i.unit   = untab$kgcoployr
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , sas      = FALSE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = TRUE
+)#end list 1
 #------------------------------------------------------------------------------------------#
 
 

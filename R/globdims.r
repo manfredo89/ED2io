@@ -413,7 +413,40 @@ if (isld.type == 1){
 #==========================================================================================#
 #==========================================================================================#
 
-
+#==========================================================================================#
+#==========================================================================================#
+#        Define the dbh classes for the size distribution of sims with lianas              #
+#------------------------------------------------------------------------------------------#
+# dbh_class <<- list()
+# class_types = c("tree_clss", "liana_clss")
+# dbh_class[["tree_clss"]]$range = c(0,10,15,20,25,30,35,40,50,60,70,80,90,100)
+# dbh_class[["liana_clss"]]$range = c(0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,20)
+# 
+# for (i in class_types){
+#   
+#   dbh_class[[i]]$ndbh = length(dbh_class[[i]])
+#   this.breakdbh = c(-Inf,dbh_class[[i]]$ndbh,Inf)
+#   # dbhcut is the DBH interval in which the cohorts fall
+#   this.dbhcut   = cut(dbhconow,breaks=this.breakdbh)
+#   # dbhlevs are the possible DBH intervals
+#   this.dbhlevs  = levels(this.dbhcut)
+#   # dbhfac is the cohort's interval index; if there are 4 possible intervals,
+#   # depending on the DBH class the cohort will have 1,2,3 or 4 as its interval index
+#   this.dbhfac   = match(this.dbhcut,this.dbhlevs)
+#   
+#   this.dbhnames     = paste( c("<",paste("[",this.classdbh[-c(1,this.ndbh)],"-",sep=""),">")
+#                              , c(this.classdbh[2],paste(this.classdbh[-c(1,2)],"]",sep=""),
+#                                  this.classdbh[this.ndbh])
+#                              , sep="")
+#   
+#   if(length(this.dbhnames) > 10){
+#     for(j in 3:(length(this.dbhnames) - 1)){
+#       if(j%%2 == 1 | this.dbhnames[j] == "[90-100]") this.dbhnames[j] = " "
+#     }
+#   }
+# }
+#==========================================================================================#
+#==========================================================================================#
 
 
 

@@ -19,9 +19,9 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
   #---------------------------------------------------------------------------------------#
   #     Copy the variables to scratch lists, we will copy them back once we are done.     #
   #---------------------------------------------------------------------------------------#
-  szpft  = datum$szpft
-  patch  = datum$patch
-  dbhds  = datum$dbhds
+  szpft    = datum$szpft
+  patch    = datum$patch
+  dbhds    = datum$dbhds
   #---------------------------------------------------------------------------------------#
   
   
@@ -110,15 +110,17 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     #------------------------------------------------------------------------------------#
     #      Build the cohort-level lists if this is the right month.                      #
     #------------------------------------------------------------------------------------#
+    if(thismonth %in% sasmonth){
     plab = paste( "y",sprintf("%4.4i",thisyear )
                   , "m",sprintf("%2.2i",thismonth),sep="")
-    patch$maxh         [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-    patch$agb          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-    patch$bleaf        [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-    patch$lai          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-    patch$gpp          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-    patch$nplant       [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse))
-    
+    patch$maxh         [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse+1))
+    patch$agb          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse+1))
+    patch$bleaf        [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse+1))
+    patch$lai          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse+1))
+    patch$gpp          [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse+1))
+    patch$nplant       [[plab]] = array(data=0. ,dim=c(mymont$NPATCHES_GLOBAL, npftuse+1))
+    patch$age          [[plab]] = array(data=0. ,mymont$NPATCHES_GLOBAL)
+    }
     #------------------------------------------------------------------------------------#
     #     Read the cohort-level variables.  Because empty patchs do exist (deserts),     #
     # we must check whether there is any cohort to be read.  If not, assign NA to        #
@@ -147,7 +149,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       
       
       #----- Define the age classes. ---------------------------------------------------#
-      ageconow          = rep(x=agepa,times=ncohorts)
+      ageconow          = agepa
       #---------------------------------------------------------------------------------#
       
       
@@ -263,7 +265,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       }#end if
       ncbmortconow    = pmax(0,mymont$MMEAN_MORT_RATE_CO[2,])
       dimortconow     = pmax(0,mortconow - ncbmortconow)
-      growthconow     = pmax(0,mymont$DLNDBH_DT)
       agb.growthconow = pmax(0,mymont$DLNAGB_DT)
       lcostconow        = mymont$MMEAN_LEAF_MAINTENANCE_CO * yr.day
       
@@ -275,20 +276,30 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       
       
       #----- Find the variables that must be rendered extensive. -----------------------#
-      
-      maxh.pa   = (data.frame(tapply(X= heightconow,           INDEX = list(ipaconow, pftconow),
+      if (thismonth %in% sasmonth){
+      maxh.pa   = (data.frame(tapply(X= heightconow,              INDEX = list(ipaconow, pftconow),
                                      FUN = max)))[sequence(npftuse)]
-      agb.pa    = (data.frame(tapply(X= agbconow * w.nplant,   INDEX = list(ipaconow, pftconow),
+      agb.pa    = (data.frame(tapply(X= agbconow * nplantconow,   INDEX = list(ipaconow, pftconow),
                                      FUN = sum)))[sequence(npftuse)]
-      bleaf.pa  = (data.frame(tapply(X= bleafconow * w.nplant, INDEX = list(ipaconow, pftconow),
+      bleaf.pa  = (data.frame(tapply(X= bleafconow * nplantconow, INDEX = list(ipaconow, pftconow),
                                      FUN = sum)))[sequence(npftuse)]
-      lai.pa    = (data.frame(tapply(X= laiconow * areaconow,  INDEX = list(ipaconow, pftconow),
+      lai.pa    = (data.frame(tapply(X= laiconow ,                INDEX = list(ipaconow, pftconow),
                                      FUN = sum)))[sequence(npftuse)]
-      gpp.pa    = (data.frame(tapply(X= gppconow * w.nplant,   INDEX = list(ipaconow, pftconow),
+      gpp.pa    = (data.frame(tapply(X= gppconow * nplantconow,   INDEX = list(ipaconow, pftconow),
                                      FUN = sum)))[sequence(npftuse)]
-      nplant.pa = (data.frame(tapply(X= nplantconow,           INDEX = list(ipaconow, pftconow),
+      nplant.pa = (data.frame(tapply(X= nplantconow,              INDEX = list(ipaconow, pftconow),
+                                     FUN = sum)))[sequence(npftuse)]
+      growth.pa = (data.frame(tapply(X= agbconow * nplantconow * (1.-exp(-agb.growthconow))
+                                                          ,       INDEX = list(ipaconow, pftconow),
                                      FUN = sum)))[sequence(npftuse)]
       
+      maxh.pa   = cbind(maxh.pa, X18 = max(maxh.pa))
+      agb.pa    = cbind(agb.pa, X18 = rowSums(agb.pa))
+      bleaf.pa  = cbind(bleaf.pa, X18 = rowSums(bleaf.pa))
+      lai.pa    = cbind(lai.pa, X18 = rowSums(lai.pa))
+      gpp.pa    = cbind(gpp.pa, X18 = rowSums(gpp.pa))
+      nplant.pa = cbind(nplant.pa, X18 = rowSums(nplant.pa))
+      growth.pa = cbind(growth.pa, X18 = rowSums(growth.pa))
       #---------------------------------------------------------------------------------#
       
       #---------------------------------------------------------------------------------#
@@ -300,8 +311,10 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       patch$lai    [[plab]] = lai.pa
       patch$gpp    [[plab]] = gpp.pa
       patch$nplant [[plab]] = nplant.pa
+      patch$growth [[plab]] = growth.pa
+      patch$age    [[plab]] = ageconow
       #---------------------------------------------------------------------------------#
-      
+      }
       
       
     }else{
@@ -315,7 +328,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       heightconow         = NA
       baconow             = NA
       agbconow            = NA
-      
       laiconow            = NA
       gppconow            = NA
       leaf.respconow      = NA
@@ -340,7 +352,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       ncbmortconow        = NA
       dimortconow         = NA
       agb.growthconow     = NA
-      
       f.bstorageconow     = NA
       f.bleafconow        = NA
       f.bstemconow        = NA
@@ -557,7 +568,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         this.breakdbh = c(-Inf,this.classdbh[-1],Inf)
         this.ndbh     = length(this.classdbh)
         # dbhcut is the DBH interval in which the cohorts fall
-        this.dbhcut   = cut(dbhconow,breaks=this.breakdbh)
+        this.dbhcut   = cut(dbhconow,breaks=this.breakdbh, right = F)
         # dbhlevs are the possible DBH intervals
         this.dbhlevs  = levels(this.dbhcut)
         # dbhfac is the cohort's interval index; if there are 4 possible intervals,
@@ -584,7 +595,8 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
             sel       = sel.pft & sel.dbh
             if (any(sel)){
               
-              dbhds[[i]][m,d,p] = sum( nplantconow [sel]* areaconow [sel], na.rm = TRUE)
+              #dbhds[[i]][m,d,p] = sum( w.nplant [sel], na.rm = TRUE)
+              dbhds[[i]][m,d,p] = sum( w.nplant [sel] * baconow[sel], na.rm = TRUE)
             }
             #-----------------------------------------------------------------------------#
             
@@ -592,6 +604,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
           #-------------------------------------------------------------------------------#
         }#end for DBH
         #---------------------------------------------------------------------------------#
+        #dbhds[[i]] = lapply(dbhds[[i]], function(x) {x[,-(this.ndbh+1),pftuse]})
       }#end for idbh
       #-----------------------------------------------------------------------------------#
     }#end if sizehisto
@@ -604,9 +617,9 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
   #---------------------------------------------------------------------------------------#
   #     Copy the variables back to datum.                                                 #
   #---------------------------------------------------------------------------------------#
-  datum$szpft  = szpft
-  datum$patch  = patch
-  datum$dbhds  = dbhds
+  datum$szpft    = szpft
+  datum$patch    = patch
+  datum$dbhds    = dbhds
   #---------------------------------------------------------------------------------------#
   
   return(datum)
