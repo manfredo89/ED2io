@@ -3,8 +3,6 @@
 #' @author Marcos Longo & Manfredo di Porcia
 #'
 #'
-#'
-#'
 #==========================================================================================#
 #     Leave these commands at the beginning.  They will refresh the session.               #
 #------------------------------------------------------------------------------------------#
@@ -39,7 +37,7 @@ if (length(args)==0) {
   cat("No arguments were passed, defaulting to current \n")
   arg.runtype="current"
 }
-arg.runtype   = c("current","origED")
+arg.runtype   = c("origED","current")
 here          = "/Users/manfredo/Desktop/r_minimal/ED2io/R/"
 #site.dir     = paste(here,"../",sep="/")
 site.dir      = "/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/"
@@ -62,6 +60,7 @@ reload.data    = T                               # Should I reload partially loa
 sasmonth.short = c(2,5,8,11)                        # Months for SAS plots (short runs)
 sasmonth.long  = 5                                  # Months for SAS plots (long runs)
 nyears.long    = 15                                 # Max number of years for short run
+sampling       = c(20,30)                          # Years where I need to average / sample
 
 #------------------------------------------------------------------------------------------#
 #                             Plot options                                                 #
@@ -91,15 +90,13 @@ sourcer(source.dir = here)
 place            = "paracou"                          # Simulation locus
 
 file.dir         = vector(mode="character", length=length(run.type))
-for (i in seqle(run.type)){
-  file.dir[i] = paste(site.dir, run.type[i], sep = "")
-}
+for (i in seqle(run.type)) file.dir[i] = paste(site.dir, run.type[i], sep = "")
+
 
 analy.path       = paste(file.dir,"analy",sep='/')  # analysis folder
 analy.path.place = paste(analy.path,place,sep='/')   # same with locus prefix
 com.list         = list.files(analy.path, pattern = "*-Q-*")
-if(is.comparison)
-  com.list         = com.list[duplicated(com.list)]
+if(is.comparison) com.list = com.list[duplicated(com.list)]
 
 
 #------------------------------------------------------------------------------------------#
@@ -136,8 +133,8 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",s
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
 #for trials so to shorten things up
-yeara = 1900
-yearz = 1930
+#yeara = 1900
+yearz = 1910
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -179,9 +176,9 @@ yfac  = list()
 patch = list()
 szpft = list()
 dbhds = list()
+emean = list()
 runn = 1
 for (csite in file.dir){
-  csite="/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/current"
   if (reload.data && file.exists(ed22.rdata[runn])){
     #----- Load the modelled dataset. ---------------------------------------------------#
     cat("   - Loading previous session...","\n")
@@ -195,7 +192,7 @@ for (csite in file.dir){
       )#end update.monthly
     }#end if
     #------------------------------------------------------------------------------------#
-  }else{
+  } else {
     cat("   - Starting new session...","\n")
     tresume      = 1
     datum     = create.monthly( ntimes  = ntimes
@@ -204,39 +201,39 @@ for (csite in file.dir){
     )#end create.monthly
   }#end if
   #---------------------------------------------------------------------------------------#
-  
-  
+
+
   #---------------------------------------------------------------------------------------#
   #     Check whether we have anything to update.                                         #
   #---------------------------------------------------------------------------------------#
   complete = tresume > ntimes
   #---------------------------------------------------------------------------------------#
-  
-  
+
+
   #---------------------------------------------------------------------------------------#
   #     Loop over all times in case there is anything new to be read.                     #
   #---------------------------------------------------------------------------------------#
   if (! complete){
-    
+
     #------------------------------------------------------------------------------------#
     #     This function will read the files.                                             #
     #------------------------------------------------------------------------------------#
     datum = read.q.files(datum=datum,ntimes=ntimes,tresume=tresume,sasmonth=sasmonth)
     #------------------------------------------------------------------------------------#
-    
+
     #------ Save the data to the R object. ----------------------------------------------#
     cat(" + Saving data to ",basename(ed22.rdata[runn]),"...","\n")
     save(datum,file=ed22.rdata[runn])
     #------------------------------------------------------------------------------------#
-    
+
     #----- Update status file with latest data converted into R. ---------------------------#
-    latest = paste(datum$year[ntimes],datum$month[ntimes],sep=" ")
+    latest = paste(datum$year[m],datum$month[m],sep=" ")
     dummy  = write(x=latest,file=ed22.status[runn],append=FALSE)
     #---------------------------------------------------------------------------------------#
-    
+
   }#end if (! complete)
   #---------------------------------------------------------------------------------------#
-  
+
   #----- Make some shorter versions of some variables. -----------------------------------#
   # I don't think it makes sense to specify multiple patch variables (patch[[runn]])      #
   # since we don't want to compare maxh for different runs                                #
@@ -244,6 +241,7 @@ for (csite in file.dir){
   yfac [[runn]] = datum$year
   dbhds[[runn]] = datum$dbhds
   patch[[runn]] = datum$patch
+  emean[[runn]] = datum$emean
   #---------------------------------------------------------------------------------------#
   # To order data timewise uncomment next command
   # View(lapply(cohort, "[[", "y2013m02"))
@@ -274,6 +272,25 @@ mycol       = pft$colour
 mynam       = pft$name
 
 #---------------------------------------------------------------------------------------#
+#              Set the ggplot theme to recycle in all the graphs                        #
+#---------------------------------------------------------------------------------------#
+
+th = theme(legend.position = "bottom",
+           legend.box   = "vertical",
+           axis.title   = element_text(size = 22),
+           axis.text    = element_text(size = 20, colour = "black"),
+           plot.title   = element_text(size = 24,lineheight = .8, face="bold", hjust = 0.5),
+           legend.text  = element_text(size = 18),
+           legend.title = element_text(size = 14, face="bold"),
+           legend.key.size = unit(0.8, "cm"),
+           legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
+           panel.background = element_blank(),
+           panel.border = element_rect(color = "black", fill = NA, size=.5),
+           panel.grid.major = element_line(colour = "grey75"))
+#---------------------------------------------------------------------------------------#
+
+
+#---------------------------------------------------------------------------------------#
 #     Consolidate the yearly means for the long-term dynamics (the PFT and DBH/PFT      #
 # stuff).                                                                               #
 #---------------------------------------------------------------------------------------#
@@ -283,8 +300,8 @@ for(i in seqle(run.type)){
   for (vname in names(szpft[[i]]))
     szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac[[i]],DIM=1,
                                  FUN=mean,na.rm=TRUE)
-  
-  
+
+
   #---------------------------------------------------------------------------------------#
   #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
   # at any given time.                                                                    #
@@ -298,26 +315,26 @@ for(i in seqle(run.type)){
 #----------------------- Time series plots ---------------------------------#
 #---------------------------------------------------------------------------#
 if(nyears >= 2){
-  
+
   cat("+ Time series graphs","\n")
-  
+
   total.outdir = file.path(figdir,"totals")
   if (! dir.exists(total.outdir)) dir.create(total.outdir)
-  
+
+  # Set x axis title outside loop (same for all)
+  x.txt = "Time [y]"
+
   for(n in sequence(ntspftdbh)){
     #----- Load settings for this variable.-------------------------------------------#
     thisvar     = tspftdbh[[n]]
     vnam        = thisvar$vnam
     description = thisvar$desc
     unit        = thisvar$e.unit
-    plog        = thisvar$plog
-    
+
     if (! vnam %in% names(szpft[[1]])) next
-    
-    mycol = pft$colour
-    mynam = pft$name
+
     y.txt = desc.unit(desc = description, unit = unit)
-    
+
     #---------------------------------------------------------------------------------------#
     #     Prepare the variable in the ggplot friendly format:                               #
     #                                                                                       #
@@ -337,72 +354,56 @@ if(nyears >= 2){
       } else {
         dft = szpft[[i]][[vnam]][,ndbh+1,]
       }
-      
+
       dft = dft[, allpft]
       colnames(dft) = allpft
-      dft = reshape2::melt(dft,varnames = c("Year","mpft"))
+      dft = reshape2::melt(dft,varnames = c("time","pft"))
       # Set the right line type
       if (i == 1){
-        dft$type = as.factor(ifelse(17 %in% dft$mpft,"solid","22"))
+        dft$type = as.factor(ifelse(17 %in% dft$pft | length(run.type) == 1 ,"solid","22"))
       } else {
         dft$type = as.factor(ifelse(any(dft$type == "22"),"solid","22"))
       }
-      dft$index = interaction(dft$mpft,i)
+      dft$index = interaction(dft$pft,i)
       df = rbind(df,dft)
     }
+
     # Set the simulation to terminate at year 2000
-    df$Year = df$Year + 2000 - (nyears + yeara)
     #---------------------------------------------------------------------------------------#
-    
-    p = ggplot(df,aes(x=Year,y=value, colour = factor(mpft),linetype=type)) +
-      annotate("rect", fill = "grey", alpha = 0.5,xmin = 1900, xmax = 1999,
+
+    p = ggplot(df,aes(x=time - yeara,y=value, colour = factor(pft), linetype=type)) +
+      annotate("rect", fill = "grey", alpha = 0.5, xmin = sampling[1], xmax = sampling[2],
                ymin = -Inf, ymax = Inf) +
       geom_line(aes(group = index), size = 1.4) +
       #scale_linetype_manual(name= "Run Type", values = unique(as.character(df$type)), labels = run.type) +
       scale_linetype_identity("Run Type", labels = run.type, guide="legend") +
       scale_color_manual(name = "PFT",
-                         values = setNames(mycol[unique(df$mpft)], unique(df$mpft)),
-                         labels = setNames(mynam[unique(df$mpft)], unique(df$mpft))) +
+                         values = setNames(mycol[unique(df$pft)], unique(df$pft)),
+                         labels = setNames(mynam[unique(df$pft)], unique(df$pft))) +
       ylab(y.txt) +
-      theme(legend.position = "none",
-            legend.box   = "vertical",
-            axis.title   = element_text(size = 16),
-            axis.text    = element_text(face = "bold", size = 12, colour = "black"),
-            plot.title   = element_text(lineheight = .8, face="bold"),
-            legend.text  = element_text(size = 14),
-            legend.title = element_text(size = 14, face="bold"),
-            legend.key.size = unit(0.8, "cm"),
-            panel.background = element_blank(),
-            legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
-            panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
-      ggtitle(description) +
-      theme(plot.title = element_text(hjust = 0.5))
-    
+      xlab(x.txt) +
+      th +
+      ggtitle(description)
+
     if (! is.comparison){
-      
-      if(nyears > 200){
-        mean_nyears = 100
-      } else if (nyears > 100){
-        mean_nyears = 50
-      } else {
-        mean_nyears = nyears
-      }
-      
+
+      mean_nyears = sampling[2] - sampling[1]
+
       # Compute the averages
       dfm = list()
-      dfm = df[df$Year %in% tail(df$Year, n=mean_nyears),]
-      mean_dfm = signif(qapply(X=dfm$value, INDEX=dfm$mpft, DIM=1, FUN=mean, na.rm=TRUE),4)
-      
+      dfm = df[df$time %in% tail(df$time, n=mean_nyears),]
+      mean_dfm = signif(qapply(X=dfm$value, INDEX=dfm$pft, DIM=1, FUN=mean, na.rm=TRUE),4)
+
       p = p +
         guides(linetype = FALSE) +
-        annotate("text", x = 2000, y=1.1*df[df$Year==1999,]$value, label = as.character(mean_dfm),color=mycol[allpft])
+        annotate("text", x = nyears, y=1.1*df[df$time==yearz,]$value, label = as.character(mean_dfm),color=mycol[allpft])
     }
-    
-    file.name = paste(vnam,"-total",".pdf",sep="")
-    
+
+    file.name = paste(vnam,".pdf",sep="")
+
     ggsave(file.name, plot = p, device = "pdf", path = total.outdir,
            width = plt.opt$width, height = plt.opt$height)
-    
+
   }
 } else cat("Less than 2 years of output, aborting Total plots!","\n")
 #------------------------------------------------------------------------------------#
@@ -413,25 +414,24 @@ if(nyears >= 2){
 #------------------------ Size class plots ---------------------------------#
 #---------------------------------------------------------------------------#
 if(plot.nplant.hystogram){
-  
+
   cat("+ Size class plots","\n")
-  
-  #---------------------------------------------------------------------------------#
-  bci = c(0, 78.889, 42.604, 23.09, 10.764, 6.736, 3.368, 1.667,
-          1.007, 0.799, 0.729, 0.312, 0.347, 0.104, 0.069, 0.069, 0.208)
-  
+
   # Set colors and names
   cols=c(mycol[pftuse],"#363939","#838B8B")
   nams=c(mynam[pftuse],"Undisturbed plot", "Disturbed plot")
-  
-  
+
+
   histo.outdir = file.path(figdir,"size_class")
   if (! dir.exists(histo.outdir)) dir.create(histo.outdir)
-  
-  cat("    + Nplant histograms...","\n")
-  
+
+  #------ Set up the title and axis labels. ----------------------------------#
+  x.txt ="DBH Classes [cm]"
+  y.txt = desc.unit(desc="Basal area",unit=untab$cm2om2)
+  #---------------------------------------------------------------------------#
+
   for (i in names(dbhds[[1]])){
-    
+
     if (i == "tree_clss"){
       this.classdbh   = c(0,10,15,20,25,30,35,40,50,60,70,80,90,100)
     } else {
@@ -443,21 +443,21 @@ if(plot.nplant.hystogram){
                                , c(paste(this.classdbh[-c(1,2)],")",sep=""),
                                    this.classdbh[this.ndbh])
                                , sep="")
-    
+
     if(length(this.dbhnames) > 10){
       for(j in 2:(length(this.dbhnames) - 1)){
         if(j%%2 == 0 | this.dbhnames[j] == "[90-100]") this.dbhnames[j] = " "
       }
     }
-    
-    
+
+
     #---------------------------------------------------------------------------------#
     #     Retrieve the variable, and keep only the part that is usable.               #
     #---------------------------------------------------------------------------------#
-    nyaverage = min(nyears,100)
-    mstart    = 1 + 12 * max(0, nyears-nyaverage)
-    mend      = 12 * nyears
-    
+    nyaverage = sampling[2] - sampling[1]
+    mstart    = 1 + 12 * sampling[1]
+    mend      = 12 * sampling[2]
+
     # Set the number of bars
     # model data
     n_mod = length(run.type)
@@ -465,24 +465,24 @@ if(plot.nplant.hystogram){
     n_exp = 1
     nbars = n_mod + n_exp
     mywidth = 0.6 / nbars
-    
+
     p = ggplot()
-    
+
     for (k in 1:n_mod){
-      
+
       # Add transparency for run comparison
       if (k == 1){
         myalpha = 1.0
       } else {
         myalpha = 0.4
       }
-      
+
       # Add x axis shift depending on how many bars you want
       mydelta = mywidth * ( k - 0.5  + n_exp - nbars / 2)
-      
+
       # Keep only: the months I want, the dbhs I want and the PFTs I want and then average
-      # 10000 is the multiplication by ha conversion
-      dft = apply(dbhds[[k]][[i]][mstart:mend,-c(1,this.ndbh+1),pftuse], c(2, 3), mean, na.rm = TRUE) * 10000 /10000
+      # add * 10000 for the ha conversion
+      dft = apply(dbhds[[k]][[i]][mstart:mend,-c(1,this.ndbh+1),pftuse], c(2, 3), mean, na.rm = TRUE)
       # Melt the data
       dft = reshape2::melt(dft, varnames=c("dbh", "pft"), value.name="nplant")
       # Add a dodge coordinate
@@ -493,30 +493,30 @@ if(plot.nplant.hystogram){
       } else {
         dft = dft[dft$pft==4,]
       }
-      
+
       p = p +
-        geom_bar(data=dft,aes(x=dbh,y=nplant, fill=factor(pft)),stat="identity", 
+        geom_bar(data=dft,aes(x=dbh,y=nplant, fill=factor(pft)),stat="identity",
                  position="stack", width=mywidth, alpha = myalpha, color= "black")
-      
+
     }
-    
+
     #---------------------------------------------------------------------------------#
     # Save in memory the experimental data if needed.
     #---------------------------------------------------------------------------------#
     plot_exp_data=T
     if (plot_exp_data & n_exp > 0){
-      
+
       dfe = NULL
       #place = "gigante"
       # Now add the experimental data if required (up to two bars)
       for (k in 1:n_exp){
-        
+
         if(i == "tree_clss"){
           p_dist = read.table(paste(exp.dir,place,"_T_",k,".txt", sep = ""), col.names = "nplant")
         } else {
           p_dist = read.table(paste(exp.dir,place,"_L_",k,".txt", sep = ""), col.names = "nplant")
         }
-        
+
         p_dist = as.data.frame(p_dist / 10000)
         # Add the experimental data as a new pft
         p_dist = cbind(p_dist, pft = 4+k)
@@ -529,39 +529,31 @@ if(plot.nplant.hystogram){
       p = p + geom_bar(data=dfe,aes(x = dbh, y=nplant, fill = factor(pft)),
                        stat="identity", width=mywidth, color = "black")
     }
-    
-    #------ Set up the title and axis labels. ----------------------------------#
-    lexlab="DBH Classes [cm]"
-    leylab  = desc.unit(desc="Basal area",unit=untab$cm2om2)
-    #---------------------------------------------------------------------------#
-    
+
     p = p + scale_fill_manual(name = "",values = c(unique(cols[dft$pft]),unique(cols[dfe$pft])),
                               labels = c("Model", "Data")) +
-#      p = p + scale_fill_manual(name = "PFT", values = c(unique(cols[dft$pft]),unique(cols[dfe$pft])),
-                                #      labels = c(unique(nams[dft$pft]), unique(nams[dfe$pft]))) +
+      #      p = p + scale_fill_manual(name = "PFT", values = c(unique(cols[dft$pft]),unique(cols[dfe$pft])),
+      #      labels = c(unique(nams[dft$pft]), unique(nams[dfe$pft]))) +
       scale_x_discrete(limits=max.dbh[-1],labels = this.dbhnames) +
-      xlab(lexlab) +
-      ylab(leylab) +
+      xlab(x.txt) +
+      ylab(y.txt) +
       guides(fill=guide_legend(ncol=2)) +
       theme(legend.position=c(0.6,0.8),
             axis.title   = element_text(size = 16),
             axis.text    = element_text(face = "bold", size = 12, colour = "black"),
-            plot.title   = element_text(lineheight = .8, face="bold"),
+            plot.title   = element_text(lineheight = .8, face="bold",hjust = 0.5),
             legend.text  = element_text(size = 14),
             legend.title = element_blank(),
             legend.key.size = unit(0.8, "cm"),
             legend.background = element_rect(color="black", fill="gray90", size=.5, linetype = 1),
-            panel.border = element_rect(color = "black", fill = NA, size=0.5)) +
-      #ggtitle("Size distribution") +
-      theme(plot.title = element_text(hjust = 0.5))
-    
-    cat(ggplot_build(p)$layout$panel_ranges[[1]]$x.range)
-    
+            panel.border = element_rect(color = "black", fill = NA, size=0.5))
+    #ggtitle("Size distribution") +
+
     file.name = paste(i,".pdf",sep="")
-    
+
     ggsave(file.name, plot = p, device = "pdf", path = histo.outdir,
            width = plt.opt$width, height = plt.opt$height)
-    
+
   }
 }
 #------------------------------------------------------------------------------------#
@@ -588,17 +580,16 @@ for (n in sequence(npatch_plots)){
   vnam        = thisvar$vnam
   description = thisvar$desc
   unit        = thisvar$e.unit
-  plog        = thisvar$plog
-  
+
   gdf = NULL
-  
-  for(i in seqle(run.type)){    
+
+  for(i in seqle(run.type)){
     df     = NULL
     mydf   = NULL
     tempdf = NULL
     df = patch[[i]][[vnam]]
-    #df = tail(df, n=100)
-    
+    df = df[seq(sampling[1],sampling[2])]
+
     if(is.comparison){
       if(i == 1){
         pft.here = allpft_1
@@ -606,7 +597,7 @@ for (n in sequence(npatch_plots)){
     } else {
       pft.here = allpft
     }
-    
+
     for(name in names(df)){
       tempdf = df[[name]]
       colnames(tempdf) = pft.here
@@ -615,14 +606,11 @@ for (n in sequence(npatch_plots)){
     }
     mydf = reshape2::melt(mydf, id.vars="age")
     colnames(mydf)[2] = "pft"
-    
+
     mydf[is.na(mydf)] = 0.0
     mydf$age = ceiling(mydf$age)
     mydf = aggregate(value~age+pft,data=mydf,mean)
-    
-    
-    #tempdf$variable = as.numeric(as.character(tempdf$variable))
-    #tempdf = cbind (rep(patch[[i]]$age[[name]],length(allpft)),tempdf)
+
     if (i == 1){
       mydf$type = as.factor(ifelse(17 %in% mydf$pft,"solid","22"))
     } else {
@@ -631,40 +619,31 @@ for (n in sequence(npatch_plots)){
     mydf$index = interaction(mydf$pft,i)
     gdf = rbind(gdf, mydf)
   }
-  
+
   gdf = as.data.frame(gdf)
   gdf[is.na(gdf)] = 0.0
   gdf$age = ceiling(gdf$age)
   gdf = aggregate(value~age+pft+type+index,data=gdf,mean)
   gdf$pft = as.numeric(as.character(gdf$pft))
-  
+
   y.txt = desc.unit(desc = description, unit = unit)
-  
-  ggp = ggplot(gdf,aes(x=age, y=value, colour = factor(pft), linetype=type)) +
+
+  p = ggplot(gdf,aes(x=age, y=value, colour = factor(pft), linetype=type)) +
     geom_line(aes(group = index),size=1.4) +
     scale_x_log10() +
-    scale_y_log10() +
+    scale_y_log10(breaks=c(.01,.1,1,10),labels=c(.01,.1,1,10)) +
     scale_linetype_identity("Run Type", labels = run.type, guide="legend") +
     scale_color_manual(name = "PFT", values = setNames(mycol[unique(gdf$pft)],unique(gdf$pft)),
                        labels = setNames(mynam[unique(gdf$pft)],unique(gdf$pft))) +
     ylab(y.txt) +
-    xlab("Gap age") +
-    theme(legend.position = "none",
-          axis.title   = element_text(size = 16),
-          axis.text    = element_text(face = "bold", size = 12, colour = "black"),
-          plot.title   = element_text(lineheight = .8, face="bold"),
-          legend.text  = element_text(size = 14),
-          legend.title = element_text(size = 14, face="bold"),
-          legend.key.size = unit(0.8, "cm"),
-          legend.background = element_rect(color="black", fill=NA, size=.5, linetype = 1),
-          panel.background = element_blank(),
-          panel.border = element_rect(color = "black", fill = NA, size=.5)) +
+    xlab("Gap age [y]") +
+    th +
     #ggtitle(description) +
     theme(plot.title = element_text(hjust = 0.5))
-  
-  file.name = paste(vnam,"_patch",".pdf",sep="")
-  
-  ggsave(file.name, plot = ggp, device = "pdf", path = outdir,
+
+  file.name = paste(vnam,".pdf",sep="")
+
+  ggsave(file.name, plot = p, device = "pdf", path = outdir,
          width = plt.opt$width, height = plt.opt$height)
 }
 
@@ -672,10 +651,63 @@ for (n in sequence(npatch_plots)){
 #------------------------------------------------------------------------------------#
 
 
+#---------------- Plot simple variables ---------------------------------------------#
 
 
+cat("+ Emean graphs","\n")
 
+emean.outdir = file.path(figdir,"emean")
+if (! dir.exists(emean.outdir)) dir.create(emean.outdir)
 
+# Set x axis title outside loop (same for all)
+x.txt = "Time [y]"
 
+for(n in sequence(nemean_plots)){
+  #----- Load settings for this variable.-------------------------------------------#
+  thisvar     = emean_plots[[n]]
+  vnam        = thisvar$vnam
+  description = thisvar$desc
+  unit        = thisvar$unit
+
+  df  = list()
+  for(i in seqle(run.type)){
+
+    dft = emean[[i]][[vnam]]
+    dft = .colMeans(dft,12,nyears)
+    dft = as.data.frame(dft)
+    if (i == 1){
+      dft$type = as.factor("22")
+    } else {
+      dft$type = as.factor("solid")
+    }
+    dft$time = 0:(nyears -1)
+    df=rbind(df,dft)
+  }
+
+  y.txt = desc.unit(desc = description, unit = unit)
+
+  p = ggplot(df, aes(x=time, y=dft, linetype=type)) +
+    geom_line(aes(linetype = type), size = 1.4) +
+    scale_linetype_manual("Run Type", values = unique(as.character(df$type)), labels = run.type) +
+    ylab(y.txt) +
+    xlab(x.txt) +
+    th +
+    ggtitle(description)
+
+  mean_nyears = sampling[2] - sampling[1]
+  # Compute the averages
+  dfm = list()
+  dfm = df[sampling[1] < df$time & df$time < sampling[2],]
+  mean_dfm = signif(qapply(X=df$dft, INDEX=df$type, DIM=1, FUN=mean, na.rm=TRUE),4)
+
+  p = p +
+    #guides(linetype = FALSE) +
+    annotate("text", x = nyears, y=0.8*df[df$time==nyears -1,]$dft, label = as.character(mean_dfm))
+
+  file.name = paste(vnam,".pdf",sep="")
+
+  ggsave(file.name, plot = p, device = "pdf", path = emean.outdir,
+         width = plt.opt$width, height = plt.opt$height)
+}
 
 

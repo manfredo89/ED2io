@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     58755,       1344]
-NotebookOptionsPosition[     58362,       1325]
-NotebookOutlinePosition[     58775,       1343]
-CellTagsIndexPosition[     58732,       1340]
+NotebookDataLength[     58814,       1346]
+NotebookOptionsPosition[     58418,       1327]
+NotebookOutlinePosition[     58834,       1345]
+CellTagsIndexPosition[     58791,       1342]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -158,7 +158,7 @@ Cell[BoxData[{
     RowBox[{"0.02", "*", "C2B", "*", 
      RowBox[{
       RowBox[{"SLA", "[", 
-       RowBox[{"[", "3", "]"}], "]"}], "/", "SLA"}]}]}], ";"}], 
+       RowBox[{"[", "2", "]"}], "]"}], "/", "SLA"}]}]}], ";"}], 
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{"**", "**", " ", "B1Ht"}], " ", 
@@ -373,7 +373,7 @@ Cell[BoxData[{
     RowBox[{"0.00873", "*", 
      FractionBox[
       RowBox[{"SLA", "[", 
-       RowBox[{"[", "3", "]"}], "]"}], "SLA"]}]}], ";"}], 
+       RowBox[{"[", "2", "]"}], "]"}], "SLA"]}]}], ";"}], 
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{
@@ -385,10 +385,11 @@ Cell[BoxData[{
     RowBox[{"b2BlLarge", "[", 
      RowBox[{"[", "3", "]"}], "]"}], "=", 
     RowBox[{"ConstantArray", "[", 
-     RowBox[{"2.136", ",", "Npft"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+     RowBox[{"2.136", ",", "Npft"}], "]"}]}], ";"}], "\n", 
   "\[IndentingNewLine]", 
   RowBox[{"(*", 
-   RowBox[{"**", "**", " ", "B2BlSmall"}], " ", "*****)"}]}], "\n", 
+   RowBox[{"**", "**", " ", "B2BlSmall"}], " ", 
+   "*****)"}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"aux", "=", 
    RowBox[{
@@ -690,8 +691,8 @@ Cell[BoxData[{
     DeleteWithContents->True,
     Editable->False,
     SelectWithContents->True,
-    Selectable->False]}], "\[IndentingNewLine]", "\n", 
-  RowBox[{"(*", " ", "Miscellanea", " ", "*)"}]}], "\[IndentingNewLine]", 
+    Selectable->False]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "Miscellanea", " ", "*)"}]}], "\n", 
  RowBox[{
   RowBox[{"pftColor", "=", 
    RowBox[{"{", 
@@ -734,7 +735,7 @@ Cell[BoxData[{
      RowBox[{
      "\"\<Putz(1983)\>\"", ",", "\"\<Gerwing(2000)\>\"", ",", 
       "\"\<Gehring(2004)\>\"", ",", "\"\<Gehring_corrected\>\""}], "}"}]}], 
-   ";"}], "\n", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+   ";"}], "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"opt", "=", 
@@ -1204,7 +1205,8 @@ Cell[BoxData[{
    3.720947319269369*^9, 3.7209473320442553`*^9}, {3.720947368850416*^9, 
    3.720947405486341*^9}, {3.720947489768344*^9, 3.720947500515481*^9}, {
    3.72094754123068*^9, 3.7209476431783943`*^9}, {3.720947794253582*^9, 
-   3.72094781487997*^9}, {3.720947933989279*^9, 3.720947955192655*^9}}],
+   3.72094781487997*^9}, {3.720947933989279*^9, 3.720947955192655*^9}, {
+   3.737092491045677*^9, 3.7370924971079473`*^9}}],
 
 Cell[BoxData[
  TagBox[
@@ -1324,7 +1326,7 @@ $CellContext`iallom$$}]]], {$CellContext`dbh, 0, 100.},
 }, Open  ]]
 },
 WindowSize->{1315, 730},
-WindowMargins->{{Automatic, 11}, {Automatic, 0}},
+WindowMargins->{{Automatic, -1698}, {3, Automatic}},
 CellContext->Notebook,
 Magnification:>1.25 Inherited,
 FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
@@ -1343,8 +1345,8 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 52311, 1184, 4680, "Input"],
-Cell[52894, 1208, 5452, 114, 770, "Output"]
+Cell[580, 22, 52367, 1186, 4680, "Input"],
+Cell[52950, 1210, 5452, 114, 736, "Output"]
 }, Open  ]]
 }
 ]

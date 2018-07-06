@@ -19,9 +19,10 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
   #---------------------------------------------------------------------------------------#
   #     Copy the variables to scratch lists, we will copy them back once we are done.     #
   #---------------------------------------------------------------------------------------#
-  szpft    = datum$szpft
-  patch    = datum$patch
-  dbhds    = datum$dbhds
+  szpft  = datum$szpft
+  patch  = datum$patch
+  dbhds  = datum$dbhds
+  emean  = datum$emean
   #---------------------------------------------------------------------------------------#
   
   
@@ -30,6 +31,8 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
   #---------------------------------------------------------------------------------------#
   for (m in tresume:ntimes){
     
+    m <<- m
+
     #----- Print a banner to entertain the bored user staring at the screen. ------------#
     if (m == tresume | datum$month[m] == 1){
       cat("    - Reading data from year ",datum$year[m],"...","\n")
@@ -51,7 +54,9 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     h5file       = datum$input[m]
     h5file.bz2   = paste(datum$input[m],"bz2",sep=".")
     h5file.gz    = paste(datum$input[m],"gz" ,sep=".")
-    if (file.exists(h5file)){
+    
+   # result = tryCatch({
+      if (file.exists(h5file)){
       cat(h5file,"\n")
       mymont    = H5Fopen(h5file)
       
@@ -69,9 +74,19 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     }else{
       cat (" - File      : ",h5file    ,"\n")
       cat (" - File (bz2): ",h5file.bz2,"\n")
-      stop(" Neither the expanded nor the compressed files were found!")
+      warning(" Neither the expanded nor the compressed files were found!")
+      datum$ntimes = m
+      break
       
     }#end if
+    # },
+    # warning=function(cond) {
+    #   
+    #   message(paste("I will try to save datum until", m))
+    #   message(cond)
+    #   # Choose a return value in case of warning
+    #   return(NULL)
+    # })}
     #------------------------------------------------------------------------------------#
     
     #---- Read in the site-level area. --------------------------------------------------#
@@ -105,6 +120,11 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
     npftuse  = length(pftuse)
     #------------------------------------------------------------------------------#
     
+
+    #----- Load the simple variables_ ---------------------------------------------#
+    emean$het.resp        [m] =   mymont$MMEAN_RH_PY
+    emean$cwd.resp        [m] =   mymont$MMEAN_CWD_RH_PY
+    #------------------------------------------------------------------------------#
     
     
     #------------------------------------------------------------------------------------#
@@ -617,9 +637,10 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
   #---------------------------------------------------------------------------------------#
   #     Copy the variables back to datum.                                                 #
   #---------------------------------------------------------------------------------------#
-  datum$szpft    = szpft
-  datum$patch    = patch
-  datum$dbhds    = dbhds
+  datum$szpft = szpft
+  datum$patch = patch
+  datum$dbhds = dbhds
+  datum$emean = emean
   #---------------------------------------------------------------------------------------#
   
   return(datum)

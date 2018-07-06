@@ -101,6 +101,16 @@ create.monthly <<- function(ntimes,yeara,inpref){
   nzs      = ed$nzs
   #---------------------------------------------------------------------------------------#
 
+  #---------------------------------------------------------------------------------------#
+  # emean -- variables that we can either compare directly with observations, or are      #
+  #          or that may be used to draw time series.   They don't need to be really      #
+  #          monthly means, but you should put only the variables that make sense to be   #
+  #          plotted in simple time series (with no PFT or DBH information).              #
+  #---------------------------------------------------------------------------------------#
+  emean = list()
+  emean$het.resp                = rep(NA,times=ntimes)
+  emean$cwd.resp                = rep(NA,times=ntimes)
+
 
   #---------------------------------------------------------------------------------------#
   # SZPFT -- Size (DBH) and plant functional type (PFT) array.  An extra level is         #
@@ -208,6 +218,19 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   sel = old.datum$when %in% new.datum$when
   idx = match(old.datum$when[sel],new.datum$when)
 
+  #---------------------------------------------------------------------------------------#
+  # emean -- variables that we can either compare directly with observations, or are      #
+  #          or that may be used to draw time series.   They don't need to be really      #
+  #          monthly means, but you should put only the variables that make sense to be   #
+  #          plotted in simple time series (with no PFT or DBH information).              #
+  #---------------------------------------------------------------------------------------#
+  
+  new.datum$emean$het.resp          [idx ] = old.datum$emean$het.resp            [sel ]
+  new.datum$emean$cwd.resp          [idx ] = old.datum$emean$cwd.resp            [sel ]
+
+  #---------------------------------------------------------------------------------------#
+  #---------------------------------------------------------------------------------------#
+  
   #---------------------------------------------------------------------------------------#
   # SZPFT -- Size (DBH) and plant functional type (PFT) array.  An extra level is         #
   #          appended to the end, which will hold the sum of all categories.              #

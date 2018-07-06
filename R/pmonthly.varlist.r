@@ -560,6 +560,17 @@ patch_plots[[n]]  = list( vnam     = "growth"
 )#end list 1
 #------------------------------------------------------------------------------------------#
 
+emean_plots       = list()
+n                 = 1
+emean_plots[[n]]  = list( vnam   = "het.resp"
+                          , desc = "Heterotrophic respiration"
+                          , unit = untab$kgcom2oyr
+)#end list 1
+n=n+1
+emean_plots[[n]]  = list( vnam   = "cwd.resp"
+                          , desc = "CWD respiration"
+                          , unit = untab$kgcom2oyr
+)#end list 1
 
 #------------------------------------------------------------------------------------------#
 #     Define the number of plots of each kind, and make the lists global.                  #
@@ -567,4 +578,5 @@ patch_plots[[n]]  = list( vnam     = "growth"
 tserdist     <<- TRUE                  # Time series of disturbance rates
 ntspftdbh    <<- length(tspftdbh)
 npatch_plots <<- length(patch_plots)
+nemean_plots <<- length(emean_plots)
 #------------------------------------------------------------------------------------------#
