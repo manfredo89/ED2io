@@ -131,6 +131,9 @@ create.monthly <<- function(ntimes,yeara,inpref){
   szpft$lai               = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$ba                = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$nplant            = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$agb10             = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$ba10              = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
+  szpft$nplant10          = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$bdead             = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$balive            = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$bleaf             = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
@@ -239,6 +242,9 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   new.datum$szpft$biomass        [idx,,] = old.datum$szpft$biomass         [sel,,]
   new.datum$szpft$lai            [idx,,] = old.datum$szpft$lai             [sel,,]
   new.datum$szpft$ba             [idx,,] = old.datum$szpft$ba              [sel,,]
+  new.datum$szpft$agb10          [idx,,] = old.datum$szpft$agb10           [sel,,]
+  new.datum$szpft$ba10           [idx,,] = old.datum$szpft$ba10            [sel,,]
+  new.datum$szpft$nplant10       [idx,,] = old.datum$szpft$nplant10        [sel,,]
   new.datum$szpft$gpp            [idx,,] = old.datum$szpft$gpp             [sel,,]
   new.datum$szpft$npp            [idx,,] = old.datum$szpft$npp             [sel,,]
   new.datum$szpft$nppr           [idx,,] = old.datum$szpft$nppr            [sel,,]

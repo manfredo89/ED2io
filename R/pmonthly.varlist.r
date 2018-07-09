@@ -17,6 +17,18 @@ tspftdbh[[n]]     = list( vnam     = "agb"
                           , scsout   = TRUE
 )#end list 1
 n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "agb10"
+                          , desc     = "Above ground biomass (adults)"
+                          , e.unit   = untab$kgcom2
+                          , i.unit   = untab$kgcopl
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , bar.plot = TRUE
+                          , stack    = TRUE
+                          , scsout   = TRUE
+)#end list 1
+n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "biomass"
                           , desc     = "Total biomass"
                           , e.unit   = untab$kgcom2
@@ -31,6 +43,18 @@ tspftdbh[[n]]     = list( vnam     = "biomass"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "ba"
                           , desc     = "Basal area"
+                          , e.unit   = untab$cm2om2
+                          , i.unit   = untab$cm2opl
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , bar.plot = TRUE
+                          , stack    = TRUE
+                          , scsout   = TRUE
+)#end list 3
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "ba10"
+                          , desc     = "Basal area (adults)"
                           , e.unit   = untab$cm2om2
                           , i.unit   = untab$cm2opl
                           , plog     = FALSE
@@ -353,6 +377,18 @@ tspftdbh[[n]]     = list( vnam     = "acc.recr"
 n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "nplant"
                           , desc     = "Plant density"
+                          , e.unit   = untab$plom2
+                          , i.unit   = untab$plom2
+                          , plog     = TRUE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , bar.plot = TRUE
+                          , stack    = TRUE
+                          , scsout   = TRUE
+)#end list 14
+n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "nplant10"
+                          , desc     = "Plant density (adults)"
                           , e.unit   = untab$plom2
                           , i.unit   = untab$plom2
                           , plog     = TRUE

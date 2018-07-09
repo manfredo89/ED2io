@@ -410,10 +410,6 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                            * areaconow         [sel]
                                            , na.rm = TRUE
           )#end if
-          szpft$nplant      [m,d,p] = sum( nplantconow       [sel]
-                                           * areaconow         [sel]
-                                           , na.rm = TRUE
-          )#end if
           #----- Intensive properties, use nplant to make them extensive. ------------#
           szpft$agb         [m,d,p] = sum( w.nplant          [sel]
                                            * agbconow          [sel]
@@ -503,6 +499,10 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
                                             * bstorageconow     [sel]
                                             , na.rm = TRUE
           )#end sum
+          szpft$nplant       [m,d,p] = sum( nplantconow       [sel]
+                                             * areaconow         [sel]
+                                             , na.rm = TRUE
+          )#end if
           
         }
         #---------------------------------------------------------------------------#
@@ -530,11 +530,22 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         #------------------------------------------------------------------------------#
         sel = sel.pft & sel.dbh & dbhconow >= dbhminconow
         if (any(sel)){
-          
-          acc.growth = sum( w.nplant[sel]
+
+          szpft$agb10         [m,d,p] = sum( w.nplant          [sel]
+                                           * agbconow          [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$ba10          [m,d,p] = sum( w.nplant          [sel]
+                                           * baconow           [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$nplant10      [m,d,p] = sum( nplantconow       [sel]
+                                           * areaconow         [sel]
+                                           , na.rm = TRUE
+          )#end if
+          szpft$acc.growth [m,d,p] = sum( w.nplant[sel]
                             * agbconow[sel] * (1.-exp(-agb.growthconow[sel]))
           )#end sum
-          szpft$acc.growth [m,d,p] = acc.growth
           #---------------------------------------------------------------------------#
           #      Find the total number of plants and previous population if the only  #
           # mortality was the mortality we test.                                      #

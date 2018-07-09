@@ -56,7 +56,7 @@ setwd(here)
 #------------------------------------------------------------------------------------------#
 #                             Time options                                                 #
 #------------------------------------------------------------------------------------------#
-reload.data    = T                               # Should I reload partially loaded data?
+reload.data    = F                               # Should I reload partially loaded data?
 sasmonth.short = c(2,5,8,11)                        # Months for SAS plots (short runs)
 sasmonth.long  = 5                                  # Months for SAS plots (long runs)
 nyears.long    = 15                                 # Max number of years for short run
