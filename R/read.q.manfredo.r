@@ -179,6 +179,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       baconow           = mymont$BA_CO
       agbconow          = mymont$AGB_CO
       laiconow          = mymont$MMEAN_LAI_CO
+      ddbh_dt           = mymont$DDBH_DT / 12 * 10 # In ED this is multiplied by 12 to have the yearly rate and we move to mm
       
       #------------------------------------------------------------------------------------#
       #     The following two variables are used to scale "intensive" properties           #
@@ -344,6 +345,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
       areaconow           = NA
       ageconow            = NA
       pftconow            = NA
+      ddbh_dt             = NA
       nplantconow         = NA
       heightconow         = NA
       baconow             = NA
@@ -398,7 +400,7 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         #------------------------------------------------------------------------------#
       }#end if
       #---------------------------------------------------------------------------------#
-      
+
       #----- Decide which PFT to use. --------------------------------------------------#
       for (p in sequence(npft+1)){
         sel.pft   = pftconow == p | p == (npft+1)
@@ -531,6 +533,10 @@ read.q.files <<- function(datum,ntimes,tresume=1,sasmonth=5){
         sel = sel.pft & sel.dbh & dbhconow >= dbhminconow
         if (any(sel)){
 
+          szpft$ddbh_dt       [m,d,p] = weighted.mean ( x = ddbh_dt [sel],
+                                                        w = areaconow [sel]
+                                            , na.rm = TRUE
+          )
           szpft$agb10         [m,d,p] = sum( w.nplant          [sel]
                                            * agbconow          [sel]
                                            , na.rm = TRUE

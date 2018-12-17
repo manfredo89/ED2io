@@ -37,7 +37,7 @@ if (length(args)==0) {
   cat("No arguments were passed, defaulting to current \n")
   arg.runtype="current"
 }
-arg.runtype   = c("origED","current")
+arg.runtype   = c("current")
 here          = "/Users/manfredo/Desktop/r_minimal/ED2io/R/"
 #site.dir     = paste(here,"../",sep="/")
 site.dir      = "/Users/manfredo/Documents/Eclipse_workspace/ED2/ED/build/post_process/paracou/"
@@ -133,8 +133,8 @@ if( any(!file.exists(paste(analy.path.place,"-Q-",yeara,"-01-00-000000-g01.h5",s
 if( any(!file.exists(paste(analy.path.place,"-Q-",yearz,"-12-00-000000-g01.h5",sep = ""))))
   yearz = yearz - 1
 #for trials so to shorten things up
-#yeara = 1900
-yearz = 1910
+#yeara = 1508
+#yearz = 1930
 
 #---------------------------------------------------------------------------------------#
 #                    Check time margin consistency                                      #
@@ -297,11 +297,15 @@ th = theme(legend.position = "bottom",
 cat ("    - Finding the annual statistics for multi-dimensional variables...","\n")
 cat ("      * Aggregating the annual mean of PFT-DBH variables...","\n")
 for(i in seqle(run.type)){
-  for (vname in names(szpft[[i]]))
-    szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac[[i]],DIM=1,
-                                 FUN=mean,na.rm=TRUE)
-
-
+  for (vname in names(szpft[[i]])){
+    if (vname != "ddbh_dt"){
+      szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac[[i]],DIM=1,
+                                   FUN=mean,na.rm=TRUE)
+    } else {
+      szpft[[i]][[vname]] = qapply(X=szpft[[i]][[vname]],INDEX=yfac[[i]],DIM=1,
+                                   FUN=sum,na.rm=TRUE)
+    }
+  }
   #---------------------------------------------------------------------------------------#
   #     Remove all elements of the DBH/PFT class that do not have a single valid cohort   #
   # at any given time.                                                                    #
@@ -385,19 +389,19 @@ if(nyears >= 2){
       th +
       ggtitle(description)
 
-    if (! is.comparison){
+   # if (! is.comparison){
 
       mean_nyears = sampling[2] - sampling[1]
 
       # Compute the averages
       dfm = list()
       dfm = df[df$time %in% tail(df$time, n=mean_nyears),]
-      mean_dfm = signif(qapply(X=dfm$value, INDEX=dfm$pft, DIM=1, FUN=mean, na.rm=TRUE),4)
+      mean_dfm = signif(qapply(X=dfm$value, INDEX=dfm$index, DIM=1, FUN=mean, na.rm=TRUE),4)
 
       p = p +
         guides(linetype = FALSE) +
-        annotate("text", x = nyears, y=1.1*df[df$time==yearz,]$value, label = as.character(mean_dfm),color=mycol[allpft])
-    }
+        annotate("text", x = 1.005 * nyears, y=df[df$time==yearz,]$value, label = as.character(mean_dfm),color=rep(mycol[allpft],length(run.type)))
+    #}
 
     file.name = paste(vnam,".pdf",sep="")
 

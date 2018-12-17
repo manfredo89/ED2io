@@ -17,6 +17,18 @@ tspftdbh[[n]]     = list( vnam     = "agb"
                           , scsout   = TRUE
 )#end list 1
 n                 = n + 1
+tspftdbh[[n]]     = list( vnam     = "ddbh_dt"
+                          , desc     = "Mean DBH increment"
+                          , e.unit   = untab$mmoy
+                          , i.unit   = untab$mmoy
+                          , plog     = FALSE
+                          , pft      = TRUE
+                          , pftdbh   = TRUE
+                          , bar.plot = FALSE
+                          , stack    = FALSE
+                          , scsout   = FALSE
+)#end list 6
+n                 = n + 1
 tspftdbh[[n]]     = list( vnam     = "agb10"
                           , desc     = "Above ground biomass (adults)"
                           , e.unit   = untab$kgcom2

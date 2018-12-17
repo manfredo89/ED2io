@@ -143,6 +143,7 @@ create.monthly <<- function(ntimes,yeara,inpref){
   szpft$bseeds            = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   szpft$bstorage          = array(data=0 ,dim=c(ntimes,ndbh+1,npft+1))
   #----- Initial value should be NA. -----------------------------------------------------#
+  szpft$ddbh_dt           = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$gpp               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$npp               = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
   szpft$nppr              = array(data=NA,dim=c(ntimes,ndbh+1,npft+1))
@@ -238,6 +239,7 @@ update.monthly <<- function(new.ntimes,old.datum,yeara,inpref){
   # SZPFT -- Size (DBH) and plant functional type (PFT) array.  An extra level is         #
   #          appended to the end, which will hold the sum of all categories.              #
   #---------------------------------------------------------------------------------------#
+  new.datum$szpft$ddbh_dt        [idx,,] = old.datum$szpft$ddbh_dt         [sel,,]
   new.datum$szpft$agb            [idx,,] = old.datum$szpft$agb             [sel,,]
   new.datum$szpft$biomass        [idx,,] = old.datum$szpft$biomass         [sel,,]
   new.datum$szpft$lai            [idx,,] = old.datum$szpft$lai             [sel,,]
